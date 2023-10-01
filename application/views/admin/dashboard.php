@@ -443,14 +443,14 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="<?=base_url('/admin/js/jquery.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/jquery.min.js')?>"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="<?=base_url('/admin/js/bootstrap.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/bootstrap.min.js')?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=base_url('/admin/js/adminlte.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/adminlte.min.js')?>"></script>
 <script src="<?=base_url('/js/bootbox.min.js')?>"></script>
-<script src="<?=base_url('/admin/js/jquery.flot.js')?>"></script>
-<script src="<?=base_url('/admin/js/jquery.flot.categories.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/jquery.flot.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/jquery.flot.categories.js')?>"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){

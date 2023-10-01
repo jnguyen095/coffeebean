@@ -18,7 +18,7 @@
 		<?php $this->load->view('common_header')?>
 		<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">
 		<script src="<?= base_url('/js/createpost.js') ?>"></script>
-		<script src="<?=base_url('/admin/js/bootstrap-datepicker.min.js')?>"></script>
+		<script src="<?=base_url('/theme/admin/js/bootstrap-datepicker.min.js')?>"></script>
 </head>
 </head>
 <body class="create-post">

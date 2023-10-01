@@ -14,7 +14,7 @@
 	<title>Nhà Tìm Chủ | Quản lý trang Banner</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 	<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">
-	<link rel="stylesheet" href="<?=base_url('/admin/css/madmin.css')?>">
+	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/madmin.css')?>">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -162,19 +162,19 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="<?=base_url('/admin/js/jquery.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/jquery.min.js')?>"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="<?=base_url('/admin/js/bootstrap.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/bootstrap.min.js')?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=base_url('/admin/js/adminlte.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/adminlte.min.js')?>"></script>
 
-<script src="<?=base_url('/admin/js/adminlte.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/adminlte.min.js')?>"></script>
 
 <script src="<?=base_url('/ckeditor/ckeditor.js')?>"></script>
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 
-<script src="<?=base_url('/admin/js/bootstrap-datepicker.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/bootstrap-datepicker.min.js')?>"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

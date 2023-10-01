@@ -30,11 +30,9 @@
 	<script src="<?php echo base_url()?>js/jquery.min.js"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="<?php echo base_url()?>js/bootstrap.min.js"></script>
-	<?php $this->load->view('/common/googleadsense')?>
 </head>
 
 <body>
-<?php $this->load->view('/common/analyticstracking')?>
 <?php $this->load->view('/theme/header')?>
 
 

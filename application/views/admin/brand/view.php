@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Nhà Tìm Chủ | Quản lý dự án</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
-	<link rel="stylesheet" href="<?=base_url('/admin/css/bootstrap-datepicker.min.css')?>">
+	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap-datepicker.min.css')?>">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -122,14 +122,14 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="<?=base_url('/admin/js/jquery.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/jquery.min.js')?>"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="<?=base_url('/admin/js/bootstrap.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/bootstrap.min.js')?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=base_url('/admin/js/adminlte.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/adminlte.min.js')?>"></script>
 <script src="<?=base_url('/js/bootbox.min.js')?>"></script>
-<script src="<?=base_url('/admin/js/bootstrap-datepicker.min.js')?>"></script>
-<script src="<?=base_url('/admin/js/tindatdai_admin.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/bootstrap-datepicker.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/tindatdai_admin.js')?>"></script>
 
 </body>
 </html>

@@ -8,18 +8,18 @@
 ?>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="<?=base_url('/admin/css/bootstrap.min.css')?>"/>
+<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap.min.css')?>"/>
 <!-- Font Awesome -->
-<link rel="stylesheet" href="<?=base_url('/admin/css/font-awesome.min.css')?>">
+<link rel="stylesheet" href="<?=base_url('/theme/admin/css/font-awesome.min.css')?>">
 <!-- Ionicons -->
-<link rel="stylesheet" href="<?=base_url('/admin/css/ionicons.min.css')?>">
+<link rel="stylesheet" href="<?=base_url('/theme/admin/css/ionicons.min.css')?>">
 <!-- Theme style -->
-<link rel="stylesheet" href="<?=base_url('/admin/css/AdminLTE.min.css')?>">
-<link rel="stylesheet" href="<?=base_url('/admin/css/madmin.css')?>">
+<link rel="stylesheet" href="<?=base_url('/theme/admin/css/AdminLTE.min.css')?>">
+<link rel="stylesheet" href="<?=base_url('/theme/admin/css/madmin.css')?>">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
       page. However, you can choose any other skin. Make sure you
       apply the skin class to the body tag so the changes take effect. -->
-<link rel="stylesheet" href="<?=base_url('/admin/css/skin-blue.min.css')?>">
+<link rel="stylesheet" href="<?=base_url('/theme/admin/css/skin-blue.min.css')?>">
 <link rel="icon" sizes="48x48" href="<?=base_url('/img/favicon.ico')?>">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
