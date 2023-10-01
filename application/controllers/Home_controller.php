@@ -76,6 +76,7 @@ class Home_controller extends CI_Controller
 		$data['BANNER_HOME_2'] = $BANNER_HOME_2;
 		$data['BANNER_HOME_4'] = $BANNER_HOME_4;
 		$this->load->helper('url');
+
 		$this->load->view('Home_view', $data);
 	}
 

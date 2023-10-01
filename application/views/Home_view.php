@@ -21,304 +21,288 @@
 
 	<title>Bất Động Sản, Mua Bán Chung Cư, Nhà Đất</title>
 	<link rel="icon" sizes="48x48" href="<?=base_url('/img/favicon.ico')?>">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<?php echo base_url()?>css/bootstrap.min.css">
-	<link rel="stylesheet" href="<?php echo base_url()?>css/mcustome.css">
-	<link rel="stylesheet" href="<?php echo base_url()?>css/mobile.min_v2.1.css">
-	<link rel="stylesheet" href="<?php echo base_url()?>css/home.min_v1.7.css">
-	<!-- jQuery library -->
-	<script src="<?php echo base_url()?>js/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="<?php echo base_url()?>js/bootstrap.min.js"></script>
+
+	<!-- SWIPER -->
+	<link rel="stylesheet" href="<?php echo base_url()?>theme/site/css/swiper-bundle.min.css" />
+	<!-- Font Awesome CDN Link  -->
+	<link rel="stylesheet" href="<?php echo base_url()?>theme/site/css/com_ajax_libs_font-awesome_5.15.4_css_all.min.css">
+
+	<!-- Custom CSS File Link  -->
+	<link rel="stylesheet" href="<?php echo base_url()?>theme/site/css/style.css">
 </head>
 
 <body>
-<?php $this->load->view('/theme/header')?>
 
+<!-- HEADER -->
+<header class="header">
+	<div id="menu-btn" class="fas fa-bars"></div>
 
-<div class="container-fluid">
+	<a href="#" class="logo">coffee <i class="fas fa-mug-hot"></i></a>
 
+	<nav class="navbar">
+		<a href="#home">home</a>
+		<a href="#about">about</a>
+		<a href="#menu">menu</a>
+		<a href="#review">review</a>
+		<a href="#book">book</a>
+	</nav>
 
-<div class="home-page row">
-	<div class="home-first-row">
-		<div class="col-md-3 col-sm-5 col-xs-12">
-			<?php $this->load->view('/common/Search_filter') ?>
+	<a href="#" class="btn">book a table</a>
+</header>
+
+<!-- HOME -->
+<section class="home" id="home">
+	<div class="row">
+		<div class="content">
+			<h3>fresh coffee in the morning</h3>
+			<a href="#" class="btn">buy one now</a>
 		</div>
-		<div class="col-md-6 col-sm-7 hidden-xs">
-			<div class="fix-height">
-				<div class="news-view">
-					<div class="col-md-5 col-sm-5 no-padding-left">
-						<a href="<?=seo_url($topNews[0]->Title).'-n'.$topNews[0]->NewsID.'.html'?>">
-							<img class="width100pc" alt="<?=$topNews[0]->Title?>" src="<?=str_replace("132x100", "210x160", $topNews[0]->Thumb)?>"/>
-						</a>
-					</div>
-					<div class="col-md-7 col-sm-7 no-padding-right">
-						<h2><a href="<?=seo_url($topNews[0]->Title).'-n'.$topNews[0]->NewsID.'.html'?>"><?=$topNews[0]->Title?></a></h2>
-						<div class="news-description"><?=$topNews[0]->Brief?></div>
-						<div class="news-date text-right"><?=date('d/m/Y', strtotime($topNews[0]->CreatedDate))?></div>
-					</div>
-					<div class="clear-both"></div>
-				</div>
-				<div class="news-links mCustomScrollbar">
-					<ul class="">
-						<?php
-						$index = 1;
-						foreach ($topNews as $topNew) {
-							if ($index > 1) {
-								?>
-								<li>
-									<a href="<?= seo_url($topNew->Title) . '-n' . $topNew->NewsID . '.html' ?>"><?= $topNew->Title ?></a>
-								</li>
-								<?php
-							}
-							$index++;
-						}
-						?>
-					</ul>
-				</div>
-			</div>
+
+		<div class="image">
+			<img src="<?php echo base_url()?>theme/site/image/home-img-1.png" class="main-home-image" alt="">
 		</div>
-		<div class="col-md-3 hidden-sm hidden-xs">
-			<div id='carousel-custom' class='carousel slide hot-product fix-height-standard' data-interval="7000" data-ride='carousel'>
-				<img class="post-star" src="<?=base_url('/img/3d-yellow-star.png')?>"/>
-				<div class='carousel-outer'>
-					<h2 class="cooperateRealEstate"><a href="<?=base_url('/hop-tac.html')?>">NHÀ ĐẸP</a></h2>
-					<!-- Wrapper for slides -->
-					<div class='carousel-inner'>
-						<?php
-						$counter = 0;
-						foreach ($sampleHouses as $sampleHouse) {
-							?>
-							<div class="item <?=$counter++ == 0 ? 'active' : ''?>">
-								<div><a href="<?=seo_url($sampleHouse->Title).'-s'.$sampleHouse->SampleHouseID.'.html'?>"><img class="width100pc" src="<?=$sampleHouse->Thumb?>" alt="<?=$sampleHouse->Title?>"/></a></div>
-								<div class="cooperate-title">
-									<a href="<?=seo_url($sampleHouse->Title).'-s'.$sampleHouse->SampleHouseID.'.html'?>"><?=$sampleHouse->Title?></a>
-								</div>
-								<div class="news-date text-right">
-									<?=date('d/m/Y', strtotime($sampleHouse->CreatedDate))?>
-								</div>
-							</div>
-							<?php
-						}
-						?>
-					</div>
-					<div class="seemore-coop"><a href="<?=base_url('/nha-mau-dep.html')?>">&#187; Xem thêm</a></div>
+	</div>
+
+	<div class="image-slider">
+		<img src="<?php echo base_url()?>theme/site/image/home-img-1.png" alt="">
+		<img src="<?php echo base_url()?>theme/site/image/home-img-2.png" alt="">
+		<img src="<?php echo base_url()?>theme/site/image/home-img-3.png" alt="">
+	</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+	<h1 class="heading">about us <span>why choose us</span></h1>
+
+	<div class="row">
+		<div class="image">
+			<img src="<?php echo base_url()?>theme/site/image/about-img.png" alt="">
+		</div>
+
+		<div class="content">
+			<h3 class="title">what's make our coffee special!</h3>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel rerum laboriosam reprehenderit ipsa id
+				repellat odio illum, voluptas, necessitatibus assumenda adipisci. Hic, maiores iste? Excepturi illo
+				dolore mollitia qui quia.</p>
+			<a href="#" class="btn">read more</a>
+			<div class="icons-container">
+				<div class="icons">
+					<img src="<?php echo base_url()?>theme/site/image/about-icon-1.png" alt="">
+					<h3>quality coffee</h3>
+				</div>
+				<div class="icons">
+					<img src="<?php echo base_url()?>theme/site/image/about-icon-2.png" alt="">
+					<h3>our branches</h3>
+				</div>
+				<div class="icons">
+					<img src="<?php echo base_url()?>theme/site/image/about-icon-3.png" alt="">
+					<h3>free delivery</h3>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="clear-both"></div>
+</section>
 
-	<?php
-	if(isset($hotBranches) && count($hotBranches) > 0) {
-		?>
-		<div class="home-second-row">
-			<?php
-			foreach ($hotBranches as $branch) {
-				?>
-				<div class="col-md-3 col-sm-6">
-					<div class="item">
-						<div class="listing-card ">
-							<a href="<?=base_url() . seo_url($branch->BrandName) . '-b' . $branch->BrandID ?>.html" title="<?=$branch->BrandName?>" class="listing-card-link listing-img-a">
-								<img alt="<?=$branch->BrandName?>" src="<?=$branch->Thumb?>">
-							</a>
-							<div class="listing-card-info">
-								<h3><a href="<?=base_url() . seo_url($branch->BrandName) . '-b' . $branch->BrandID ?>.html" title="<?=$branch->BrandName?>"
-									   class="listing-card-link"><?=$branch->BrandName?></a></h3>
-								<p class="listing-location"><?=$branch->Description?></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<?php
-			}
-			?>
-			<div class="clear-both"></div>
-		</div>
-		<div class="clear-both"></div>
-		<?php
-	}
-	?>
+<!-- MENU -->
+<section class="menu" id="menu">
+	<h1 class="heading">our menu <span>popular menu</span></h1>
 
-
-	<div class="nha-dat-ban">
-		<div class="col-md-9">
-			<div class="row no-padding">
-				<div class="col-md-6 col-sm-12">
-					<div class="home-group">
-						<div class="block-header text-left"><a href="<?=base_url('/nha-dat-ban-c257.html')?>"><h2 class="h2Class">NHÀ ĐẤT BÁN</h2></a></div>
-						<?php
-						foreach ($nhadatban as $product){
-							?>
-							<div itemscope itemtype="http://schema.org/Product" class="row product-list">
-								<div class="col-md-3 col-sm-2 col-xs-3 no-padding"><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img itemprop="image" class="width100pc margin-left-2" style="max-width: 120px" src="<?=$product->Thumb?>" alt="<?=$product->Title?>"/></a></div>
-								<div class="col-md-9 col-sm-10 col-xs-9 no-padding-right">
-									<div class="row pos-relative">
-										<div class="productTop">
-											<div class="row product-title"><a itemprop="url" href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html" title="<?=$product->Title?>"><h3 itemprop="name"><?=substr_at_middle($product->Title, 80)?></h3></a> </div>
-											<div class="row no-padding">
-												<div>
-													<span class="price"><?=$product->PriceString?></span>, <?=is_numeric($product->Area) ? $product->Area.' m²' : $product->Area?>
-												</div>
-												<div>
-													<div class="float-left color"><a href="<?=base_url(seo_url($product->district.' '.$product->city)).'-dt'.$product->DistrictID.'.html'?>"><?=$product->district.', '.$product->city?></a></div>
-													<div class="float-right postdate"><?=date('d/m/Y', strtotime($product->ModifiedDate))?></div>
-													<div class="clear-both"></div>
-												</div>
-											</div>
-											<div class="clear-both"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<?php
-						}
-						?>
-						<div class="text-right"><a href="<?=base_url('/nha-dat-ban-c257.html')?>">&#187; Xem thêm</a></div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-sm-12">
-					<div class="home-group">
-						<div class="block-header text-left"><a href="<?=base_url('/nha-dat-cho-thue-c267.html')?>"><h2 class="h2Class">NHÀ ĐẤT CHO THUÊ</h2></a></div>
-						<?php
-						foreach ($nhadatchothue as $product){
-							?>
-							<div itemscope itemtype="http://schema.org/Product" class="row product-list">
-								<div class="col-md-3 col-sm-2 col-xs-3 no-padding"><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img itemprop="image" class="width100pc margin-left-2" style="max-width: 120px" src="<?=$product->Thumb?>" alt="<?=$product->Title?>"/></a></div>
-								<div class="col-md-9 col-sm-10 col-xs-9 no-padding-right">
-									<div class="row pos-relative">
-										<div class="productTop">
-											<div class="row product-title"><a itemprop="url" href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html" title="<?=$product->Title?>"><h3 itemprop="name"><?=substr_at_middle($product->Title, 80)?></h3></a> </div>
-											<div class="row no-padding">
-												<div>
-													<span class="price"><?=$product->PriceString?></span>, <?=is_numeric($product->Area) ? $product->Area.' m²' : $product->Area?>
-												</div>
-												<div>
-													<div class="float-left color"><a href="<?=base_url(seo_url($product->district.' '.$product->city)).'-dt'.$product->DistrictID.'.html'?>"><?=$product->district.', '.$product->city?></a></div>
-													<div class="float-right postdate"><?=date('d/m/Y', strtotime($product->ModifiedDate))?></div>
-													<div class="clear-both"></div>
-												</div>
-											</div>
-											<div class="clear-both"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<?php
-						}
-						?>
-						<div class="text-right"><a href="<?=base_url('/nha-dat-cho-thue-c267.html')?>">&#187; Xem thêm</a></div>
-					</div>
-					<div class="clear-both"></div>
-				</div>
+	<div class="box-container">
+		<a href="#" class="box">
+			<img src="<?php echo base_url()?>theme/site/image/menu-1.png" alt="">
+			<div class="content">
+				<h3>our special coffee</h3>
+				<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>
+				<span>$8.99</span>
 			</div>
+		</a>
 
-			<div class="row no-margin">
-				<?php
-				if(isset($BANNER_HOME_1) && strlen($BANNER_HOME_1->Image) > 0){
-					?>
-					<a href="<?=base_url('/redirect-adv-'.$BANNER_HOME_1->BannerID.'.html')?>">
-						<img class="middleHorizontalBanner" src="<?=base_url('/img/banner/'.$BANNER_HOME_1->Image)?>" alt="Middle horizontal banner">
-					</a>
-					<?php
-				}else{
-					?>
-					<img class="middleHorizontalBanner" src="<?=base_url('/img/banner_leaf.jpg')?>" alt="Middle horizontal banner">
-					<?php
-				}
-				?>
+		<a href="#" class="box">
+			<img src="<?php echo base_url()?>theme/site/image/menu-2.png" alt="">
+			<div class="content">
+				<h3>our special coffee</h3>
+				<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, fugit.</p>
+				<span>$8.99</span>
 			</div>
+		</a>
 
-			<div class="row home-group">
-				<div class="col-md-6 col-xs-12">
-					<div class="block-header text-left"><a href="<?=base_url('/nha-dat-duoi-mot-ty.html')?>"><h2 class="h2Class">NHÀ ĐẤT DƯỚI 1 TỶ</h2></a></div>
-					<?php
-					foreach ($underOneBillion as $product){
-						?>
-						<div itemscope itemtype="http://schema.org/Product" class="briefHome row">
-							<div class="col-md-2 col-sm-1 col-xs-2 no-padding"><a itemprop="url" href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img itemprop="image" class="imgBrief" src="<?=$product->Thumb?>" alt="<?=$product->Title?>"/></a></div>
-							<div class="col-md-10 col-sm-11 col-xs-10 no-padding-right">
-								<div class="product-title"><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html" title="<?=$product->Title?>"><h3 itemprop="name"><?=substr_at_middle($product->Title, 80)?></h3></a> </div>
-								<div class="product-info">
-									<div><span class="price"><?=$product->PriceString?></span> <span class="color"><a href="<?=base_url(seo_url($product->district.' '.$product->city)).'-dt'.$product->DistrictID.'.html'?>"><?=$product->district.', '.$product->city?></a></span></div>
-								</div>
-							</div>
-						</div>
-						<?php
-					}
-					?>
-					<div class="text-right"><a href="<?=base_url('/nha-dat-duoi-mot-ty.html')?>">&#187; Xem thêm</a></div>
-					<div class="clear-both"></div>
-				</div>
-				<div class="col-md-6 col-xs-12">
-					<div class="block-header text-left"><a href="<?=base_url('/bat-dong-san-moi-cap-nhat.html')?>"><h2 class="h2Class">MỚI CẬP NHẬT</h2></a></div>
-					<?php
-					foreach ($justUpdates as $product){
-						?>
-						<div itemscope itemtype="http://schema.org/Product" class="briefHome row">
-							<div class="col-md-2 col-sm-1 col-xs-2 no-padding"><a itemprop="url" href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img itemprop="image" class="imgBrief" src="<?=$product->Thumb?>" alt="<?=$product->Title?>"/></a></div>
-							<div class="col-md-10 col-sm-11 col-xs-10 no-padding-right">
-								<div class="product-title"><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html" title="<?=$product->Title?>"><h3 itemprop="name"><?=substr_at_middle($product->Title, 80)?></h3></a> </div>
-								<div class="product-info">
-									<div><span class="price"><?=$product->PriceString?></span> <span class="color"><a href="<?=base_url(seo_url($product->district.' '.$product->city)).'-dt'.$product->DistrictID.'.html'?>"><?=$product->district.', '.$product->city?></a></span></div>
-								</div>
-							</div>
-						</div>
-						<?php
-					}
-					?>
-					<div class="text-right"><a href="<?=base_url('/bat-dong-san-moi-cap-nhat.html')?>">&#187; Xem thêm</a></div>
-					<div class="clear-both"></div>
-				</div>
+		<a href="#" class="box">
+			<img src="<?php echo base_url()?>theme/site/image/menu-3.png" alt="">
+			<div class="content">
+				<h3>our special coffee</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, recusandae.</p>
+				<span>$8.99</span>
 			</div>
+		</a>
 
-			<div class="text-center mobile-hide">
-				<?php
-				if(isset($BANNER_HOME_2) && strlen($BANNER_HOME_2->Image) > 0){
-					?>
-					<a href="<?=base_url('/redirect-adv-' . $BANNER_HOME_2->BannerID .'.html')?>">
-						<img class="middleHorizontalBanner" src="<?=base_url('/img/banner/'.$BANNER_HOME_2->Image)?>" alt="Middle horizontal banner">
-					</a>
-					<?php
-				}else{
-					?>
-					<a href="<?=base_url('/dang-tin.html')?>"><img src="<?=base_url('/img/bottom_banner.jpg')?>" alt="bottom banner"/></a>
-					<?php
-				}
-				?>
+		<a href="#" class="box">
+			<img src="<?php echo base_url()?>theme/site/image/menu-4.png" alt="">
+			<div class="content">
+				<h3>our special coffee</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, quas.</p>
+				<span>$8.99</span>
 			</div>
-		</div>
+		</a>
 
-		<!-- begin left side -->
-		<div class="col-md-3">
-			<?php $this->load->view('/common/sample_house_plot')?>
-			<?php $this->load->view('/common/city-left-link')?>
-			<?php
-			if(isset($BANNER_HOME_4) && strlen($BANNER_HOME_4->Image) > 0){
-				?>
-				<a href="<?=base_url('/redirect-adv-' . $BANNER_HOME_4->BannerID .'.html')?>">
-					<img class="width100pc margin-bottom-20 mobile-hide" src="<?=base_url('/img/banner/'.$BANNER_HOME_4->Image)?>" alt="Middle horizontal banner">
-				</a>
-				<?php
-			}else{
-				?>
-				<img class="width100pc margin-bottom-20 mobile-hide" src="<?=base_url('/img/hoatraotay.jpg')?>" alt="Hoa Trao Tay"/>
-				<?php
-			}
-			?>
+		<a href="#" class="box">
+			<img src="<?php echo base_url()?>theme/site/image/menu-5.png" alt="">
+			<div class="content">
+				<h3>our special coffee</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, vitae.</p>
+				<span>$8.99</span>
+			</div>
+		</a>
 
-			<?php $this->load->view('/common/branch-left-link')?>
-			<?php $this->load->view('/common/fan-page')?>
-		</div>
-		<!-- end left side -->
-
+		<a href="#" class="box">
+			<img src="<?php echo base_url()?>theme/site/image/menu-6.png" alt="">
+			<div class="content">
+				<h3>our special coffee</h3>
+				<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, expedita!</p>
+				<span>$8.99</span>
+			</div>
+		</a>
 	</div>
-</div>
+</section>
 
-<script src="<?php echo base_url()?>js/homeland.js"></script>
-<?php $this->load->view('/theme/footer')?>
-</div>
+<!-- REVIEW -->
+<section class="review" id="review">
+	<h1 class="heading">reviews <span>what people says</span></h1>
+
+	<div class="swiper review-slider">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide box">
+				<i class="fas fa-quote-left"></i>
+				<i class="fas fa-quote-right"></i>
+				<img src="<?php echo base_url()?>theme/site/image/pic-1.png" alt="">
+				<div class="stars">
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+				</div>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, earum quis dolorem quaerat tenetur
+					illum.</p>
+				<h3>john deo</h3>
+				<span>satisfied client</span>
+			</div>
+
+			<div class="swiper-slide box">
+				<i class="fas fa-quote-left"></i>
+				<i class="fas fa-quote-right"></i>
+				<img src="<?php echo base_url()?>theme/site/image/pic-2.png" alt="">
+				<div class="stars">
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+				</div>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum optio quasi ut, illo ipsam
+					assumenda.</p>
+				<h3>john deo</h3>
+				<span>satisfied client</span>
+			</div>
+
+			<div class="swiper-slide box">
+				<i class="fas fa-quote-left"></i>
+				<i class="fas fa-quote-right"></i>
+				<img src="<?php echo base_url()?>theme/site/image/pic-3.png" alt="">
+				<div class="stars">
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+				</div>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius asperiores aliquam hic quis!
+					Eligendi, aliquam.</p>
+				<h3>john deo</h3>
+				<span>satisfied client</span>
+			</div>
+
+			<div class="swiper-slide box">
+				<i class="fas fa-quote-left"></i>
+				<i class="fas fa-quote-right"></i>
+				<img src="<?php echo base_url()?>theme/site/image/pic-4.png" alt="">
+				<div class="stars">
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+				</div>
+				<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi modi perspiciatis distinctio
+					velit aliquid a.</p>
+				<h3>john deo</h3>
+				<span>satisfied client</span>
+			</div>
+		</div>
+		<div class="swiper-pagination"></div>
+	</div>
+</section>
+
+<!-- BOOK -->
+<section class="book" id="book">
+	<h1 class="heading">booking <span>reserve a table</span></h1>
+
+	<form action="">
+		<input type="text" placeholder="Name" class="box">
+		<input type="email" placeholder="Email" class="box">
+		<input type="number" placeholder="Number" class="box">
+		<textarea name="" placeholder="Message" class="box" id="" cols="30" rows="10"></textarea>
+		<input type="submit" value="send message" class="btn">
+	</form>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+	<div class="box-container">
+		<div class="box">
+			<h3>our branches</h3>
+			<a href="#"><i class="fas fa-arrow-right"></i> india</a>
+			<a href="#"><i class="fas fa-arrow-right"></i> USA</a>
+			<a href="#"><i class="fas fa-arrow-right"></i> france</a>
+			<a href="#"><i class="fas fa-arrow-right"></i> africa</a>
+			<a href="#"><i class="fas fa-arrow-right"></i> japan</a>
+		</div>
+
+		<div class="box">
+			<h3>quick links</h3>
+			<a href="#home"><i class="fas fa-arrow-right"></i> home</a>
+			<a href="#about"><i class="fas fa-arrow-right"></i> about</a>
+			<a href="#menu"><i class="fas fa-arrow-right"></i> menu</a>
+			<a href="#review"><i class="fas fa-arrow-right"></i> review</a>
+			<a href="#book"><i class="fas fa-arrow-right"></i> book</a>
+		</div>
+
+		<div class="box">
+			<h3>contact info</h3>
+			<a href="#"><i class="fas fa-phone"></i> +123-456-7890</a>
+			<a href="#"><i class="fas fa-phone"></i> +111-222-3333</a>
+			<a href="#"><i class="fas fa-envelope"></i> coffee@gmail.com</a>
+			<a href="#"><i class="fas fa-envelope"></i> Perú, Lima</a>
+		</div>
+
+		<div class="box">
+			<h3>contact info</h3>
+			<a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
+			<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+			<a href="#"><i class="fab fa-instagram"></i> instagram</a>
+			<a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
+			<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+		</div>
+	</div>
+
+	<div class="credit">created by <span>mr. web designer</span> | all rights reserved</div>
+</section>
+
+
+<!-- SWIPER -->
+<script src="<?php echo base_url()?>theme/site/js/swiper-bundle.min.js"></script>
+<!-- Custom JS File Link  -->
+<script src="<?php echo base_url()?>theme/site/js/script.js"></script>
+
 </body>
 
 </html>
