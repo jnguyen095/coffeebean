@@ -12,5 +12,5 @@
 		Develop by Khang Nguyen
 	</div>
 	<!-- Default to the left -->
-	<strong>Copyright &copy; 2021 <a href="http://nhatimchu.com">Nhà Tìm Chủ</a>.</strong> All rights reserved.
+	<strong>Copyright &copy; 2021 <a href="http://nhatimchu.com">Cà Phê Rang Hạt</a>.</strong> All rights reserved.
 </footer>

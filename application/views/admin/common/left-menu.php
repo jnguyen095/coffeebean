@@ -50,15 +50,15 @@
 			<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-link"></i> <span>Dự án</span></a></li>
 			<li><a href="<?=base_url('/admin/banner/list.html')?>"><i class="fa fa-link"></i> <span>Banner</span></a></li>
 			<li><a href="<?=base_url('/admin/sitemap/list.html')?>"><i class="fa fa-link"></i> <span>Sitemap</span></a></li>
+			<li><a href="<?=base_url('/admin/category/list.html')?>"><i class="fa fa-link"></i> <span>Quản lý danh mục</span></a></li>
 			<li class="treeview">
-				<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+				<a href="#"><i class="fa fa-gear"></i> <span>Dữ liệu nền</span>
 					<span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+                		<i class="fa fa-angle-left pull-right"></i>
+              		</span>
 				</a>
 				<ul class="treeview-menu">
-					<li><a href="#">Link in level 2</a></li>
-					<li><a href="#">Link in level 2</a></li>
+					<li><a href="<?=base_url('/admin/category/list.html')?>"><i class="fa fa-folder"></i> <span>Quản lý danh mục</span></a></li>
 				</ul>
 			</li>
 		</ul>
