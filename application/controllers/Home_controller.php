@@ -27,7 +27,8 @@ class Home_controller extends CI_Controller
 
 	public function index() {
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
+		$data = [];
+		/*$categories = $this->cache->file->get('category');
 		$footerMenus = $this->cache->file->get('footer');
 		$BANNER_HOME_1 = $this->cache->file->get('BANNER_HOME_1');
 		$BANNER_HOME_2 = $this->cache->file->get('BANNER_HOME_2');
@@ -62,7 +63,7 @@ class Home_controller extends CI_Controller
 		$data['cities'] = $cities;
 
 		// $data['hotProducts'] = $this->Product_Model->findByHotProduct();
-		$data['nhadatban'] = $this->Product_Model->findByCategoryCode(NHADAT_BAN, 0, 10);
+		/*$data['nhadatban'] = $this->Product_Model->findByCategoryCode(NHADAT_BAN, 0, 10);
 		$data['nhadatchothue'] = $this->Product_Model->findByCategoryCode(NHADAT_CHOTHUE, 0, 10);
 		$data['topcityhasproduct'] = $this->City_Model->findTopCityHasProduct(20);
 		$data['topbranchhasproduct'] = $this->Brand_Model->findTopBranchHasProduct(20);
@@ -75,6 +76,7 @@ class Home_controller extends CI_Controller
 		$data['BANNER_HOME_1'] = $BANNER_HOME_1;
 		$data['BANNER_HOME_2'] = $BANNER_HOME_2;
 		$data['BANNER_HOME_4'] = $BANNER_HOME_4;
+		*/
 		$this->load->helper('url');
 
 		$this->load->view('Home_view', $data);
