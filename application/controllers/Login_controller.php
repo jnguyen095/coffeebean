@@ -63,6 +63,7 @@ class Login_controller extends CI_Controller
 	{
 		// begin file cached
 		$this->load->driver('cache');
+
 		$categories = $this->cache->file->get('category');
 		$footerMenus = $this->cache->file->get('footer');
 		if(!$categories){
