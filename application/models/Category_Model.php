@@ -13,11 +13,11 @@ class Category_Model extends CI_Model
 	}
 
 	public function getCategories() {
-		$this->db->where("ParentID IS NULL and Active = 1 and Menu = ". CATEGORY_MENU);
+		$this->db->where("ParentID IS NULL and Active = 1");
+
 		$query = $this->db->get("category");
 
 		$data['categories'] = $query->result();
-
 		$child = [];
 		foreach ($data as $key=>$value){
 			foreach ($data[$key] as $k=>$v){
@@ -31,6 +31,13 @@ class Category_Model extends CI_Model
 		}
 		$data['child'] = $child;
 
+		return $data;
+	}
+
+	public function getRootCategories() {
+		$this->db->where("ParentID IS NULL and Active = 1");
+		$query = $this->db->get("category");
+		$data['categories'] = $query->result();
 		return $data;
 	}
 
@@ -70,6 +77,27 @@ class Category_Model extends CI_Model
 			$query = $this->db->query($sql);
 			return $query->result();
 		}
+	}
+
+	public function findByCatName($catName){
+		$this->db->where("CatName = '" . $catName . "'");
+		$query = $this->db->get("category");
+		$data = $query->row();
+		return $data;
+	}
+
+	public function saveOrUpdate($data){
+		$newData = array(
+			'CatName' => $data['txt_catname'],
+			'Active' => $data['status'],
+			'DisplayIndex' => $data['index'],
+			'ParentID' => $data['txt_parent']
+		);
+
+		$this->db->insert('category', $newData);
+		$insert_id = $this->db->insert_id();
+
+		return $insert_id;
 	}
 
 }
