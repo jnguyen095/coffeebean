@@ -71,3 +71,15 @@
 .paymentDelay{
 	color: #e41b23;
 }
+
+.categories{
+	margin-left: 120px;
+}
+.categories .category-level0{
+	font-size: 16px;
+	font-weight: bold;
+}
+.categories .category-level1{
+	margin-left: 20px;
+	font-weight: normal;
+}
