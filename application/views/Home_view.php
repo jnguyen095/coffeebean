@@ -5,21 +5,21 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="audience" content="general" />
 	<meta name="resource-type" content="document" />
-	<meta name="abstract" content="Thông tin nhà đất Việt Nam" />
-	<meta name="classification" content="Bất động sản Việt Nam" />
-	<meta name="area" content="Nhà đất và bất động sản" />
+	<meta name="abstract" content="Cà phê rang xay, cà phê hạt, coffee, coffee bean" />
+	<meta name="classification" content="Cà phê rang xay" />
+	<meta name="area" content="Cà phê rang xay" />
 	<meta name="placename" content="Việt Nam" />
-	<meta name="author" content="nhatimchu.com" />
-	<meta name="copyright" content="©2018 nhatimchu.com" />
-	<meta name="owner" content="nhatimchu.com" />
+	<meta name="author" content="capheranghat.com" />
+	<meta name="copyright" content="©2023 capheranghat.com" />
+	<meta name="owner" content="capheranghat.com" />
 	<meta name="distribution" content="Global" />
-	<meta name="description" content="Thông tin mua bán bất động sản, đăng tin miễn phí. Mua bán nhà đất, cho thuê nhà đất, văn phòng, căn hộ, biệt thự, chung cư, tin tức bất động sản, thiết kế đẹp, nhà mẫu, tin thị trường">
-	<meta name="keywords" content="Bất, động, sản, bán, nhà, chung, cư, mua, đất, real, estate">
+	<meta name="description" content="Cà phê rang xay Việt Nam, cung cấp cà phê rang xay, thiết bị chuyên dụng cà phê">
+	<meta name="keywords" content="cà, phê, rang, xay,Việt, Nam, coffee, cafe">
 	<meta name="revisit-after" content="1 days" />
 	<meta name="robots" content="follow" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Bất Động Sản, Mua Bán Chung Cư, Nhà Đất</title>
+	<title>Cà phê rang xay Việt Nam</title>
 	<link rel="icon" sizes="48x48" href="<?=base_url('/img/favicon.ico')?>">
 
 	<!-- SWIPER -->
@@ -34,21 +34,7 @@
 <body>
 
 <!-- HEADER -->
-<header class="header">
-	<div id="menu-btn" class="fas fa-bars"></div>
-
-	<a href="#" class="logo">coffee <i class="fas fa-mug-hot"></i></a>
-
-	<nav class="navbar">
-		<a href="#home">home</a>
-		<a href="#about">about</a>
-		<a href="#menu">menu</a>
-		<a href="#review">review</a>
-		<a href="#book">book</a>
-	</nav>
-
-	<a href="#" class="btn">book a table</a>
-</header>
+<?php $this->load->view('/common/header')?>
 
 <!-- HOME -->
 <section class="home" id="home">
@@ -256,46 +242,7 @@
 </section>
 
 <!-- FOOTER -->
-<section class="footer">
-	<div class="box-container">
-		<div class="box">
-			<h3>our branches</h3>
-			<a href="#"><i class="fas fa-arrow-right"></i> india</a>
-			<a href="#"><i class="fas fa-arrow-right"></i> USA</a>
-			<a href="#"><i class="fas fa-arrow-right"></i> france</a>
-			<a href="#"><i class="fas fa-arrow-right"></i> africa</a>
-			<a href="#"><i class="fas fa-arrow-right"></i> japan</a>
-		</div>
-
-		<div class="box">
-			<h3>quick links</h3>
-			<a href="#home"><i class="fas fa-arrow-right"></i> home</a>
-			<a href="#about"><i class="fas fa-arrow-right"></i> about</a>
-			<a href="#menu"><i class="fas fa-arrow-right"></i> menu</a>
-			<a href="#review"><i class="fas fa-arrow-right"></i> review</a>
-			<a href="#book"><i class="fas fa-arrow-right"></i> book</a>
-		</div>
-
-		<div class="box">
-			<h3>contact info</h3>
-			<a href="#"><i class="fas fa-phone"></i> +123-456-7890</a>
-			<a href="#"><i class="fas fa-phone"></i> +111-222-3333</a>
-			<a href="#"><i class="fas fa-envelope"></i> coffee@gmail.com</a>
-			<a href="#"><i class="fas fa-envelope"></i> Perú, Lima</a>
-		</div>
-
-		<div class="box">
-			<h3>contact info</h3>
-			<a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
-			<a href="#"><i class="fab fa-twitter"></i> twitter</a>
-			<a href="#"><i class="fab fa-instagram"></i> instagram</a>
-			<a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
-			<a href="#"><i class="fab fa-twitter"></i> twitter</a>
-		</div>
-	</div>
-
-	<div class="credit">created by <span>mr. web designer</span> | all rights reserved</div>
-</section>
+<?php $this->load->view('/common/footer')?>
 
 
 <!-- SWIPER -->
