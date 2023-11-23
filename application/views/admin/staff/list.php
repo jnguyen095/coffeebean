@@ -49,8 +49,10 @@
 						<thead>
 							<tr>
 								<th>Họ tên</th>
+								<th>Nhóm Người Dùng</th>
+								<th>Tên Đăng Nhập</th>
+								<th>Tình Trạng</th>
 								<th>Email</th>
-								<th>Username</th>
 								<th>Last Login</th>
 								<th>#</th>
 							</tr>
@@ -62,11 +64,25 @@
 								?>
 								<tr>
 									<td><?=$staff->FullName?></td>
-									<td><?=$staff->Email?></td>
+									<td><?=$staff->GroupName?></td>
 									<td><?=$staff->UserName?></td>
+									<td>
+										<?php
+											if($staff->Status == 1) {
+												?>
+												<span class="label label-success">Đang hoạt động</span>
+												<?php
+											}else {
+												?>
+												<span class="label label-danger">Không hoạt động</span>
+												<?php
+											}
+										?>
+									</td>
+									<td><?=$staff->Email?></td>
 									<td><?=date('d/m/Y m:s', strtotime($staff->LastLogin)) ?></td>
 									<td>
-										<a href="<?=base_url('/admin/staff/add-'.$staff->Us3rID.'.html')?>"><i class="	glyphicon glyphicon-edit"></i></a>
+										<a data-toggle="tooltip" title="Cập nhật thông tin" href="<?=base_url('/admin/staff/add-'.$staff->Us3rID.'.html')?>"><i class="	glyphicon glyphicon-edit"></i></a>
 									</td>
 								</tr>
 								<?php
@@ -105,5 +121,7 @@
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+<script type="text/javascript">
+</script>
 </body>
 </html>

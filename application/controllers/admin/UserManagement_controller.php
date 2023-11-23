@@ -20,6 +20,7 @@ class UserManagement_controller extends CI_Controller
 		$this->load->helper('html');
 		$this->load->library('session');
 		$this->load->model('User_Model');
+		$this->load->model('UserGroup_Model');
 		$this->load->library('pagination');
 		$this->load->helper("bootstrap_pagination_admin");
 	}
@@ -61,7 +62,11 @@ class UserManagement_controller extends CI_Controller
 	}
 
 	public function addStaff($staffId = null){
+
 		$data = [];
+		$data["userGroups"] = $this->UserGroup_Model->getAllUserGroup();
+		$data["staffId"] = $staffId;
+		$data["ch_status"] = 1;
 		if($staffId != null){
 			$staff = $this->User_Model->getUserById($staffId);
 			$data['staffID'] = $staff->Us3rID;
@@ -71,18 +76,24 @@ class UserManagement_controller extends CI_Controller
 			$data['txt_email'] = $staff->Email;
 			$data['txt_phone'] = $staff->Phone;
 			$data['txt_address'] = $staff->Address;
+			$data['txt_userGroupID'] = $staff->UserGroupID;
+			$data["ch_status"] = $staff->Status;
 		}
 		if($this->input->post('crudaction') == "insert"){
 			$this->form_validation->set_message('txt_fullname', 'Họ tên không được để trống');
-
+			$this->form_validation->set_rules("txt_userGroupID", "Nhóm người dùng", "trim|required");
 			$this->form_validation->set_rules("txt_fullname", "Họ tên", "trim|required");
 			$this->form_validation->set_rules("txt_username", "Tên đăng nhập", "trim|required");
-			$this->form_validation->set_rules("txt_password", "Mật khẩu", "trim|required");
+			if($staffId == null){
+				$this->form_validation->set_rules("txt_password", "Mật khẩu", "trim|required");
+			}
+
 			$this->form_validation->set_rules("txt_email", "Email", "valid_email");
 			$this->form_validation->set_rules('txt_phone', 'Số điện thoại', 'regex_match[/^[0-9]{10,11}$/]'); //{10} for 10 or 11 digits number
 
 			if ($this->form_validation->run() == FALSE)
 			{
+				$data['txt_userGroupID'] = $this->input->post('txt_userGroupID');
 				//validation fails
 				$this->load->view('admin/staff/add', $data);
 			}else{
@@ -92,10 +103,13 @@ class UserManagement_controller extends CI_Controller
 				$email = $this->input->post('txt_email');
 				$phone = $this->input->post('txt_phone');
 				$address = $this->input->post('txt_address');
+				$status = $this->input->post('ch_status');
+				$usergroup = $this->input->post('txt_userGroupID');
 
-				$count = $this->User_Model->checkExistUserNameAddGroup($username, USER_GROUP_STAFF);
+				$count = $this->User_Model->checkExistUserNameAddGroup($username, $usergroup, $staffId);
 				if($count > 0){
-					$data['error_response'] = 'Tên đăng nhập đã tồn tại.';
+
+					$data['error_message'] = 'Tên đăng nhập đã tồn tại.';
 					$this->load->view('admin/staff/add', $data);
 				}else{
 					$newdata['fullname'] = $fullname;
@@ -104,8 +118,15 @@ class UserManagement_controller extends CI_Controller
 					$newdata['email'] = $email;
 					$newdata['phone'] = $phone;
 					$newdata['address'] = $address;
+					$newdata['usergroup'] = $usergroup;
+					$newdata['status'] = $status;
 
-					$this->User_Model->addNewUser($newdata, USER_GROUP_STAFF);
+					if($staffId == null){
+						$this->User_Model->addNewUser($newdata, $usergroup);
+					}else{
+						$this->User_Model->updateExistingUser($staffId, $newdata);
+					}
+
 					$data['message_response'] = 'Đăng ký thành công';
 					redirect('admin/staff/list');
 				}

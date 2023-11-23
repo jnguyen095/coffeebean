@@ -29,9 +29,12 @@ class User_Model extends CI_Model
 		return $query->num_rows();
 	}
 
-	function checkExistUserNameAddGroup($userName, $groupId){
+	function checkExistUserNameAddGroup($userName, $groupId, $userId){
 		$this->db->where('UserName', $userName);
 		$this->db->where('UserGroupID', $groupId);
+		if($userId != null){
+			$this->db->where('Us3rID != ', $userId);
+		}
 		$query = $this->db->get('us3r');
 		return $query->num_rows();
 	}
@@ -47,7 +50,7 @@ class User_Model extends CI_Model
 			'Address' => $data['address'],
 			'CreatedDate' => date('Y-m-d H:i:s'),
 			'UpdatedDate' => date('Y-m-d H:i:s'),
-			'Status' => ACTIVE,
+			'Status' => $data['status'],
 			'UserGroupID' => $groupId,
 			'AvailableMoney' => 0,
 			'DepositedMoney' => 0,
@@ -56,6 +59,25 @@ class User_Model extends CI_Model
 			'TotalPost' => 0
 		);
 		$this->db->insert('us3r', $newdata);
+	}
+
+	function updateExistingUser($userID, $data)
+	{
+		$newdata = array(
+			'FullName' => $data['fullname'],
+			'UserName' => $data['username'],
+			'Email' => $data['email'],
+			'Phone' => $data['phone'],
+			'Address' => $data['address'],
+			'UpdatedDate' => date('Y-m-d H:i:s'),
+			'UserGroupID' => $data['usergroup'],
+			'Status' => $data['status'],
+		);
+		if(isset($data['password']) && $data['password'] != ""){
+			$newdata['Password'] = md5($data['password']);
+		}
+		$this->db->where('Us3rID', $userID);
+		$this->db->update('us3r', $newdata);
 	}
 
 	function updateUser($data)
@@ -94,20 +116,21 @@ class User_Model extends CI_Model
 	}
 
 	function getAllStaff($offset, $limit, $st, $orderField, $orderDirection){
-		//$this->output->enable_profiler(TRUE);
-		$query = $this->db->select('u.*')
+		// $this->output->enable_profiler(TRUE);
+		$query = $this->db->select('u.*, ug.GroupName')
 			->from('us3r u')
-			//->join('product p', 'u.Us3rID = p.CreatedByID', 'left')
-			->where('UserGroupID', USER_GROUP_STAFF)
+			->join('usergroup ug', 'u.UserGroupID = ug.UserGroupID', 'left')
+			// ->where('UserGroupID', USER_GROUP_STAFF)
 			->limit($limit, $offset)
-			->group_by('u.Us3rID')
+			// ->group_by('u.Us3rID')
 			->order_by($orderField, $orderDirection)
 			->get();
 
 		// $query = $this->db->or_like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->limit($limit, $offset)->order_by($orderField, $orderDirection)->get('us3r');
 		$result['items'] = $query->result();
-		$query = $this->db->where('UserGroupID', USER_GROUP_STAFF)->get('us3r');
+		$query = $this->db->get('us3r');
 		$result['total'] = $query->num_rows();
+		// print_r($result);
 		return $result;
 	}
 

@@ -38,9 +38,19 @@
 		<!-- Sidebar Menu -->
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">HEADER</li>
+			<li class="treeview menu-open">
+				<a href="#"><i class="fa fa-gear"></i> <span>Dữ liệu nền</span>
+					<span class="pull-right-container">
+                		<i class="fa fa-angle-left pull-right"></i>
+              		</span>
+				</a>
+				<ul class="treeview-menu" style="display: block">
+					<li><a href="<?=base_url('/admin/category/list.html')?>"><i class="fa fa-folder"></i> <span>Quản lý danh mục</span></a></li>
+					<li><a href="<?=base_url('/admin/staff/list.html')?>"><i class="fa fa-users"></i> <span>Nhân viên</span></a></li>
+				</ul>
+			</li>
 			<!-- Optionally, you can add icons to the links -->
 			<li class="active"><a href="<?=base_url('/admin/dashboard.html')?>"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
-			<li><a href="<?=base_url('/admin/staff/list.html')?>"><i class="fa fa-link"></i> <span>Nhân viên</span></a></li>
 			<li><a href="<?=base_url('/admin/user/list.html')?>"><i class="fa fa-link"></i> <span>Người dùng</span></a></li>
 			<li><a href="<?=base_url('/admin/purchase-history/list.html')?>"><i class="fa fa-link"></i> <span>Giao dịch</span></a></li>
 			<li><a href="<?=base_url('/admin/static-page/list.html')?>"><i class="fa fa-link"></i> <span>Trang tĩnh</span></a></li>
@@ -50,17 +60,7 @@
 			<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-link"></i> <span>Dự án</span></a></li>
 			<li><a href="<?=base_url('/admin/banner/list.html')?>"><i class="fa fa-link"></i> <span>Banner</span></a></li>
 			<li><a href="<?=base_url('/admin/sitemap/list.html')?>"><i class="fa fa-link"></i> <span>Sitemap</span></a></li>
-			<li><a href="<?=base_url('/admin/category/list.html')?>"><i class="fa fa-link"></i> <span>Quản lý danh mục</span></a></li>
-			<li class="treeview">
-				<a href="#"><i class="fa fa-gear"></i> <span>Dữ liệu nền</span>
-					<span class="pull-right-container">
-                		<i class="fa fa-angle-left pull-right"></i>
-              		</span>
-				</a>
-				<ul class="treeview-menu">
-					<li><a href="<?=base_url('/admin/category/list.html')?>"><i class="fa fa-folder"></i> <span>Quản lý danh mục</span></a></li>
-				</ul>
-			</li>
+
 		</ul>
 		<!-- /.sidebar-menu -->
 	</section>
