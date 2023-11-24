@@ -48,6 +48,7 @@
 					<li><a href="<?=base_url('/admin/staff/list.html')?>"><i class="fa fa-users"></i> <span>Nhân viên</span></a></li>
 					<li><a href="<?=base_url('/admin/category/list.html')?>"><i class="fa fa-folder"></i> <span>Quản lý danh mục</span></a></li>
 					<li><a href="<?=base_url('/admin/product/list.html')?>"><i class="fa fa-product-hunt"></i> <span>Quản lý sản phẩm</span></a></li>
+					<li><a href="<?=base_url('/admin/area/list.html')?>"><i class="fa fa-map"></i> <span>Quản lý khu vực</span></a></li>
 				</ul>
 			</li>
 			<!-- Optionally, you can add icons to the links -->

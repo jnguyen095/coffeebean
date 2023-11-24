@@ -192,3 +192,7 @@ $route['admin/staff/add-(:num)'] = "admin/UserManagement_controller/addStaff/$1"
 $route['admin/category/list'] = "admin/Category_controller";
 $route['admin/category/add'] = "admin/Category_controller/add";
 $route['admin/category/add-(:num)'] = "admin/Category_controller/add/$1";
+// Area
+$route['admin/area/list'] = "admin/Area_controller";
+$route['admin/area/add'] = "admin/Area_controller/add";
+$route['admin/area/add-(:num)'] = "admin/Area_controller/add/$1";
