@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Nhà Tìm Chủ | Quản lý bài đăng</title>
+	<title>Nhà Tìm Chủ | Quản lý sản phẩm</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap-datepicker.min.css')?>">
 </head>
@@ -33,7 +33,7 @@
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-				<li class="active">Quản lý bài đăng</li>
+				<li class="active">Quản lý sản phẩm</li>
 			</ol>
 		</section>
 
@@ -51,7 +51,7 @@
 			}?>
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Danh sách bài đăng</h3>
+					<h3 class="box-title">Danh sách sản phẩm</h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -63,45 +63,13 @@
 									<input type="text" name="searchFor" placeholder="Tìm tiêu đề" class="form-control" id="searchKey">
 								</div>
 							</div>
-							<div class="col-sm-2">
-								<label>Số điện thoại</label>
-								<div class="form-group">
-									<input type="text" name="phoneNumber" class="form-control" id="phoneNumber">
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<label>Từ ngày</label>
-								<div class="form-group">
-									<input type="text" name="postFromDate" class="form-control datepicker" id="fromDate">
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<label>Đến ngày</label>
-								<div class="form-group">
-									<input type="text" name="postToDate" class="form-control datepicker" id="toDate">
-								</div>
-							</div>
-							<div class="col-sm-2">
-								<label>Mã tin(ID)</label>
-								<div class="form-group">
-									<input type="text" name="code" class="form-control" id="code">
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Loại tin</label>
-								<div class="form-group">
-									<label><input id="chb-0" checked="checked" type="radio" name="hasAuthor" value="-1"> Tất cả</label>
-									<label><input id="chb-2" type="radio" name="hasAuthor" value="1"> Chính chủ</label>
-									<label><input id="chb-1" type="radio" name="hasAuthor" value="0"> Crawler</label>
-								</div>
-							</div>
+
 							<div class="col-sm-4">
 								<label>Tình trạng</label>
 								<div class="form-group">
 									<label><input id="st_0" checked="checked" type="radio" name="status" value="-1"> Tất cả</label>
 									<label><input id="st-1" type="radio" name="status" value="1"> Hoạt động</label>
 									<label><input id="st-0" type="radio" name="status" value="0"> Tạm dừng</label>
-									<label><input id="st-2" type="radio" name="status" value="2"> Chờ thanh toán</label>
 								</div>
 							</div>
 						</div>
@@ -111,6 +79,7 @@
 					</div>
 
 					<div class="row no-margin">
+						<a class="btn btn-success" id="addNew" href="<?=base_url("/admin/product/edit.html")?>">Thêm sản phẩm</a>
 						<a class="btn btn-danger" id="deleteMulti">Xóa Nhiều</a>
 					</div>
 
@@ -120,14 +89,10 @@
 								<tr>
 									<th><input name="checkAll" value="1" type="checkbox" ></th>
 									<th data-action="sort" data-title="Title" data-direction="ASC"><span>Tiêu đề</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+									<th data-action="sort" data-title="Price" data-direction="ASC"><span>Giá bán</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="Vip" data-direction="ASC"><span>Loại tin</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="View" data-direction="ASC"><span>Lượt xem</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="PostDate" data-direction="ASC"><span>Ngày đăng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="ExpireDate" data-direction="ASC"><span>Hết hạn</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="ModifiedDate" data-direction="ASC"><span>Cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+									<th data-action="sort" data-title="ModifiedDate" data-direction="ASC"><span>Ngày cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="CreatedByID" data-direction="ASC"><span>Người đăng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="IpAddress" data-direction="ASC"><span>Ip Address</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th></th>
 								</tr>
 							</thead>
@@ -139,47 +104,21 @@
 								?>
 								<tr>
 									<td><input name="checkList[]" type="checkbox" value="<?=$product->ProductID?>"></td>
-									<td><a class="vip<?=$product->Vip?>" data-toggle="tooltip" title="<?=$product->Title?>" href="<?=base_url(seo_url($product->Title).'-p').$product->ProductID.'.html'?>"><?=substr_at_middle($product->Title, 60)?></a></td>
+									<td><?=$product->Title?></td>
+									<td><?=$product->Price?></td>
 									<td>
 										<?php
 											if($product->Status == ACTIVE){
-												echo '<span class="label label-success">Show</span>';
-											}else if($product->Status == PAYMENT_DELAY){
-												echo '<span class="label label-info">Payment</span>';
+												echo '<span class="label label-success">Đang bán</span>';
 											} else{
-												echo '<span class="label label-danger">Hide</span>';
+												echo '<span class="label label-warning">Tạm ngưng</span>';
 											}
 										?>
 									</td>
+									<td><?=date('d/m/Y H:i', strtotime($product->ModifiedDate))?></td>
+									<td><?=$product->FullName?></td>
 									<td>
-										<select onchange="updateVip('<?=$product->ProductID?>', this.value);">
-											<option value="0" <?=$product->Vip == 0 ? ' selected' : ''?>>Vip 0</option>
-											<option value="1" <?=$product->Vip == 1 ? ' selected' : ''?>>Vip 1</option>
-											<option value="2" <?=$product->Vip == 2 ? ' selected' : ''?>>Vip 2</option>
-											<option value="3" <?=$product->Vip == 3 ? ' selected' : ''?>>Vip 3</option>
-											<option value="5" <?=$product->Vip == 5 ? ' selected' : ''?>>Thường</option>
-										</select>
-									</td>
-									<td class="text-right">
-										<?php
-										if(isset($product->FullName)) {
-											?>
-											<input class="txtView" id="pr-<?=$product->ProductID?>" type="text" value="<?= $product->View?>"
-												   onchange="updateView('<?=$product->ProductID?>', this.value);"/>
-											<?php
-										}else{
-											echo $product->View;
-										}
-										?>
-									</td>
-									<td><?=date('d/m/Y H:i', strtotime($product->PostDate))?></td>
-									<td><?=date('d/m/Y', strtotime($product->ExpireDate))?></td>
-									<td id="modifiedDate_<?=$product->ProductID?>"><?=date('d/m/Y H:i', strtotime($product->ModifiedDate))?></td>
-									<td><a href="<?=base_url('/admin/product/list.html?createdById='.$product->CreatedByID)?>"><?=$product->FullName?></a> </td>
-									<td><?=$product->IpAddress?></td>
-									<td>
-										<a href="<?=base_url('/admin/product/edit.html?postId='.$product->ProductID)?>" data-toggle="tooltip" title="Chỉnh sửa"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;|&nbsp;
-										<a onclick="pushPostUp('<?=$product->ProductID?>');" data-toggle="tooltip" title="Làm mới tin"><i class="glyphicon glyphicon-refresh"></i></a>&nbsp;|&nbsp;
+										<a href="<?=base_url('/admin/product/edit-'.$product->ProductID.'.html')?>" data-toggle="tooltip" title="Chỉnh sửa"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;|&nbsp;
 										<a class="remove-post" data-post="<?=$product->ProductID?>" data-toggle="tooltip" title="Xóa tin đăng"><i class="glyphicon glyphicon-remove"></i></a>
 									</td>
 								</tr>

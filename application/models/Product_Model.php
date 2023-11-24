@@ -143,6 +143,16 @@ class Product_Model extends CI_Model
 		return $row->Total;
 	}
 
+	public function checkNewProductIsValid($categoryId, $productName, $productId){
+		$sql = "select count(*) as Total from product p where p.CategoryID = {$categoryId} and p.Title = '{$productName}'";
+		if($productId != null & $productId > 0){
+			$sql .= " and p.ProductID <> {$productId}";
+		}
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row->Total;
+	}
+
 	public function findByIdFetchAll($productId) {
 		$sql = 'select * from product p inner join productdetail pd on p.productid = pd.productid';
 		$sql .= ' where p.ProductID = '. $productId;
@@ -797,6 +807,39 @@ class Product_Model extends CI_Model
 		$total = $this->db->query($countsql);
 		$total = $total->row();
 		return $total->Total;
+	}
+
+	public function addOrUpdateProduct($data){
+		$productId = $data['ProductID'];
+		if($productId == null){
+			$newdata = array(
+				'Title' => $data['Title'],
+				'Brief' => $data['Brief'],
+				'Price' => $data['Price'],
+				'Thumb' => $data['txt_image'],
+				'PostDate' => date('Y-m-d H:i:s'),
+				'ModifiedDate' => date('Y-m-d H:i:s'),
+				'CategoryID' => $data['sl_category'],
+				'Status' => $data['Status'],
+				'CreatedByID' => $data['CreatedByID']
+			);
+			$this->db->insert('product', $newdata);
+			$insert_id = $this->db->insert_id();
+			return $insert_id;
+		} else {
+			$this->db->set('Title', $data['Title']);
+			$this->db->set('Price', $data['Price']);
+			$this->db->set('Brief', $data['Brief']);
+			$this->db->set('Status', $data['Status']);
+			$this->db->set('CategoryID', $data['sl_category']);
+			if(strlen($data['txt_image']) > 0){
+				$this->db->set('Thumb', $data['txt_image']);
+			}
+			$this->db->set('ModifiedDate', date('Y-m-d H:i:s'));
+			$this->db->where('ProductID', $productId);
+			$this->db->update('product');
+		}
+
 	}
 
 

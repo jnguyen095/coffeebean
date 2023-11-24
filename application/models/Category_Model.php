@@ -91,7 +91,7 @@ class Category_Model extends CI_Model
 			'CatName' => $data['txt_catname'],
 			'Active' => $data['status'],
 			'DisplayIndex' => $data['index'],
-			'ParentID' => $data['txt_parent']
+			'ParentID' => isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL
 		);
 
 		$this->db->insert('category', $newData);

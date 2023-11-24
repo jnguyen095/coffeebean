@@ -162,6 +162,7 @@ $route['admin/dashboard'] = "admin/Admin_controller";
 $route['admin/user/list'] = "admin/UserManagement_controller";
 $route['admin/product/list'] = "admin/ProductManagement_controller";
 $route['admin/product/edit'] = "admin/ProductManagement_controller/edit";
+$route['admin/product/edit-(:num)'] = "admin/ProductManagement_controller/edit/$1";
 $route['admin/cooperate/list'] = "admin/CooperateManagement_controller";
 $route['admin/feedback/list'] = "admin/FeedBack_controller";
 $route['admin/feedback/view-(:num)'] = "admin/FeedBack_controller/view/$1";

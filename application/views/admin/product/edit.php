@@ -14,6 +14,8 @@
 	<title>Nhà Tìm Chủ | Chỉnh sửa bài đăng</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap-datepicker.min.css')?>">
+	<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">
+	<script src="<?= base_url('/ckeditor/ckeditor.js') ?>"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -29,122 +31,141 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				Chỉnh sửa bài đăng <b><?=$product->Title?></b>
+				Chỉnh sửa sản phẩm</b>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-				<li><a href="<?=base_url('/admin/product/list.html')?>">Quản lý bài đăng</a></li>
-				<li class="active">Chỉnh sửa bài đăng</li>
+				<li><a href="<?=base_url('/admin/product/list.html')?>">Quản lý sản phẩm</a></li>
+				<li class="active">Chỉnh sửa sản phẩm</li>
 			</ol>
 		</section>
 
 		<!-- Main content -->
-		<?php
-		$attributes = array("id" => "frmEditPost");
-		echo form_open("admin/product/edit", $attributes);
-		?>
 		<section class="content container-fluid">
 			<?php if(!empty($message_response)){
-				echo '<div class="alert alert-success">';
+				echo '<div class="alert alert-danger">';
 				echo '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>';
 				echo $message_response;
 				echo '</div>';
 			}?>
 			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">Danh sách bài đăng</h3>
-				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
-					<div class="search-filter">
-						<div class="row">
-							<div class="col-sm-6">
-								<label>Tiêu đề</label>
-								<div class="form-group">
-									<input type="text" name="Title" placeholder="Tiêu đề" class="form-control" value="<?=$product->Title?>" >
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Từ ngày</label>
-								<div class="form-group">
-									<input type="text" name="postFromDate" class="form-control datepicker" id="fromDate" value="<?=$product->FromDate?>">
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Đến ngày</label>
-								<div class="form-group">
-									<input type="text" name="postToDate" class="form-control datepicker" id="toDate" value="<?=$product->ExpireDate?>">
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Loại tin rao</label>
-								<div class="form-group">
-									<select class="form-control" id="sl_category" name="sl_category">
-										<option>Chọn loại tin</option>
+					<?php
+					$attributes = array("id" => "frmAddProduct", "enctype" => "multipart/form-data", "class" => "form-horizontal");
+					echo form_open("admin/product/edit".((isset($product->ProductID) && $product->ProductID > 0) ? "-".$product->ProductID : ""), $attributes);
+					?>
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Danh mục sản phẩm <span class="required">*</span></label>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control" id="sl_category" name="sl_category">
+								<option value="">Chọn danh mục</option>
+								<?php
+
+								if($categories != null && count($categories) > 0){
+									foreach ($categories as $c){
+										?>
+										<option value="<?=$c->CategoryID?>" <?=(isset($product->CategoryID) && $product->CategoryID == $c->CategoryID) ? ' selected="selected"' : ''?>><?=$c->CatName?></option>
 										<?php
-										if($categories != null && count($categories) > 0){
-											foreach ($categories as $c){
-												if($c->CatType == CAT_TYPE_SALE){?>
-													<option value="<?=$c->CategoryID?>" <?=(isset($product->CategoryID) && $product->CategoryID == $c->CategoryID) ? ' selected="selected"' : ''?>><?=$c->CatName?></option>
-													<?php
-													if(count($child[$c->CategoryID]) > 0){
-														foreach ($child[$c->CategoryID] as $k){?>
-															<option value="<?=$k->CategoryID?>" <?=((isset($product->CategoryID) && $product->CategoryID == $k->CategoryID) ? ' selected="selected"' : '')?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$k->CatName?></option>
-															<?php
-														}
-													}
-												}
+										if(count($child[$c->CategoryID]) > 0){
+											foreach ($child[$c->CategoryID] as $k){?>
+												<option value="<?=$k->CategoryID?>" <?=((isset($product->CategoryID) && $product->CategoryID == $k->CategoryID) ? ' selected="selected"' : '')?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$k->CatName?></option>
+												<?php
 											}
 										}
-										?>
-									</select>
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Ảnh đại diện</label>
-								<div class="form-group">
-									<input type="text" class="form-control"  name="image_thumb" value="<?=$product->Thumb?>"/>
-									<img src="<?=$product->Thumb?>"/>
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Gía</label>
-								<div class="form-group">
-									<input type="text" name="Price" class="form-control" value="<?=$product->Price?>">
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Đơn vị</label>
-								<select class="form-control" name="txt_unit">
-									<?php
-									foreach ($units as $ut){
-										?>
-										<option value="<?=$ut->UnitID?>" <?=(isset($product->Unit) && $product->Unit == $ut->UnitID) ? ' selected': ''?> ><?=$ut->Title?></option>
-										<?php
 									}
-									?>
-								</select>
-							</div>
-
-						</div>
-						<div class="text-center">
-							<a class="btn btn-primary" onclick="sendRequest()">Tìm kiếm</a>
+								}
+								?>
+							</select>
+							<span class="text-danger"><?php echo form_error('sl_category'); ?></span>
 						</div>
 					</div>
 
-					<div class="row no-margin">
-						<a class="btn btn-danger" id="deleteMulti">Xóa Nhiều</a>
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Tên sản phẩm <span class="required">*</span></label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="Title" placeholder="Tiêu đề" class="form-control" value="<?=isset($product->Title)? $product->Title : ""?>" >
+							<span class="text-danger"><?php echo form_error('Title'); ?></span>
+						</div>
 					</div>
 
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Giá bán <span class="required">*</span></label>
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="Price" placeholder="Giá bán" class="form-control" value="<?=isset($product->Price)? $product->Price : ""?>" >
+							<span class="text-danger"><?php echo form_error('Price'); ?></span>
+						</div>
+					</div>
 
+					<div class="form-group">
+						<div class="col-md-2">
+							<label for="txt_active" class="control-label">Có hàng bán</label>
+						</div>
+						<div class="col-md-2">
+							<input type="checkbox" name="Status" value="1" <?=(!isset($product->Status) || $product->Status == 1) ? "checked" : "" ?> class="form-control minimal">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Hình ảnh</label>
+						</div>
+						<div class="col-md-10">
+							<input type="file" id="txt_image" name="txt_image">
+							<span class="text-danger"><?php echo form_error('txt_image'); ?></span>
+							<?php
+							if(isset($product->Thumb) && strlen($product->Thumb) > 0){
+								?>
+								<img style="width:50px" src="<?=base_url('/img/product/'.$product->Thumb)?>"/>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Thông tin sản phẩm</label>
+						</div>
+						<div class="col-md-6">
+							<textarea name="Brief" id="description" rows="50" class="form-control"><?=isset($product->Brief) ? $product->Brief : ''?></textarea>
+							<span class="text-danger"><?php echo form_error('brief'); ?></span>
+							<script>
+								CKEDITOR.replace('description',{
+									toolbar: [
+										{ name: 'document', items: [ 'Source', '-', 'Preview', '-', 'Templates' ] },	// Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+										[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],			// Defines toolbar group without name.
+										{ name: 'basicstyles', items: [ 'Bold', 'Italic' ] },
+										{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+										{ name: 'styles', items: [ 'Styles', 'Format' ] }
+									]
+								});
+							</script>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-2">
+							<button  type="submit" class="btn btn-primary">Lưu</button>
+							<a class="btn btn-danger" href="<?=base_url("/admin/product/list.html")?>">Trở lại</a>
+						</div>
+					</div>
+
+					<input type="hidden" id="crudaction" name="crudaction" value="insert">
+					<?php echo form_close(); ?>
 				</div>
 			</div>
 
 		</section>
 		<!-- /.content -->
-		<input type="hidden" id="crudaction" name="crudaction">
-		<input type="hidden" id="productId" name="productId">
-		<?php echo form_close(); ?>
+
+
 
 	</div>
 	<!-- /.content-wrapper -->
@@ -166,10 +187,14 @@
 <script src="<?=base_url('/js/bootbox.min.js')?>"></script>
 <script src="<?=base_url('/theme/admin/js/bootstrap-datepicker.min.js')?>"></script>
 <script src="<?=base_url('/theme/admin/js/tindatdai_admin.js')?>"></script>
-
+<script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-
+		//iCheck for checkbox and radio inputs
+		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+			checkboxClass: 'icheckbox_minimal-blue',
+			radioClass: 'iradio_minimal-blue'
+		});
 	});
 </script>
 </body>
