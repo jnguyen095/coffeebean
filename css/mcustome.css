@@ -18,7 +18,7 @@ body > .container{
 }
 
 .container, .container-fluid{
-	background-color: #ffffff;
+
 }
 
 
@@ -99,6 +99,10 @@ body > .container{
 
 .product-list div{
 	margin: 0px;
+}
+
+.mylogin{
+	background: url('../img/login_bg.jpg');
 }
 
 .product-list .product-thumb{

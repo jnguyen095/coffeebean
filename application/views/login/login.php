@@ -9,13 +9,11 @@
 		<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">
 	</head>
 </head>
-<body>
+<body class="mylogin">
 <?php $this->load->view('/common/analyticstracking')?>
-<div class="container-fluid">
-	<?php $this->load->view('/theme/header')?>
-
+<div class="container-fluid ">
 	<div class="row no-margin">
-		<div class="col-lg-6 col-lg-offset-3 col-sm-6 no-background well login-panel">
+		<div class="col-lg-4 col-lg-offset-4 col-sm-4 well login-panel">
 			<?php
 				$attributes = array("class" => "form-horizontal", "id" => "loginform", "name" => "loginform");
 				echo form_open("dang-nhap", $attributes);
@@ -59,35 +57,9 @@
 				<div class="form-group">
 					<div class="col-lg-8 col-sm-8 col-lg-offset-4 text-left">
 						<input type="hidden" name="crudaction" value="Login"/>
-						<input id="btn_login" name="btn_login" type="submit" class="btn btn-info" value="Đăng nhập" />
+						<input id="btn_login" name="btn_login" type="submit" class="btn btn-primary" value="Đăng nhập" />
 					</div>
 				</div>
-
-				<legend class="text-center">Hoặc</legend>
-
-				<div class="form-group">
-					<div class="social-login-buttons text-center">
-
-						<?php $this->load->view('/FacebookID'); ?>
-						<a id="loginBtnFacebook" class="loginBtn loginBtn--facebook" >
-							Đăng nhập bằng Facebook
-						</a>
-
-						<?php $this->load->view('/GoogleID'); ?>
-						<a id="loginBtnGoogle" class="loginBtn loginBtn--google">
-							Đăng nhập bằng Google
-						</a>
-
-					</div>
-				</div>
-
-				<legend class="text-center">Chưa có tài khoản?</legend>
-				<div class="form-group">
-					<div class="social-login-buttons">
-						Đăng ký tại đây: <a href="<?=base_url('dang-ky.html')?>" class="btn btn-primary"><i class="glyphicon glyphicon-registration-mark"></i> Đăng ký</a> để đăng tin miễn phí và theo dõi phản hồi từ khách hàng.
-					</div>
-				</div>
-
 			</fieldset>
 			<?php echo form_close(); ?>
 			<?php echo $this->session->flashdata('msg'); ?>
@@ -171,8 +143,6 @@
 			})
 		});
 	</script>
-
-	<?php $this->load->view('/theme/footer')?>
 </div>
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 </body>
