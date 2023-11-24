@@ -105,7 +105,7 @@
 								<tr>
 									<td><input name="checkList[]" type="checkbox" value="<?=$product->ProductID?>"></td>
 									<td><?=$product->Title?></td>
-									<td><?=$product->Price?></td>
+									<td><?=number_format($product->Price)?></td>
 									<td>
 										<?php
 											if($product->Status == ACTIVE){
