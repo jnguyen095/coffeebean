@@ -196,3 +196,7 @@ $route['admin/category/add-(:num)'] = "admin/Category_controller/add/$1";
 $route['admin/area/list'] = "admin/Area_controller";
 $route['admin/area/add'] = "admin/Area_controller/add";
 $route['admin/area/add-(:num)'] = "admin/Area_controller/add/$1";
+// Product Property
+$route['admin/property/list'] = "admin/Property_controller";
+$route['admin/property/add'] = "admin/Property_controller/add";
+$route['admin/property/add-(:num)'] = "admin/Property_controller/add/$1";

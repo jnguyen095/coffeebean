@@ -68,7 +68,6 @@ class Area_Model extends CI_Model
 		if($arearId != null){
 			$sql .= " and a.ParentID = {$arearId}";
 		}
-		print_r($sql);
 		$query = $this->db->query($sql);
 		$data = $query->row();
 		return $data;
