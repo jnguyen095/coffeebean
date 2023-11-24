@@ -51,15 +51,15 @@
 				<div class="box-body">
 					<?php
 					$attributes = array("id" => "frmAddCategory", "class" => "form-horizontal");
-					echo form_open("admin/category/add", $attributes);
+					echo form_open("admin/category/add".(isset($CategoryID) ? "-".$CategoryID : ""), $attributes);
 					?>
 					<div class="form-group">
 						<div class="row colbox no-margin">
 							<div class="col-lg-2 col-sm-4">
 								<label for="txt_parent" class="control-label">Danh mục cha </label>
 							</div>
-							<div class="col-lg-8 col-sm-8">
-								<select name="txt_parent">
+							<div class="col-lg-4 col-sm-8">
+								<select name="txt_parent" class="form-control">
 									<option value="">Chọn danh mục cha</option>
 								<?php
 									foreach ($categories as $category){
@@ -86,8 +86,8 @@
 							<div class="col-lg-2 col-sm-4">
 								<label for="txt_catname" class="control-label">Tên danh mục <span class="required">*</span> </label>
 							</div>
-							<div class="col-lg-8 col-sm-8">
-								<input class="form-control" id="txt_catname" name="txt_catname" placeholder="Tên danh mục" type="text" value="<?php echo set_value('txt_username'); ?>" />
+							<div class="col-lg-4 col-sm-8">
+								<input class="form-control" id="txt_catname" name="txt_catname" placeholder="Tên danh mục" type="text" value="<?=isset($txt_catname) ? $txt_catname : ""?>" />
 								<span class="text-danger"><?php echo form_error('txt_catname'); ?></span>
 							</div>
 						</div>
@@ -99,7 +99,7 @@
 								<label for="txt_active" class="control-label">Hoạt động</label>
 							</div>
 							<div class="col-lg-8 col-sm-8">
-								<input type="checkbox" name="ch_status" value="1" <?=(set_value('ch_status', $ch_status) == 1) ? "checked" : "" ?> class="form-control minimal">
+								<input type="checkbox" name="ch_status" value="1" <?=(!isset($ch_status) || $ch_status == 1) ? "checked" : "" ?> class="form-control minimal">
 							</div>
 						</div>
 					</div>
@@ -107,7 +107,8 @@
 					<div class="form-group">
 						<div class="col-lg-8 col-sm-8 col-lg-offset-2 text-left">
 							<input type="hidden" name="crudaction" value="register"/>
-							<input id="btn_login" name="btn_login" type="submit" class="btn btn-info" value="Lưu" />
+							<input id="btn_login" name="btn_login" type="submit" class="btn btn-primary" value="Lưu" />
+							<a class="btn btn-danger" href="<?=base_url("/admin/category/list.html")?>">Trở lại</a>
 						</div>
 					</div>
 					<input type="hidden" name="staffID" value="<?=isset($staffID) ? $staffID : ''?>">

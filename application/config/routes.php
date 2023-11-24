@@ -191,3 +191,4 @@ $route['admin/staff/add-(:num)'] = "admin/UserManagement_controller/addStaff/$1"
 // Category
 $route['admin/category/list'] = "admin/Category_controller";
 $route['admin/category/add'] = "admin/Category_controller/add";
+$route['admin/category/add-(:num)'] = "admin/Category_controller/add/$1";

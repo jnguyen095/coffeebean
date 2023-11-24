@@ -29,7 +29,7 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				Quản lý bài đăng <?=isset($user) ? 'của:<b> '.$user->FullName.' - '.$user->Phone.'</b>': ''?>
+				Quản lý sản phẩm
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
@@ -78,8 +78,8 @@
 						</div>
 					</div>
 
-					<div class="row no-margin">
-						<a class="btn btn-success" id="addNew" href="<?=base_url("/admin/product/edit.html")?>">Thêm sản phẩm</a>
+					<div class="row no-margin top-buttons">
+						<a class="btn btn-primary" id="addNew" href="<?=base_url("/admin/product/edit.html")?>">Thêm sản phẩm</a>
 						<a class="btn btn-danger" id="deleteMulti">Xóa Nhiều</a>
 					</div>
 

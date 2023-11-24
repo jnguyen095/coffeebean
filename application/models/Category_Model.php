@@ -13,7 +13,7 @@ class Category_Model extends CI_Model
 	}
 
 	public function getCategories() {
-		$this->db->where("ParentID IS NULL and Active = 1");
+		$this->db->where("ParentID IS NULL");
 
 		$query = $this->db->get("category");
 
@@ -79,23 +79,36 @@ class Category_Model extends CI_Model
 		}
 	}
 
-	public function findByCatName($catName){
+	public function findByCatName($catName, $categoryId){
 		$this->db->where("CatName = '" . $catName . "'");
+		if($categoryId != null){
+			$this->db->where("CategoryID <> {$categoryId}");
+		}
+
 		$query = $this->db->get("category");
 		$data = $query->row();
 		return $data;
 	}
 
 	public function saveOrUpdate($data){
-		$newData = array(
-			'CatName' => $data['txt_catname'],
-			'Active' => $data['status'],
-			'DisplayIndex' => $data['index'],
-			'ParentID' => isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL
-		);
+		if($data['CategoryID'] == null){
+			$newData = array(
+				'CatName' => $data['txt_catname'],
+				'Active' => $data['ch_status'],
+				'DisplayIndex' => $data['index'],
+				'ParentID' => isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL
+			);
+			$this->db->insert('category', $newData);
+			$insert_id = $this->db->insert_id();
+		} else{
+			$this->db->set('CatName', $data['txt_catname']);
+			$this->db->set('Active', $data['ch_status']);
+			$this->db->set('ParentID', isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL);
 
-		$this->db->insert('category', $newData);
-		$insert_id = $this->db->insert_id();
+			$this->db->where('CategoryID', $data['CategoryID']);
+			$this->db->update('category');
+		}
+
 
 		return $insert_id;
 	}

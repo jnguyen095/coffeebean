@@ -29,11 +29,11 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				Quản Lý Danh Mục
+				Quản Lý Danh Mục Sản Phẩm
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-				<li class="active">Quản Lý Danh Mục</li>
+				<li class="active">Quản Lý Danh Mục Sản Phẩm</li>
 			</ol>
 		</section>
 
@@ -47,25 +47,23 @@
 			}?>
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Quản Lý Danh Mục</h3>
+					<h3 class="box-title">Quản Lý Danh Mục Sản Phẩm</h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
-					<div class="row no-margin">
-						<a class="btn btn-primary" href="<?=base_url('/admin/category/add.html');?>">Thêm danh mục</a>
-					</div>
-
-
 					<div class="text-left categories">
+						<div class="row no-margin">
+							<a class="btn btn-primary" href="<?=base_url('/admin/category/add.html');?>">Thêm danh mục</a>
+						</div>
 						<?php
 						foreach ($categories as $category) {
 						?>
 						<div class="category-level0" catid="<?=$category->CategoryID?>">
-							<?=$category->CatName;?>
+							<span class="category-status-<?=$category->Active?>"> <?=$category->CatName;?></span> <a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$category->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
 							<?php
 							if(count($child[$category->CategoryID]) > 0){
 								foreach ($child[$category->CategoryID] as $k){?>
-									<div class="category-level1" catid="<?=$k->CategoryID?>"><?=$k->CatName?></div>
+									<div class="category-level1" catid="<?=$k->CategoryID?>"><span class="category-status-<?=$k->Active?>"><?=$k->CatName?></span> <a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$k->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a></div>
 									<?php
 								}
 							}
