@@ -131,6 +131,38 @@
 
 					<div class="form-group">
 						<div class="col-md-2">
+							<label>Thuộc tính sản phẩm</label>
+						</div>
+						<div class="col-md-10">
+							<?php
+							if($properties != null && count($properties) > 0){
+								foreach ($properties['properties'] as $p){
+									?>
+									<div class="parent-property col-lg-4" id="<?=$p->PropertyID?>">
+										<div class="form-group parent-property">
+											<div class="col-lg-4 col-sm-8"><?=$p->PropertyName?></div>
+											<div class="col-lg-4 col-sm-8">Giá bán:</div>
+										</div>
+										<?php
+										if(($properties['child'][$p->PropertyID]) > 0){
+											foreach ($properties['child'][$p->PropertyID] as $k){?>
+												<div class="form-group children-property">
+													<div class="col-lg-4 col-sm-8"><?=$k->PropertyName?></div>
+													<div class="col-lg-4 col-sm-8"><input type="text" name="properties[<?=$k->PropertyID?>]" class="form-control" value="<?=isset($productProperties[$k->PropertyID]) ? $productProperties[$k->PropertyID] : ""?>"></div>
+												</div>
+												<?php
+											}
+											?>
+										<?php } ?>
+									</div>
+								<?php } ?>
+							<?php } ?>
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2">
 							<label>Thông tin sản phẩm</label>
 						</div>
 						<div class="col-md-6">

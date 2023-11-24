@@ -19,7 +19,9 @@ class ProductManagement_controller extends CI_Controller
 		$this->load->model('Product_Model');
 		$this->load->model('Category_Model');
 		$this->load->model('User_Model');
+		$this->load->model('Property_Model');
 		$this->load->model('Unit_Model');
+		$this->load->model('ProductProperty_Model');
 		$this->load->helper('form');
 		$this->load->library('pagination');
 		$this->load->helper("bootstrap_pagination_admin");
@@ -76,10 +78,16 @@ class ProductManagement_controller extends CI_Controller
 
 	public function edit($productId = null){
 		$categories = $this->Category_Model->getCategories();
+		$property = $this->Property_Model->getProperties();
 		if($productId == null){
 			$productId = $this->input->post('ProductID');
 		}
+		//print_r($this->input->post('properties'));
+		//foreach($this->input->post('properties') as $key => $val){
+			//print_r('property:'.$key.', value:'.$val);
+		//}
 		$data = $categories;
+		$data['properties'] = $property;
 		if($this->input->post('crudaction') == "insert"){
 			$this->form_validation->set_rules("sl_category", "Danh mục", "trim|required");
 			$this->form_validation->set_rules("Title", "Tên sản phẩm", "trim|required");
@@ -98,6 +106,7 @@ class ProductManagement_controller extends CI_Controller
 				$data['Brief'] = $this->input->post('Brief');
 				$data['Status'] = $this->input->post('Status');
 				$data['CreatedByID'] = $this->session->userdata('loginid');
+
 				$data['ProductID'] = $productId;
 				$count = $this->Product_Model->checkNewProductIsValid($data['sl_category'], $data['Title'], $productId);
 				if($count < 1){
@@ -108,7 +117,11 @@ class ProductManagement_controller extends CI_Controller
 					}
 					$data['txt_image'] = $img;
 
-					$this->Product_Model->addOrUpdateProduct($data);
+					$id = $this->Product_Model->addOrUpdateProduct($data);
+					if($id == null){
+						$id = $productId;
+					}
+					$this->ProductProperty_Model->savingProductProperties($id, $this->input->post('properties'));
 					$data['message_response'] = "Thêm mới sản phẩm thành công";
 					redirect('admin/product/list');
 				}else{
@@ -120,6 +133,14 @@ class ProductManagement_controller extends CI_Controller
 		}else if($productId != null){
 			$product = $this->Product_Model->findById($productId);
 			$data['product'] = $product;
+			$properties = [];
+			$productProperties = $this->ProductProperty_Model->findByProductId($productId);
+			if(count($productProperties) > 0){
+				foreach ($productProperties as $property){
+					$properties[$property->PropertyID] = $property->Price;
+				}
+			}
+			$data['productProperties'] = $properties;
 		}
 		$this->load->view("admin/product/edit", $data);
 	}
