@@ -842,6 +842,20 @@ class Product_Model extends CI_Model
 
 	}
 
+	public function loadAvailableProducts($offset, $limit, $categoryId, $productName, $orderField, $orderDirection){
+		$query = $this->db->select('p.*')
+			->from('product p')
+			->where('p.Status', ACTIVE)
+			->limit($limit, $offset)
+			->get();
+		$data['products'] = $query->result();
+
+		$this->db->where('Status', ACTIVE);
+		$total = $this->db->count_all_results('product');
+		$data['total'] = $total;
+		return $data;
+	}
+
 
 
 }

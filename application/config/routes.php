@@ -200,3 +200,6 @@ $route['admin/area/add-(:num)'] = "admin/Area_controller/add/$1";
 $route['admin/property/list'] = "admin/Property_controller";
 $route['admin/property/add'] = "admin/Property_controller/add";
 $route['admin/property/add-(:num)'] = "admin/Property_controller/add/$1";
+
+// POS
+$route['pos/index'] = "POS_controller";

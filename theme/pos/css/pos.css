@@ -1,0 +1,16 @@
+.pos .productItem{
+	height: 140px;
+}
+
+.pos .productItem .productName{
+	height: 110px;
+}
+.pos .productItem .productImg{
+	height: 140px;
+}
+.pos .productItem .productPrice{
+
+}
+.pos .productItem .productImg img{
+	with: 100%
+}
