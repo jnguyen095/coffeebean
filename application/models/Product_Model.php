@@ -143,10 +143,10 @@ class Product_Model extends CI_Model
 		return $row->Total;
 	}
 
-	public function checkNewProductIsValid($categoryId, $productName, $productId){
-		$sql = "select count(*) as Total from product p where p.CategoryID = {$categoryId} and p.Title = '{$productName}'";
-		if($productId != null & $productId > 0){
-			$sql .= " and p.ProductID <> {$productId}";
+	public function checkNewProductIsValid($product){
+		$sql = "select count(*) as Total from product p where p.CategoryID = {$product['CategoryID']} and p.Title = '{$product['Title']}'";
+		if($product['ProductID'] != null & $product['ProductID'] > 0){
+			$sql .= " and p.ProductID <> {$product['ProductID']}";
 		}
 		$query = $this->db->query($sql);
 		$row = $query->row();
@@ -533,16 +533,15 @@ class Product_Model extends CI_Model
 	}
 
 	private function saveProductAssets($productId, $assets){
-		if($productId != null && $productId > 0 && $assets != null && count($assets) > 0){
-			// delete old items
-			$this->db->delete('productasset', array('ProductID' => $productId));
 
+		$this->db->delete('productasset', array('ProductID' => $productId));
+		if($productId != null && $productId > 0 && $assets != null){
 			// Save assets
 			foreach ($assets as $asset){
 				$newdata = array(
 					'ProductID' => $productId,
 					'Url' => trim($asset, "'"),
-					'OrgUrl' => trim($asset, "'")
+					'Name' => basename(trim($asset, "'")),
 				);
 				$this->db->insert('productasset', $newdata);
 			}
@@ -809,35 +808,39 @@ class Product_Model extends CI_Model
 		return $total->Total;
 	}
 
-	public function addOrUpdateProduct($data){
+	public function addOrUpdateProduct($data, $assets){
 		$productId = $data['ProductID'];
 		if($productId == null){
 			$newdata = array(
+				'Code' => $data['Code'],
 				'Title' => $data['Title'],
 				'Brief' => $data['Brief'],
 				'Price' => $data['Price'],
-				'Thumb' => $data['txt_image'],
+				'Thumb' => $data['Thumb'],
 				'PostDate' => date('Y-m-d H:i:s'),
 				'ModifiedDate' => date('Y-m-d H:i:s'),
-				'CategoryID' => $data['sl_category'],
+				'CategoryID' => $data['CategoryID'],
 				'Status' => $data['Status'],
 				'CreatedByID' => $data['CreatedByID']
 			);
 			$this->db->insert('product', $newdata);
 			$insert_id = $this->db->insert_id();
+			$this->saveProductAssets($insert_id, $assets);
 			return $insert_id;
 		} else {
+			$this->db->set('Code', $data['Code']);
 			$this->db->set('Title', $data['Title']);
 			$this->db->set('Price', $data['Price']);
 			$this->db->set('Brief', $data['Brief']);
 			$this->db->set('Status', $data['Status']);
-			$this->db->set('CategoryID', $data['sl_category']);
-			if(strlen($data['txt_image']) > 0){
-				$this->db->set('Thumb', $data['txt_image']);
+			$this->db->set('CategoryID', $data['CategoryID']);
+			if(strlen($data['Thumb']) > 0){
+				$this->db->set('Thumb', $data['Thumb']);
 			}
 			$this->db->set('ModifiedDate', date('Y-m-d H:i:s'));
 			$this->db->where('ProductID', $productId);
 			$this->db->update('product');
+			$this->saveProductAssets($productId, $assets);
 		}
 
 	}

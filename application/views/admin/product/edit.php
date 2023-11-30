@@ -57,6 +57,16 @@
 					?>
 					<div class="form-group">
 						<div class="col-md-2">
+							<label>Mã sản phẩm <span class="required">*</span></label>
+						</div>
+						<div class="col-md-2">
+							<input type="text" name="Code" class="form-control" value="<?=isset($product->Code) ? $product->Code: ''?>"/>
+							<span class="text-danger"><?php echo form_error('Code'); ?></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2">
 							<label>Danh mục sản phẩm <span class="required">*</span></label>
 						</div>
 						<div class="col-md-6">
@@ -114,7 +124,7 @@
 
 					<div class="form-group">
 						<div class="col-md-2">
-							<label>Hình ảnh</label>
+							<label>Hình ảnh đại diện <span class="required">*</span></label>
 						</div>
 						<div class="col-md-10">
 							<input type="file" id="txt_image" name="txt_image">
@@ -126,6 +136,17 @@
 								<?php
 							}
 							?>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Hình ảnh chi tiết</label>
+						</div>
+						<div class="col-md-10">
+							<div class="others-images-container">
+								<?=isset($other_images) ? $other_images : ''?>
+							</div>
+							<a href="javascript:void(0);" data-toggle="modal" data-target="#modalMoreImages" class="btn btn-info">Upload thêm hình</a>
 						</div>
 					</div>
 
@@ -191,6 +212,33 @@
 
 					<input type="hidden" id="crudaction" name="crudaction" value="insert">
 					<?php echo form_close(); ?>
+
+					<!-- Modal upload images -->
+					<div class="modal fade" id="modalMoreImages" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+									<h4 class="modal-title" id="myModalLabel">Upload thêm hình</h4>
+								</div>
+								<div class="modal-body">
+									<form id="uploadImagesForm">
+										<input type="hidden" value="<?=$product->Code?>" name="txt_folder">
+										<label for="others">Được chọn nhiều hình</label>
+										<input type="file" name="others[]" id="others" multiple="">
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-info finish-upload">
+										<span class="finish-text" style="display: inline;">Xong</span>
+										<img src="<?=base_url('/img/load.gif')?>" class="loadUploadOthers" alt="" style="display: none;">
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end modal upload images -->
+
 				</div>
 			</div>
 
@@ -227,7 +275,59 @@
 			checkboxClass: 'icheckbox_minimal-blue',
 			radioClass: 'iradio_minimal-blue'
 		});
+		uploadMultipleImages("<?= base_url('/admin/ProductManagement_controller/do_upload_others_images') ?>");
 	});
+
+	function reloadOthersImagesContainer() {
+		$('.others-images-container').empty();
+		$('.others-images-container').load("<?= base_url('/admin/ProductManagement_controller/loadOthersImages') ?>", {"txt_folder": $('[name="txt_folder"]').val()});
+	}
+
+
+	function uploadMultipleImages(url){
+		$('.finish-upload').click(function () {
+			$('.finish-upload .finish-text').hide();
+			$('.finish-upload .loadUploadOthers').show();
+			var someFormElement = document.getElementById('uploadImagesForm');
+			var formData = new FormData(someFormElement);
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: function (data)
+				{
+					var ok = true;
+					if(data != null && data.length > 0){
+						var json = $.parseJSON(data);
+						if(json.error != null && json.error.length > 0){
+							ok = false;
+						}
+					}
+					if(ok){
+						reloadOthersImagesContainer();
+					}
+					$('.finish-upload .finish-text').show();
+					$('.finish-upload .loadUploadOthers').hide();
+					$('#modalMoreImages').modal('hide');
+					document.getElementById("uploadImagesForm").reset();
+				}
+			});
+
+		});
+	}
+
+	function removeSecondaryProductImage(image, folder, container) {
+		$.ajax({
+			type: "POST",
+			url: "<?=base_url('/admin/ProductManagement_controller/removeSecondaryImage')?>",
+			data: {image: image, txt_folder: folder}
+		}).done(function (data) {
+			$('#image-container-' + container).remove();
+		});
+	}
 </script>
 </body>
 </html>

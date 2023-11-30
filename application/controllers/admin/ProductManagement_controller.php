@@ -8,6 +8,7 @@
  */
 class ProductManagement_controller extends CI_Controller
 {
+	private $allowed_img_types;
 	function __construct()
 	{
 		parent::__construct();
@@ -17,16 +18,20 @@ class ProductManagement_controller extends CI_Controller
 
 		$this->load->library('session');
 		$this->load->model('Product_Model');
+		$this->load->model('ProductAsset_Model');
 		$this->load->model('Category_Model');
 		$this->load->model('User_Model');
 		$this->load->model('Property_Model');
 		$this->load->model('Unit_Model');
 		$this->load->model('ProductProperty_Model');
 		$this->load->helper('form');
+		$this->load->helper('url');
+		$this->load->helper('html');
 		$this->load->library('pagination');
 		$this->load->helper("bootstrap_pagination_admin");
 		$this->load->helper("seo_url");
 		$this->load->library('form_validation');
+		$this->load->helper('security');
 	}
 
 	public function index()
@@ -79,45 +84,47 @@ class ProductManagement_controller extends CI_Controller
 	public function edit($productId = null){
 		$categories = $this->Category_Model->getCategories();
 		$property = $this->Property_Model->getProperties();
+		$product = [];
 		if($productId == null){
 			$productId = $this->input->post('ProductID');
 		}
-		//print_r($this->input->post('properties'));
-		//foreach($this->input->post('properties') as $key => $val){
-			//print_r('property:'.$key.', value:'.$val);
-		//}
+		$product['ProductID'] = $productId;
+		$product['Code'] = uniqid('P-');
+
 		$data = $categories;
 		$data['properties'] = $property;
 		if($this->input->post('crudaction') == "insert"){
 			$this->form_validation->set_rules("sl_category", "Danh mục", "trim|required");
 			$this->form_validation->set_rules("Title", "Tên sản phẩm", "trim|required");
 			$this->form_validation->set_rules("Price", "Gián bán", "trim|required");
-			if($this->input->post('Price') != null) {
+
+			$product['Code'] = $this->input->post('Code');
+			$product['CategoryID'] = $this->input->post('sl_category');
+			$product['Title'] = $this->input->post('Title');
+			$product['Price'] = $this->input->post('Price');
+			$product['Brief'] = $this->input->post('Brief');
+			$product['Status'] = $this->input->post('Status');
+			$product['Code'] = $this->input->post('Code');
+			$product['CreatedByID'] = $this->session->userdata('loginid');
+			$product['Thumb'] = $this->input->post('txt_image');
+			$otherImgs = $this->input->post('otherImages');
+
+			if($product['Price'] != null) {
 				$this->form_validation->set_rules('Price', 'Giá bán', 'regex_match[/^\d+(\.\d{2})?$/]'); //{10} for 10 or 11 digits number
 			}
-			if ($this->form_validation->run() == FALSE)
-			{
-				$data['message_response'] = "Dữ liệu chưa đúng, kiểm tra lại";
-				$this->load->view('admin/product/edit', $data);
-			}else{
-				$data['sl_category'] = $this->input->post('sl_category');
-				$data['Title'] = $this->input->post('Title');
-				$data['Price'] = $this->input->post('Price');
-				$data['Brief'] = $this->input->post('Brief');
-				$data['Status'] = $this->input->post('Status');
-				$data['CreatedByID'] = $this->session->userdata('loginid');
 
-				$data['ProductID'] = $productId;
-				$count = $this->Product_Model->checkNewProductIsValid($data['sl_category'], $data['Title'], $productId);
+			if ($this->form_validation->run() == FALSE) {
+				$data['message_response'] = "Dữ liệu chưa đúng, kiểm tra lại";
+			}else{
+				$count = $this->Product_Model->checkNewProductIsValid($product);
 				if($count < 1){
 					$preImg = $this->input->post("txt_image");
 					$img = $this->uploadImage();
 					if($img == null && $preImg != null){
 						$img = $preImg;
 					}
-					$data['txt_image'] = $img;
-
-					$id = $this->Product_Model->addOrUpdateProduct($data);
+					$product['Thumb'] = $img;
+					$id = $this->Product_Model->addOrUpdateProduct($product, $otherImgs);
 					if($id == null){
 						$id = $productId;
 					}
@@ -132,7 +139,6 @@ class ProductManagement_controller extends CI_Controller
 			}
 		}else if($productId != null){
 			$product = $this->Product_Model->findById($productId);
-			$data['product'] = $product;
 			$properties = [];
 			$productProperties = $this->ProductProperty_Model->findByProductId($productId);
 			if(count($productProperties) > 0){
@@ -140,8 +146,11 @@ class ProductManagement_controller extends CI_Controller
 					$properties[$property->PropertyID] = $property->Price;
 				}
 			}
+			$data['other_images'] = $this->loadOthersImages($productId);
 			$data['productProperties'] = $properties;
 		}
+
+		$data['product'] = (object)$product;
 		$this->load->view("admin/product/edit", $data);
 	}
 
@@ -203,6 +212,107 @@ class ProductManagement_controller extends CI_Controller
 			}
 			$img = $this->upload->data();
 			return $img['file_name'];
+		}
+	}
+
+	public function do_upload_others_images()
+	{
+		if ($this->input->is_ajax_request()) {
+			$upath = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR;
+			if (!file_exists($upath)) {
+				mkdir($upath, 0777, true);
+			}
+
+			$this->load->library('upload');
+
+			$files = $_FILES;
+			$cpt = count($_FILES['others']['name']);
+			$is_OK = true;
+			for ($i = 0; $i < $cpt; $i++) {
+				unset($_FILES);
+				$_FILES['others']['name'] = $files['others']['name'][$i];
+				$_FILES['others']['type'] = $files['others']['type'][$i];
+				$_FILES['others']['tmp_name'] = $files['others']['tmp_name'][$i];
+				$_FILES['others']['error'] = $files['others']['error'][$i];
+				$_FILES['others']['size'] = $files['others']['size'][$i];
+
+				$this->upload->initialize(array(
+					'upload_path' => $upath,
+					'allowed_types' => $this->config->item('allowed_img_types'),
+					'remove_spaces' => true
+				));
+				if(!$this->upload->do_upload('others')){
+					$error = array('error' => $this->upload->display_errors(), 'upload_path' => $upath, 'allowed_types' => $this->config->item('allowed_img_types'));
+					echo json_encode($error);
+					$is_OK = false;
+				}
+			}
+			if($is_OK){
+				echo json_encode(array('success' => true));
+			}
+
+		}
+	}
+
+	public function loadOthersImages($productId = null)
+	{
+		$output = '';
+		if (isset($_POST['txt_folder']) && $_POST['txt_folder'] != null) {
+			$dir = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR;
+			//$output = $dir;
+			if (is_dir($dir)) {
+				if ($dh = opendir($dir)) {
+					$i = 0;
+					while (($file = readdir($dh)) !== false) {
+						if (is_file($dir . $file)) {
+							if (strpos($file, '_thumb.') != true) {
+								$output .= '
+                                <div class="other-img" id="image-container-' . $i . '">
+                                    <img src="' . base_url($dir . $file ) . '" style="width:100px; height: 100px;">
+                                    <input type="hidden" name="otherImages[]" value="\'/' . $dir . $file . '\'"/>
+                                    <a href="javascript:void(0);" onclick="removeSecondaryProductImage(\'' . $file . '\', \'' . $_POST['txt_folder'] . '\', ' . $i . ')">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </div>
+                               ';
+							}
+							$i++;
+						}
+					}
+					closedir($dh);
+				}
+			}else{
+				//$output = '<h2>Not valid</h2>'.$dir;
+			}
+		}else{
+			//$output = '<h2>Not folder</h2>';
+			if($productId != null){
+				$productAssets = $this->ProductAsset_Model->findByProductIdFetchProductCode($productId);
+				foreach ($productAssets as $asset){
+					$output .= '
+                                <div class="other-img" id="image-container-' . $asset->ProductAssetID . '">
+                                    <img src="' . base_url($asset->Url) . '" style="width:100px; height: 100px;">
+                                    <input type="hidden" name="otherImages[]" value="\'/' . $asset->Url . '\'"/>
+                                    <a href="javascript:void(0);" onclick="removeSecondaryProductImage(\'' . $asset->Name . '\', \''. $asset->Code . '\',\''. $asset->ProductAssetID.'\')">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </div>
+                                ';
+				}
+				
+			}
+		}
+		if ($this->input->is_ajax_request()) {
+			echo $output;
+		} else {
+			return $output;
+		}
+	}
+
+	public function removeSecondaryImage(){
+		if ($this->input->is_ajax_request()) {
+			$img = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR . $_POST['image'];
+			unlink($img);
 		}
 	}
 }

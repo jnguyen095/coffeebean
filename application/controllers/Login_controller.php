@@ -117,6 +117,7 @@ class Login_controller extends CI_Controller
 						'usergroup' => $usr_result->UserGroup
 					);
 					$this->session->set_userdata($sessiondata);
+					$this->session->set_userdata("uuid", uniqid());
 					$this->Login_Model->updateLastLogin($usr_result->Us3rID);
 					if($usr_result->UserGroup == 'ADMIN'){
 						redirect("admin/dashboard");

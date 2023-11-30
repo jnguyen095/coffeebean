@@ -18,4 +18,11 @@ class ProductAsset_Model extends CI_Model
 		$productassets = $query->result();
 		return $productassets;
 	}
+
+	public function findByProductIdFetchProductCode($productId) {
+		$sql = 'select pa.ProductAssetID, pa.Url, pa.Name, p.Code from productasset pa left join product p on pa.ProductID = p.ProductID';
+		$sql .= ' where pa.ProductId = '. $productId;
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
 }

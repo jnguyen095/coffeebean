@@ -90,3 +90,9 @@
 .top-buttons{
 	text-align: right;
 }
+
+.other-img {
+	display: inline-block;
+	position: relative;
+	margin-bottom: 2px;
+}
