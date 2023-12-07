@@ -31,15 +31,15 @@
 			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 				<div class="product-thumb transition">
 					<div class="image">
-						<img src="<?=base_url('/img/product/'.$product->Thumb)?>" class="img-responsive" >
+						<a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img src="<?=base_url('/img/product/'.$product->Thumb)?>" class="img-responsive" ></a>
 					</div>
 					<div class="caption">
-						<h3><?=$product->Title?></h3>
-						<h4><?=$product->Brief?></h4>
-						<p class="price">Giá bán: <?=number_format($product->Price)?></p>
+						<h3><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><?=$product->Title?></a></h3>
+						<h4><?=substr_at_middle($product->Brief, 200)?></h4>
 					</div>
 					<div class="button-group">
 						<div class="button-group">
+							<button type="button"><p class="price"><?=number_format($product->Price)?>đ</p></button>
 							<button type="button"><i class="glyphicon glyphicon-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">Mua hàng</span></button>
 						</div>
 					</div>

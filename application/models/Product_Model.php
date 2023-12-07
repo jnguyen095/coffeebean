@@ -161,7 +161,7 @@ class Product_Model extends CI_Model
 
 		// Fetch Brand
 		if($product != null) {
-			if ($product->BrandID != null) {
+			/*if ($product->BrandID != null) {
 				$this->db->where("BrandID", $product->BrandID);
 				$query = $this->db->get("brand");
 				$product->Brand = $query->row();
@@ -201,11 +201,47 @@ class Product_Model extends CI_Model
 				$query = $this->db->get("direction");
 				$product->Direction = $query->row();
 			}
-
+			*/
 			// Product Assets
 			$this->db->where("ProductID", $productId);
 			$query = $this->db->get("productasset");
 			$product->Assets = $query->result();
+		}
+		return $product;
+	}
+
+	public function findByDetailId($productId) {
+		$sql = 'select * from product p';
+		$sql .= ' where p.ProductID = '. $productId;
+		$query = $this->db->query($sql);
+		$product = $query->row();
+
+		// Fetch Brand
+		if($product != null) {
+			// Product Assets
+			$this->db->where("ProductID", $productId);
+			$query = $this->db->get("productasset");
+			$product->Assets = $query->result();
+
+			// Product Properties
+			$sql = 'select P0.ProductPropertyID, P0.PropertyName, P0.Price, P1.PropertyID as \'ParentID\', P1.PropertyName as \'ParentName\' from(select pp.ProductPropertyID, p.PropertyName, p.PropertyID, pp.Price, p.ParentID from productproperty pp inner join property p ON pp.PropertyID = p.PropertyID where pp.ProductID = '.$productId.') as P0 INNER join property P1 on P0.ParentID = P1.PropertyID';
+
+			$query = $this->db->query($sql);
+			$properties = $query->result();
+			$propertyKeyVal = [];
+			foreach ($properties as $property){
+				// print_r($property);
+				if(!isset($propertyKeyVal[$property->ParentName])){
+					$propertyKeyVal[$property->ParentName] = [];
+				}
+				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['ParentID'] = $property->ParentID;
+				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['ProductPropertyID'] = $property->ProductPropertyID;
+				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['Name'] = $property->PropertyName;
+				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['Price'] = $property->Price;
+
+			}
+			//print_r($propertyKeyVal);
+			$product->Properties = $propertyKeyVal;
 		}
 		return $product;
 	}
