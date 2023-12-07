@@ -9,7 +9,7 @@
 
 
 <nav class="navbar navbar-default m-navbar navbar-fixed-top"/>
-	<div class="container-fluid">
+	<div class="container">
 		<a class="navbar-brand brandName ipad-mini-hide hidden-md" href="<?=base_url('/')?>">
 			<img src="<?=base_url('/img/logo2.png')?>" atl="Nha Tim Chu Logo"/>
 		</a>
@@ -41,9 +41,6 @@
 					}
 				}
 				?>
-				<li role="presentation"><a href="<?=base_url('nha-mau-dep.html')?>">Nhà Mẫu Đẹp</a> </li>
-				<li role="presentation"><a href="<?=base_url('tin-tuc.html')?>">Tin Tức</a> </li>
-				<li role="presentation"><a href="<?=base_url('bao-gia-dich-vu.html')?>">Báo giá</a> </li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<?php
@@ -76,7 +73,6 @@
 					<?php
 				}
 				?>
-				<li><a href="<?=base_url('/dang-tin.html')?>">Đăng Tin</a></li>
 			</ul>
 		</div>
 		<!--/.nav-collapse -->

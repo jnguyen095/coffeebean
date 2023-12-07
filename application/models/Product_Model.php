@@ -859,6 +859,15 @@ class Product_Model extends CI_Model
 		return $data;
 	}
 
+	public function topNewProducts($totalNum){
+		$query = $this->db->select('p.*')
+			->from('product p')
+			->where('p.Status', ACTIVE)
+			->limit($totalNum, 0)
+			->order_by('PostDate', 'DESC')
+			->get();
+		return $query->result();
+	}
 
 
 }

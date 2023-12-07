@@ -10,27 +10,7 @@
 <a id="myBtn" href="javascript:void(0);" class="mobile-hide" title="Go to top"><img src="<?=base_url().'/img/gotop.png'?>" alt="Go Top"/></a>
 <div class="footer row no-margin">
 	<div class="quickLink mobile-hide">
-		<?php
-		//print_r($footerMenus);
-		foreach ($footerMenus as $key => $footerMenu){
-			echo '<div class="city-footer-block"><div class="fTitle">'.$footerMenu['CityName'].'</div><ul>';
-			$counter = 1;
-			foreach ($footerMenu['child'] as $ch){
-				if($counter < 11) {
-					echo '<li><a href="' . base_url() . seo_url($ch->CatName) . '-' . seo_url($ch->CityName) . '-cc' . $ch->CategoryID . '-' . $ch->CityID . '.html">' . $ch->CatName . ' ' . $ch->CityName . '</a></li>';
-				}else if($counter == 11){
-					echo '<div id="ct_'.$ch->CityID.'" class="collapse">';
-				}else{
-					echo '<li><a href="' . base_url() . seo_url($ch->CatName) . '-' . seo_url($ch->CityName) . '-cc' . $ch->CategoryID . '-' . $ch->CityID . '.html">' . $ch->CatName . ' ' . $ch->CityName . '</a></li>';
-				}
-				$counter++;
-			}
-			if($counter > 11){
-				echo '</div><a href="javascript:void(0);" class="toggleBtn toggleMore" data-status="open" data-toggle="collapse" data-target="#ct_'.$ch->CityID.'">Xem thêm</a>';
-			}
-			echo '</ul></div>';
-		}
-		?>
+
 		<div class="clear-both"></div>
 	</div>
 	<div class="menu_bottom">
