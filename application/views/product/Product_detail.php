@@ -57,12 +57,14 @@
 				<div class="product-property col-lg-4 col-sm-6">
 					<div class="property-name"><?=($k)?></div>
 				<?php
+				$i = 1;
 				foreach ($v as $property){
 					?>
 					<div class="property-item">
-						<label class="radio"><input type="radio" name="property[<?=$property['ParentID']?>]" value="<?=$property['ProductPropertyID']?>"> <?=$property['Name']?></label>
+						<label class="radio"><input type="radio" <?= $i==1? 'checked': '' ?> name="property[<?=$property['ParentID']?>]" parent="<?=$k?>" value="<?=$property['Name']?>"> <?=$property['Name']?></label>
 					</div>
 				<?php
+					$i++;
 				}
 				?>
 				</div>
@@ -79,9 +81,9 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-4 col-sm-4">
-				<input type="text" name="quantity" class="form-control"/>
+				<input type="text" id="quantity" name="quantity" value="1" class="form-control"/>
 			</div>
-			<div class="col-lg-6 col-sm-6"><a href="#" class="btn btn-primary">Mua Hàng</a></div>
+			<div class="col-lg-6 col-sm-6"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary">Mua Hàng</a></div>
 		</div>
 	</div>
 </div>
@@ -131,7 +133,70 @@
 				}
 			}
 		});
+
+		//bindingAdd2Cart();
+		//bindingRemoveItemCart();
+		bindingLoadCart();
+
+
 	});
+
+	function bindingLoadCart(){
+		$('#myHeaderCart').hover(function(){
+			$.ajax({
+				type: "POST",
+				url: "<?=base_url('/ShoppingCart_controller/reloadMiniCart')?>",
+			}).done(function (data) {
+				$("ul.mycart").html(data);
+				bindingAdd2Cart();
+				bindingRemoveItemCart();
+			});
+		});
+	}
+
+	function bindingRemoveItemCart(){
+		$(".remove-cart-item").click(function (e) {
+			var rowid = $(this).attr('rowid');
+			if(rowid != undefined){
+				$.ajax({
+					type: "POST",
+					url: "<?=base_url('/ShoppingCart_controller/removeItemToCart')?>",
+					data: {rowid: rowid }
+				}).done(function (data) {
+					// $('#image-container-' + container).remove();
+					$("#myHeaderCart").html(data);
+					//bindingLoadCart();
+					//alert('xoa thanh cong');
+				});
+			}
+		});
+	}
+	function bindingAdd2Cart(){
+		$("#btnBuy").unbind('click');
+		$("#btnBuy").click(function(e){
+			var options = [];
+			$('.property-item input[type=radio]:checked').each(function(index,elm){
+				var parentAtt = $(elm).attr('parent');
+				options.push({'key': parentAtt, 'attr': $(elm).val()})
+			});
+			var qty = $('#quantity').val();
+			if(qty > 0){
+				$.ajax({
+					type: "POST",
+					url: "<?=base_url('/ShoppingCart_controller/addItemToCart')?>",
+					data: {productId: $(this).attr('productId'), qty: qty, options : options }
+				}).done(function (data) {
+					// $('#image-container-' + container).remove();
+					//update cart
+					$("#myHeaderCart").html(data);
+					//alert('them thanh cong');
+				});
+			}else{
+				alert('qty > 0');
+			}
+
+		});
+	}
 </script>
 
 </body>

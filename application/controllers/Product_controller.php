@@ -22,6 +22,7 @@ class Product_controller extends CI_Controller
 		$this->load->helper("my_date");
 		$this->load->helper("bootstrap_pagination");
 		$this->load->library('pagination');
+		$this->load->library('cart');
 		$this->load->helper('form');
 	}
 

@@ -42,7 +42,53 @@
 				}
 				?>
 			</ul>
+
 			<ul class="nav navbar-nav navbar-right">
+				<li role="presentation" class="dropdown">
+					<a id="myHeaderCart" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;<?=$this->cart->total_items();?> sản phẩm - <?=number_format($this->cart->total())?>đ
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu mycart">
+						<li>
+							<a>
+								<table class="table table-bordered table-responsive">
+									<tr>
+										<td>Sản phẩm</td>
+										<td>SL</td>
+										<td>Thành tiền</td>
+										<td>Xóa</td>
+									</tr>
+									<?php foreach ($this->cart->contents() as $item): ?>
+									<tr>
+										<td>
+											<?php echo substr_at_middle($item['name'], 120)?>
+											<br/>
+											<?php if ($this->cart->has_options($item['rowid']) == TRUE): ?>
+												<?php foreach ($this->cart->product_options($item['rowid']) as $option_name => $option_value): ?>
+													<?php $i = 1; ?>
+													<?php foreach ($option_value as $k => $v): ?>
+														<i><?=$v?></i><?=($i==1 ? ':' : '')?>
+														<?php $i++; ?>
+													<?php endforeach; ?>
+													<br/>
+												<?php endforeach; ?>
+											<?php endif;?>
+										</td>
+										<td class="text-center"><?php echo $item['qty']; ?></td>
+										<td class="text-right"><?=number_format($item['price']) ?></td>
+										<td><a class="remove-cart-item glyphicon glyphicon-remove-circle text-red" rowid="<?php echo $item['rowid']?>" style="color: #ff0000"></a></td>
+									</tr>
+									<?php endforeach;?>
+									<tr>
+										<td colspan="4" class="text-right"><a href="<?=base_url('/check-out.html')?>" class="btn-primary btn-sm">Checkout</a> </td>
+									</tr>
+								</table>
+							</a>
+						</li>
+					</ul>
+				</li>
+
 				<?php
 				if($this->session->userdata('username') != null){
 					?>
@@ -79,3 +125,5 @@
 	</div>
 	<!--/.container-fluid -->
 </nav>
+
+

@@ -11,6 +11,7 @@ class Home_controller extends CI_Controller
 	function __construct() {
 		parent::__construct();
 		$this->load->library('session');
+		$this->load->library('cart');
 		$this->load->model('Category_Model');
 		$this->load->model('Product_Model');
 		$this->load->model('City_Model');
@@ -23,6 +24,7 @@ class Home_controller extends CI_Controller
 		$this->load->model('SampleHouse_Model');
 		$this->load->model('Banner_Model');
 		$this->load->helper('form');
+
 	}
 
 	public function index() {
