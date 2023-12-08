@@ -18,13 +18,18 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->helper('text');
 		$this->load->helper("my_date");
 		$this->load->helper('form');
+	}
 
+	public function checkOut(){
+		$categories = $this->Category_Model->getCategories();
+		$data = $categories;
+		$this->load->view('cart/Cart_detail', $data);
 	}
 
 	public function addItemToCart(){
 		$productId = $_POST['productId'];
 		$qty = $_POST['qty'];
-		$options = $_POST['options'];
+		$options = isset($_POST['options']) ? $_POST['options'] : [];
 		$product = $this->Product_Model->findById($productId);
 		$price = $product->Price;
 		$data = array(
@@ -48,7 +53,7 @@ class ShoppingCart_controller extends CI_Controller
 	public function reloadHeadCart()
 	{
 		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm - '.number_format($this->cart->total()).'đ';
-		$html .= '<span class="caret"></span>';
+		$html .= ' <span class="caret"></span>';
 		return $html;
 	}
 
@@ -66,14 +71,32 @@ class ShoppingCart_controller extends CI_Controller
 							foreach ($this->cart->contents() as $item){
 								$html .= '<tr>';
 								$html .= '<td>' . substr_at_middle($item['name'], 120);
+								// property
+								if($this->cart->has_options($item['rowid']) == TRUE){
+									$html .= '<br/>';
+									foreach ($this->cart->product_options($item['rowid']) as $option_name => $option_value){
+										$i = 1;
+										foreach ($option_value as $k => $v){
+											$html .= '<i>'.$v . '</i>';
+											$html .= $i == 1 ? ':' : '';
+											$i++;
+										}
+										$html .= '<br/>';
+									}
+								}
+								//
 								$html .= '</td>';
 								$html .= '<td class="text-center">' . $item['qty'] .'</td>';
 								$html .= '<td class="text-right">'. number_format($item['price']) .  '</td>';
 								$html .= '<td><a class="remove-cart-item glyphicon glyphicon-remove-circle text-red" rowid="'. $item['rowid'] .'" style="color: #ff0000"></a></td>';
 								$html .= '</tr>';
 							}
+							$html .= '<tr>
+										<td colspan="2" class="text-right">Tổng:</td>
+										<td class="text-right">'.number_format($this->cart->total()).'</td>
+									</tr>';
 
-							$html .= '<tr><td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Checkout</a> </td></tr>';
+							$html .= '<tr><td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Giỏ Hàng</a> </td></tr>';
 					$html .= '</table>';
 					$html .= '</a>';
 					$html .= '</li>';

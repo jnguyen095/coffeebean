@@ -134,28 +134,28 @@
 			}
 		});
 
-		//bindingAdd2Cart();
-		//bindingRemoveItemCart();
+		bindingAdd2Cart();
 		bindingLoadCart();
-
-
 	});
 
 	function bindingLoadCart(){
 		$('#myHeaderCart').hover(function(){
-			$.ajax({
-				type: "POST",
-				url: "<?=base_url('/ShoppingCart_controller/reloadMiniCart')?>",
-			}).done(function (data) {
-				$("ul.mycart").html(data);
-				bindingAdd2Cart();
-				bindingRemoveItemCart();
-			});
+			loadCart();
+		});
+	}
+
+	function loadCart(){
+		$.ajax({
+			type: "POST",
+			url: "<?=base_url('/ShoppingCart_controller/reloadMiniCart')?>",
+		}).done(function (data) {
+			$("ul.mycart").html(data);
+			bindingRemoveItemCart();
 		});
 	}
 
 	function bindingRemoveItemCart(){
-		$(".remove-cart-item").click(function (e) {
+		$(".remove-cart-item").click(function(){
 			var rowid = $(this).attr('rowid');
 			if(rowid != undefined){
 				$.ajax({
@@ -165,15 +165,13 @@
 				}).done(function (data) {
 					// $('#image-container-' + container).remove();
 					$("#myHeaderCart").html(data);
-					//bindingLoadCart();
-					//alert('xoa thanh cong');
+					loadCart();
 				});
 			}
 		});
 	}
 	function bindingAdd2Cart(){
-		$("#btnBuy").unbind('click');
-		$("#btnBuy").click(function(e){
+		$("#btnBuy").click(function(){
 			var options = [];
 			$('.property-item input[type=radio]:checked').each(function(index,elm){
 				var parentAtt = $(elm).attr('parent');
@@ -194,7 +192,6 @@
 			}else{
 				alert('qty > 0');
 			}
-
 		});
 	}
 </script>

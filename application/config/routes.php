@@ -203,3 +203,5 @@ $route['admin/property/add-(:num)'] = "admin/Property_controller/add/$1";
 
 // POS
 $route['pos/index'] = "POS_controller";
+// Cart
+$route['check-out'] = "ShoppingCart_controller/checkOut";

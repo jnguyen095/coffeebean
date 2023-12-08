@@ -50,7 +50,7 @@
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu mycart">
-						<li>
+						<?php /* <li>
 							<a>
 								<table class="table table-bordered table-responsive">
 									<tr>
@@ -81,11 +81,16 @@
 									</tr>
 									<?php endforeach;?>
 									<tr>
+										<td colspan="2" class="text-right">Tổng:</td>
+										<td class="text-right"><?=number_format($this->cart->total())?></td>
+									</tr>
+									<tr>
 										<td colspan="4" class="text-right"><a href="<?=base_url('/check-out.html')?>" class="btn-primary btn-sm">Checkout</a> </td>
 									</tr>
 								</table>
 							</a>
 						</li>
+ 						*/?>
 					</ul>
 				</li>
 
