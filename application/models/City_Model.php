@@ -13,7 +13,7 @@ class City_Model extends CI_Model
 	}
 
 	public function getAllActive(){
-		$sql = "select c.* from product p JOIN city c on(p.CityID = c.CityID) where c.Status = " . ACTIVE . " GROUP BY p.CityID ORDER BY count(p.CityID) DESC";
+		$sql = "select c.* from city c where c.Status = " . ACTIVE;
 		$query = $this->db->query($sql);
 		return $query->result();
 	}

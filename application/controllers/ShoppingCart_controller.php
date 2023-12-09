@@ -18,15 +18,23 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->helper('text');
 		$this->load->helper("my_date");
 		$this->load->helper('form');
+		$this->load->model('City_Model');
+		$this->load->model('District_Model');
+		$this->load->model('Ward_Model');
 	}
 
 	public function checkOut(){
 		$categories = $this->Category_Model->getCategories();
 		$data = $categories;
-		foreach ($this->cart->contents() as $item){
-
-		}
 		$this->load->view('cart/Cart_detail', $data);
+	}
+
+	public function shippingAddress(){
+		$categories = $this->Category_Model->getCategories();
+		$data = $categories;
+		$cities = $this->City_Model->getAllActive();
+		$data['cities'] = $cities;
+		$this->load->view('cart/Cart_address', $data);
 	}
 
 	public function addItemToCart(){
@@ -39,6 +47,7 @@ class ShoppingCart_controller extends CI_Controller
 			'id' => $productId,
 			'qty' => $qty,
 			'price' => $price,
+			'image' => $product->Thumb,
 			'options' => $options,
 			'name' => $product->Title
 		);

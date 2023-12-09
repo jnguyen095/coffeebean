@@ -19,42 +19,84 @@
 
 <ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb always">
 	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?php echo base_url('/')?>"><span itemprop="name">Trang chủ</span></a></li>
-	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name">Giỏ hàng</span></span></li>
+	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="mobile-hide"><span itemprop="item"><span itemprop="name">Giỏ hàng</span></span></li>
 </ul>
 <div class="row">
+	<div class="col-lg-12 mobile-hide ">
+		<div class="container-fluid text-center border-bottom">
+			<div class="progresses">
+				<div class="steps step">
+					<span class="font-weight-bold">1</span>
+				</div>
+
+				<span class="line"><label class="label1">Xem đơn hàng</label></span>
+
+				<div class="steps">
+					<span>2</span>
+				</div>
+
+				<span class="line"><label class="label2">Địa chỉ giao hàng</label></span>
+
+				<div class="steps">
+					<span>3</span>
+				</div>
+				<span class="last-line"><label class="label3">Hoàn thành</label></span>
+
+			</div>
+
+		</div>
+	</div>
+
 	<div class="col-lg-12">
 		<table class="table table-bordered">
 			<thead>
 			<tr>
 				<td class="text-center">Hình ảnh</td>
 				<td class="text-left">Tên sản phẩm</td>
-				<td class="text-left">Mã hàng</td>
 				<td class="text-left">Số lượng</td>
 				<td class="text-right">Đơn Giá</td>
 				<td class="text-right">Tổng cộng</td>
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td class="text-center">                  <a href="https://bansidolot.vn/vay-ngu-th-i-950-mau-den"><img src="https://bansidolot.vn/image/cache/catalog/DO LOT THAI LAN/VAY NGU/950/z4907393418390_c0c060463464a2fa033080f04aabd529-80x80.jpg" alt="Váy Ngủ Thái 950 - Màu Đen" title="Váy Ngủ Thái 950 - Màu Đen" class="img-thumbnail"></a>
-				</td>
-				<td class="text-left"><a href="https://bansidolot.vn/vay-ngu-th-i-950-mau-den">Váy Ngủ Thái 950 - Màu Đen</a>
-					<br>
-					<small>Size: FreeSize</small>
-				</td>
-				<td class="text-left">VS9502</td>
-				<td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
-						<input type="text" name="quantity[YToyOntzOjEwOiJwcm9kdWN0X2lkIjtpOjI0NDk7czo2OiJvcHRpb24iO2E6MTp7aToyNjQ4O3M6NDoiNzYyMSI7fX0=]" value="1" size="1" class="form-control">
-						<span class="input-group-btn">
-				<button type="submit" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Update"><i class="fa fa-refresh"></i></button>
-				<button type="button" data-toggle="tooltip" title="" class="btn btn-danger" onclick="cart.remove('YToyOntzOjEwOiJwcm9kdWN0X2lkIjtpOjI0NDk7czo2OiJvcHRpb24iO2E6MTp7aToyNjQ4O3M6NDoiNzYyMSI7fX0=');" data-original-title="Remove"><i class="fa fa-times-circle"></i></button></span></div></td>
-				<td class="text-right">76,000 VNĐ</td>
-				<td class="text-right">76,000 VNĐ</td>
-			</tr>
+			<?php foreach ($this->cart->contents() as $item){?>
+				<tr>
+					<td class="text-center">
+						<a href="<?=base_url().seo_url($item['name']).'-p'.$item['id']?>.html">
+							<img src="<?=base_url('/img/product/'.$item['image'])?>" alt="<?=$item['name']?>" title="<?=$item['name']?>" class="img-thumbnail">
+						</a>
+					</td>
+					<td class="text-left">
+						<a href="<?=base_url().seo_url($item['name']).'-p'.$item['id']?>.html"><?=$item['name']?></a>
+						<?php if($this->cart->has_options($item['rowid']) == TRUE){
+							echo "<br>";
+							foreach ($this->cart->product_options($item['rowid']) as $option_name => $option_value){
+								$i = 1;
+								foreach ($option_value as $k => $v){ ?>
+									<i><small><?=$v?></small></i>
+									<?=$i == 1 ? ':' : ''?>
+									<?php
+									$i++;
+								}
+								echo "</br>";
+							}
+						}?>
+
+					</td>
+					<td class="text-left">
+						<input type="text" name="quantity[<?=$item['rowid']?>]" value="<?=$item['qty']?>" size="1" class="form-control">
+					</td>
+					<td class="text-right"><?=number_format($item['price'])?> VNĐ</td>
+					<td class="text-right"><?=number_format($item['price'] * $item['qty'])?> VNĐ</td>
+				</tr>
+			<?php } ?>
 			</tbody>
 		</table>
 	</div>
 
+	<div class="col-lg-12 text-right">
+		<a class="btn btn-primary" href="<?=base_url('/check-out/address.html')?>">Tiếp Theo <i class="glyphicon glyphicon-menu-right"></i> </a>
+	</div>
 </div>
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
