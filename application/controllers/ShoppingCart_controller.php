@@ -23,6 +23,9 @@ class ShoppingCart_controller extends CI_Controller
 	public function checkOut(){
 		$categories = $this->Category_Model->getCategories();
 		$data = $categories;
+		foreach ($this->cart->contents() as $item){
+
+		}
 		$this->load->view('cart/Cart_detail', $data);
 	}
 

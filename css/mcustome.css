@@ -1580,7 +1580,7 @@ h3 {
 	background-color: #eee;
 	overflow: auto;
 }
-.product-thumb .button-group button {
+.product-thumb .button-group button, .product-thumb .button-group a {
 	width: 50%;
 	border: none;
 	display: inline-block;
@@ -1592,7 +1592,7 @@ h3 {
 	text-align: center;
 	text-transform: uppercase;
 }
-.product-thumb .button-group button + button {
+.product-thumb .button-group button + button, .product-thumb .button-group button + a {
 	border-left: 1px solid #ddd;
 }
 .product-property{

@@ -40,7 +40,7 @@
 					<div class="button-group">
 						<div class="button-group">
 							<button type="button"><p class="price"><?=number_format($product->Price)?>đ</p></button>
-							<button type="button"><i class="glyphicon glyphicon-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">Mua hàng</span></button>
+							<a productId="<?=$product->ProductID?>" href="#" class="buyableBtn"><i class="glyphicon glyphicon-shopping-cart"></i> Mua Hàng</a>
 						</div>
 					</div>
 				</div>

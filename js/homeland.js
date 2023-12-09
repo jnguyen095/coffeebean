@@ -16,8 +16,71 @@ $(document).ready(function(){
 	bindingChangeCaptchaEvent();
 	contactFormHandler();
 	callMeBackHandler();
+	bindingAdd2Cart();
+	bindingLoadCart();
 
 });
+
+function bindingLoadCart(){
+	$('#myHeaderCart').hover(function(){
+		loadCart();
+	});
+}
+
+function loadCart(){
+	$.ajax({
+		type: "POST",
+		url: urls.base_url + '/ShoppingCart_controller/reloadMiniCart',
+	}).done(function (data) {
+		$("ul.mycart").html(data);
+		bindingRemoveItemCart();
+	});
+}
+
+function bindingRemoveItemCart(){
+	$(".remove-cart-item").click(function(){
+		var rowid = $(this).attr('rowid');
+		if(rowid != undefined){
+			$.ajax({
+				type: "POST",
+				url: urls.base_url + '/ShoppingCart_controller/removeItemToCart',
+				data: {rowid: rowid }
+			}).done(function (data) {
+				// $('#image-container-' + container).remove();
+				$("#myHeaderCart").html(data);
+				loadCart();
+			});
+		}
+	});
+}
+
+function bindingAdd2Cart() {
+	$(".buyableBtn").click(function () {
+		var options = [];
+		$('.property-item input[type=radio]:checked').each(function (index, elm) {
+			var parentAtt = $(elm).attr('parent');
+			options.push({'key': parentAtt, 'attr': $(elm).val()})
+		});
+		var qty = $('#quantity').val();
+		if(qty == null || qty == undefined || qty < 1){
+			qty = 1;
+		}
+		if (qty > 0) {
+			$.ajax({
+				type: "POST",
+				url: urls.base_url + '/ShoppingCart_controller/addItemToCart',
+				data: {productId: $(this).attr('productId'), qty: qty, options: options}
+			}).done(function (data) {
+				// $('#image-container-' + container).remove();
+				//update cart
+				$("#myHeaderCart").html(data);
+				//alert('them thanh cong');
+			});
+		} else {
+			alert('qty > 0');
+		}
+	});
+}
 
 function bindingChangeCaptchaEvent(){
 	$("#changeCaptcha").click(function (){
