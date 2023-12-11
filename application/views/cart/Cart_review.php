@@ -50,7 +50,7 @@
 
 	<?php
 	$attributes = array("id" => "frmShippingAddress", "class" => "form-horizontal");
-	echo form_open("check-out/address", $attributes);
+	echo form_open("check-out/review", $attributes);
 	?>
 	<div class="col-lg-12">
 
@@ -128,6 +128,15 @@
 				</div>
 				<div class="col-xs-12">
 					<label><input type="radio" name="payment" value="BANK_TRANSFER"> Chuyển khoản </label>
+				</div>
+				<div class="clear-both"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<h3><b>Ghi chú:</b></h3>
+				</div>
+				<div class="col-xs-12">
+					<textarea name="note" value="COD" placeholder="ví dụ: giao hàng giờ hành chính" style="width: 100%;height: 30px;resize: none"></textarea>
 				</div>
 				<div class="clear-both"></div>
 			</div>

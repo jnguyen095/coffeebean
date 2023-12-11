@@ -22,6 +22,7 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->model('District_Model');
 		$this->load->model('Ward_Model');
+		$this->load->model('MyOrder_Model');
 	}
 
 	public function checkOut(){
@@ -31,13 +32,65 @@ class ShoppingCart_controller extends CI_Controller
 	}
 
 	public function review(){
-		$categories = $this->Category_Model->getCategories();
-		$data = $categories;
 		$shippingAddr = $this->session->userdata("shippingAddr");
 		$crudaction = $this->input->post('crudaction');
 		if($crudaction == 'insert'){
+			$note = $this->input->post("note");
+			$payment = $this->input->post("payment");
+			// order
+			$newOrder = [];
+			$newOrder['UserID'] = $this->session->userdata('loginid');
+			$newOrder['Status'] = ORDER_STATUS_NEW;
+			$newOrder['ShippingFee'] = 12000;
+			$newOrder['TotalPrice'] = $this->cart->total() + $this->cart->total_items();
+			$newOrder['Note'] = $note;
+			$newOrder['Payment'] = $payment;
+			$newOrder['CreatedDate'] = date('Y-m-d H:i:s');
+			$newOrder['UpdatedDate'] = date('Y-m-d H:i:s');
+			$newOrder['CreatedBy'] = $this->session->userdata('loginid');
+			$newOrder['UpdatedBy'] = $this->session->userdata('loginid');
 
+			// order items
+			$options = [];
+			foreach ($this->cart->contents() as $item){
+				$str = '';
+				// property
+				if($this->cart->has_options($item['rowid']) == TRUE) {
+					foreach ($this->cart->product_options($item['rowid']) as $option_name => $option_value) {
+						$i = 1;
+						$str .= '{';
+						foreach ($option_value as $k => $v){
+							$str .= $v;
+							$str .= $i == 1 ? ':' : '},';
+							$i++;
+						}
+					}
+				}
+
+				$orderItem = array(
+					'ProductID' => $item['id'],
+					'Price' => $item['price'],
+					'Quantity' => $item['qty'],
+					'Options' => $str
+				);
+				array_push($options, $orderItem);
+			}
+
+			// shipping
+			$shippingInfo = array(
+				'Receiver' => $shippingAddr['txt_receiver'],
+				'Phone' => $shippingAddr['txt_phone'],
+				'CityID' => $shippingAddr['txt_city'],
+				'DistrictID' => $shippingAddr['txt_district'],
+				'WardID' => $shippingAddr['txt_ward'],
+				'Street' => $shippingAddr['street']
+			);
+
+			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $options, $shippingInfo);
+			redirect('/check-out/success');
 		}
+		$categories = $this->Category_Model->getCategories();
+		$data = $categories;
 		$data['txt_receiver'] = $shippingAddr['txt_receiver'];
 		$data['txt_phone'] = $shippingAddr['txt_phone'];
 		$data['city'] = $this->City_Model->findById($shippingAddr['txt_city']);
@@ -45,6 +98,14 @@ class ShoppingCart_controller extends CI_Controller
 		$data['ward'] = $this->Ward_Model->findById($shippingAddr['txt_ward']);
 		$data['street'] = $shippingAddr['street'];
 		$this->load->view('cart/Cart_review', $data);
+	}
+
+	public function success(){
+		$this->cart->destroy();
+		$this->session->set_userdata("shippingAddr", []);
+		$categories = $this->Category_Model->getCategories();
+		$data = $categories;
+		$this->load->view('cart/Cart_success', $data);
 	}
 
 	public function shippingAddress(){
