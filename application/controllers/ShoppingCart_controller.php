@@ -16,6 +16,7 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->model('Product_Model');
 		$this->load->helper("seo_url");
 		$this->load->helper('text');
+		$this->load->library('form_validation');
 		$this->load->helper("my_date");
 		$this->load->helper('form');
 		$this->load->model('City_Model');
@@ -29,11 +30,76 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->view('cart/Cart_detail', $data);
 	}
 
+	public function review(){
+		$categories = $this->Category_Model->getCategories();
+		$data = $categories;
+		$shippingAddr = $this->session->userdata("shippingAddr");
+		$crudaction = $this->input->post('crudaction');
+		if($crudaction == 'insert'){
+
+		}
+		$data['txt_receiver'] = $shippingAddr['txt_receiver'];
+		$data['txt_phone'] = $shippingAddr['txt_phone'];
+		$data['city'] = $this->City_Model->findById($shippingAddr['txt_city']);
+		$data['district'] = $this->District_Model->findById($shippingAddr['txt_district']);
+		$data['ward'] = $this->Ward_Model->findById($shippingAddr['txt_ward']);
+		$data['street'] = $shippingAddr['street'];
+		$this->load->view('cart/Cart_review', $data);
+	}
+
 	public function shippingAddress(){
 		$categories = $this->Category_Model->getCategories();
 		$data = $categories;
+		$crudaction = $this->input->post('crudaction');
+		if($crudaction == 'insert'){
+			$data['txt_receiver'] = $this->input->post("txt_receiver");
+			$data['txt_phone'] = $this->input->post("txt_phone");
+			$data['txt_city'] = $this->input->post("txt_city");
+			$data['txt_district'] = $this->input->post("txt_district");
+			$data['txt_ward'] = $this->input->post("txt_ward");
+			$data['street'] = $this->input->post("txt_street");
+			$this->form_validation->set_rules("txt_receiver", "Người nhận hàng", "trim|required");
+			$this->form_validation->set_rules("txt_phone", "Số điện thoại", "trim|required");
+			$this->form_validation->set_rules("txt_city", "Thành phố", "numeric|required");
+			$this->form_validation->set_rules("txt_district", "Quận", "numeric|required");
+			$this->form_validation->set_rules("txt_ward", "Phường", "numeric|required");
+			$this->form_validation->set_rules("txt_street", "Đường", "required");
+			$validateResult = $this->form_validation->run();
+			if($validateResult == TRUE){
+				$shippingAddr = array(
+					'txt_receiver' => $data['txt_receiver'],
+					'txt_phone' => $data['txt_phone'],
+					'txt_city' => $data['txt_city'],
+					'txt_district' => $data['txt_district'],
+					'txt_ward' => $data['txt_ward'],
+					'street' => $data['street'],
+				);
+				$this->session->set_userdata("shippingAddr", $shippingAddr);
+				redirect('check-out/review');
+			}
+		} else{
+			$shippingAddr = $this->session->userdata("shippingAddr");
+			if($shippingAddr != null){
+				$data['txt_receiver'] = $shippingAddr['txt_receiver'];
+				$data['txt_phone'] = $shippingAddr['txt_phone'];
+				$data['txt_city'] = $shippingAddr['txt_city'];
+				$data['txt_district'] = $shippingAddr['txt_district'];
+				$data['txt_ward'] = $shippingAddr['txt_ward'];
+				$data['street'] = $shippingAddr['street'];
+			}
+
+		}
+
 		$cities = $this->City_Model->getAllActive();
 		$data['cities'] = $cities;
+		if(isset($data['txt_city']) && $data['txt_city'] != null){
+			$districts = $this->District_Model->findByCityId($data['txt_city']);
+			$data['districts'] = $districts;
+		}
+		if(isset($data['txt_district']) && $data['txt_district'] != null){
+			$wards = $this->Ward_Model->findByDistrictId($data['txt_district']);
+			$data['wards'] = $wards;
+		}
 		$this->load->view('cart/Cart_address', $data);
 	}
 
@@ -64,7 +130,7 @@ class ShoppingCart_controller extends CI_Controller
 
 	public function reloadHeadCart()
 	{
-		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm - '.number_format($this->cart->total()).'đ';
+		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm - '.number_format($this->cart->total() + ($this->cart->total_items() > 0 ? 12000 : 0)).'đ';
 		$html .= ' <span class="caret"></span>';
 		return $html;
 	}
@@ -104,8 +170,12 @@ class ShoppingCart_controller extends CI_Controller
 								$html .= '</tr>';
 							}
 							$html .= '<tr>
+										<td colspan="2" class="text-right">Phí giao hàng</td>
+										<td class="text-right">'.number_format(12000).'</td>
+									</tr>';
+							$html .= '<tr>
 										<td colspan="2" class="text-right">Tổng:</td>
-										<td class="text-right">'.number_format($this->cart->total()).'</td>
+										<td class="text-right">'.number_format($this->cart->total() + 12000).'</td>
 									</tr>';
 
 							$html .= '<tr><td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Giỏ Hàng</a> </td></tr>';

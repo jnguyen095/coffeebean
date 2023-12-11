@@ -33,7 +33,7 @@
 				<span class="line"><label class="label1">Xem đơn hàng</label></span>
 
 				<div class="steps">
-					<span class="font-weight-bold">2</span>
+					<span class="font-weight-bold"><i class="glyphicon glyphicon-ok"></i></span>
 				</div>
 
 				<span class="line"><label class="label2">Địa chỉ giao hàng</label></span>
@@ -53,88 +53,8 @@
 	echo form_open("check-out/address", $attributes);
 	?>
 	<div class="col-lg-12">
+
 		<div class="col-lg-7">
-			<div class="form-group">
-				<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label>Người nhận hàng <span class="required">*</span></label>
-					<input type="text" class="form-control" name="txt_receiver" value="<?=isset($txt_receiver) ? $txt_receiver : ''?>">
-					<span class="text-danger"><?php echo form_error('txt_receiver'); ?></span>
-				</div>
-				<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label>Số điện thoại <span class="required">*</span></label>
-					<input type="text" class="form-control" name="txt_phone" value="<?=isset($txt_phone) ? $txt_phone : ''?>">
-					<span class="text-danger"><?php echo form_error('txt_phone'); ?></span>
-				</div>
-				<div class="clear-both"></div>
-			</div>
-
-			<div class="form-group">
-				<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label>Thành phố <span class="required">*</span></label>
-					<select id="txtCity" class="form-control" name="txt_city">
-						<option>Chọn tỉnh/thành phố</option>
-						<?php
-						if($cities != null && count($cities) > 0){
-							$str = '';
-							foreach ($cities as $ct){
-								?>
-								<option value="<?=$ct->CityID?>" <?=(isset($txt_city) && $txt_city == $ct->CityID) ? ' selected' : ''?> ><?=$ct->CityName?></option>
-								<?php
-							}
-						}
-						?>
-					</select>
-					<span class="text-danger"><?php echo form_error('txt_city'); ?></span>
-				</div>
-				<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label>Quận/huyện <span class="required">*</span></label>
-					<select id="txtDistrict" class="form-control" name="txt_district">
-						<option>Chọn quận/huyện</option>
-						<?php
-						if(isset($districts) && count($districts) > 0) {
-							foreach ($districts as $dt) {
-								?>
-								<option
-									value="<?= $dt->DistrictID ?>" <?= (isset($txt_district) && $txt_district == $dt->DistrictID) ? ' selected' : '' ?> ><?= $dt->DistrictName ?></option>
-								<?php
-							}
-						}
-						?>
-					</select>
-					<span class="text-danger"><?php echo form_error('txt_district'); ?></span>
-				</div>
-				<div class="clear-both"></div>
-			</div>
-
-			<div class="form-group">
-				<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label>Phường/xã <span class="required">*</span></label>
-					<select id="txtWard" class="form-control" name="txt_ward">
-						<option>Chọn phường/xã</option>
-						<?php
-						if(isset($wards) && count($wards) > 0) {
-							foreach ($wards as $wd) {
-								?>
-								<option
-									value="<?= $wd->WardID ?>" <?= (isset($txt_ward) && $txt_ward == $wd->WardID) ? ' selected' : '' ?> ><?= $wd->WardName ?></option>
-								<?php
-							}
-						}
-						?>
-					</select>
-					<span class="text-danger"><?php echo form_error('txt_ward'); ?></span>
-				</div>
-				<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label>Đường <span class="required">*</span></label>
-					<input type="text" id="txt_street" name="txt_street" class="form-control typeahead" value="<?=isset($street) ? $street : ''?>">
-					<span class="text-danger"><?php echo form_error('txt_street'); ?></span>
-				</div>
-				<div class="clear-both"></div>
-			</div>
-
-		</div>
-
-		<div class="col-lg-5">
 			<table class="table table-bordered">
 				<thead>
 				<tr>
@@ -182,11 +102,43 @@
 				</tbody>
 			</table>
 		</div>
+
+		<div class="col-lg-5">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3><b>Thông tin người nhận hàng:</b></h3>
+				</div>
+				<div class="col-xs-12">
+					Người nhận hàng: <label><?=$txt_receiver?></label>
+				</div>
+				<div class="col-xs-12">
+					Số điện thoại: <label><?=$txt_phone?></label>
+				</div>
+				<div class="col-xs-12">
+					Địa chỉ giao hàng: <label><?=$street?>, <?=$ward->WardName?>, <?=$district->DistrictName?>, <?=$city->CityName?></label>
+				</div>
+				<div class="clear-both"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<h3><b>Thanh toán:</b></h3>
+				</div>
+				<div class="col-xs-12">
+					<label><input type="radio" name="payment" value="COD" checked> Lúc nhận hàng </label>
+				</div>
+				<div class="col-xs-12">
+					<label><input type="radio" name="payment" value="BANK_TRANSFER"> Chuyển khoản </label>
+				</div>
+				<div class="clear-both"></div>
+			</div>
+		</div>
+
+
 	</div>
 
 	<div class="col-lg-12 text-right">
-		<a class="btn btn-info" href="<?=base_url('/check-out.html')?>"><i class="glyphicon glyphicon-menu-left"></i> Trở Lại  </a>
-		<button class="btn btn-primary" type="submit">Tiếp Theo <i class="glyphicon glyphicon-menu-right"></i> </button>
+		<a class="btn btn-info" href="<?=base_url('/check-out/address.html')?>"><i class="glyphicon glyphicon-menu-left"></i> Trở Lại  </a>
+		<button class="btn btn-primary" type="submit">Hoàn Thành <i class="glyphicon glyphicon-menu-right"></i> </button>
 	</div>
 
 	<input type="hidden" name="crudaction" value="insert" >

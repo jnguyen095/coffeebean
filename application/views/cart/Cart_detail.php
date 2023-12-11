@@ -90,6 +90,14 @@
 					<td class="text-right"><?=number_format($item['price'] * $item['qty'])?> VNĐ</td>
 				</tr>
 			<?php } ?>
+			<tr>
+				<td class="text-right" colspan="4">Phí giao hàng</td>
+				<td class="text-right">12,000</td>
+			</tr>
+			<tr>
+				<td class="text-right" colspan="4">Tổng cộng</td>
+				<td class="text-right"><?=number_format($this->cart->total() + 12000)?></td>
+			</tr>
 			</tbody>
 		</table>
 	</div>
