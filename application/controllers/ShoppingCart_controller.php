@@ -67,6 +67,11 @@ class ShoppingCart_controller extends CI_Controller
 					}
 				}
 
+				if(strlen($str) > 0){
+					$lastComma = strripos($str, ',');
+					$str = substr($str, 0, $lastComma);
+				}
+
 				$orderItem = array(
 					'ProductID' => $item['id'],
 					'Price' => $item['price'],

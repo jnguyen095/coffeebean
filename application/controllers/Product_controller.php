@@ -27,25 +27,9 @@ class Product_controller extends CI_Controller
 	}
 
 	public function listItem($catId, $offset=0) {
-		// begin file cached
-		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
-		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
-		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
+		$categories = $this->Category_Model->getCategories();
 		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
-		// end file cached
-
 		$search_data = $this->Product_Model->findByCatIdFetchAddress($catId, $offset, MAX_PAGE_ITEM);
-
-
 		$data = array_merge($data, $search_data);
 
 		$thisCat = $this->Category_Model->findById($catId);
@@ -59,16 +43,6 @@ class Product_controller extends CI_Controller
 
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
-		$data['cities'] = $this->City_Model->getAllActive();
-		$data['topNews'] = $this->News_Model->findTopNewExceptCurrent(0, 5);
-		$data['cityWithCats'] = $this->City_Model->findCityByCategoryId($catId);
-
-		$BANNER_CAT_1 = $this->cache->file->get('BANNER_CAT_1');
-		if(!$BANNER_CAT_1){
-			$BANNER_CAT_1 = $this->Banner_Model->loadByCode('BANNER_CAT_1');
-			$this->cache->file->save('BANNER_CAT_1', $BANNER_CAT_1, 1440);
-		}
-		$data['BANNER_CAT_1'] = $BANNER_CAT_1;
 
 		$this->load->helper('url');
 		$this->load->view('product/Product_list', $data);
