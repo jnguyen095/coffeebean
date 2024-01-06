@@ -104,8 +104,8 @@ class Ajax_controller extends CI_Controller
 		$config = array(
 			'img_id'		=> 'captcha',
 			'img_path'      => 'img/captcha/',
-			'img_url'       => base_url().'img/captcha/',
-			'font_path'		=> base_url().'admin/fonts/arial.ttf',
+			'img_url'       => 'img/captcha/',
+			'font_path'		=> 'admin/fonts/arial.ttf',
 			'img_width'     => '150',
 			'expiration'    => 7200,
 			'img_height'    => 30,
@@ -204,7 +204,10 @@ class Ajax_controller extends CI_Controller
 				}
 			}
 		}else{
+			$data = [];
 			$captcha = $this->generateCaptcha();
+			//print_r($captcha);
+			//$data['captcha'] = $captcha;
 			$data['capchaImg'] = $captcha['image'];
 			$this->session->set_userdata('captcha', $captcha['word']);
 			return $this->load->view('/contact/contact', $data);
