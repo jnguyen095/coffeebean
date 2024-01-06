@@ -211,14 +211,14 @@ class ProductManagement_controller extends CI_Controller
 				log_message('error', 'Image Upload Error: ' . $this->upload->display_errors());
 			}
 			$img = $this->upload->data();
-			if ($img['file_name'] != null) {
+			//if ($img['file_name'] != null) {
 				// Resize image
 				$this->load->library('image_lib');
 				$config['image_library'] = 'gd2';
 				$config['source_image'] = $upath.$img['file_name'];
 				$config['create_thumb'] = TRUE;
 				$config['maintain_ratio'] = TRUE;
-				$config['width']     = 120;
+				$config['width']     = 180;
 
 				$this->image_lib->clear();
 				$this->image_lib->initialize($config);
@@ -229,8 +229,8 @@ class ProductManagement_controller extends CI_Controller
 
 				unlink($upath.$img['file_name']);
 				return $thumbimgname;
-			}
-			return '/'.$upath.$img['file_name'];
+			//}
+			//return '/'.$upath.$img['file_name'];
 		}
 	}
 
