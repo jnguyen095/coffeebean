@@ -96,3 +96,46 @@
 	position: relative;
 	margin-bottom: 2px;
 }
+
+.progresses{
+	display: inline-flex;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.line{
+	width: 120px;
+	height: 6px;
+	background: #63d19e;
+}
+.last-line{
+	width: 0px;
+	height: 6px;
+	background: #63d19e;
+}
+
+.line > .label1 {
+	display: block;
+	margin: 22px 10px 10px -74px;
+}
+.line > .label2 {
+	display: block;
+	margin: 22px 10px 10px -74px;
+}
+.last-line > .label3 {
+	display: block;margin: 22px 0px 0px -50px;
+	position: absolute;
+}
+
+.steps{
+
+	display: flex;
+	background-color: #63d19e;
+	color: #fff;
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+}
