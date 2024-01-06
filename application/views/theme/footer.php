@@ -26,8 +26,8 @@
 		</ul>
 	</div>
 	<div class="copyright text-center">
-		<div>Copyright © 2021 nhatimchu.com ® Ghi rõ nguồn "nhatimchu.com" khi phát hành lại thông tin từ website này.</div>
-		<div>Hotline: <b>0982647619</b> | Email:  nhatimchuinfo@gmail.com</div>
+		<div>Copyright © 2024 vananhshop.com ®</div>
+		<div>Hotline: <b>0778763790</b> | Email:  vananhshop@gmail.com</div>
 		<div><a rel="nofollow" href="skype:nhukhang095?chat" title="Chát với http://nhatimchu.com"><img src="<?=base_url('/img/skype.png')?>" alt="Skype icon"/></a> </div>
 	</div>
 

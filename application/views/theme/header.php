@@ -11,7 +11,7 @@
 <nav class="navbar navbar-default m-navbar navbar-fixed-top"/>
 	<div class="container">
 		<a class="navbar-brand brandName ipad-mini-hide hidden-md" href="<?=base_url('/')?>">
-			<img src="<?=base_url('/img/logo2.png')?>" atl="Nha Tim Chu Logo"/>
+			<img src="<?=base_url('/img/logo2.png')?>" atl="Van Anh Shop Logo"/>
 		</a>
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar4">
