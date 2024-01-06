@@ -46,7 +46,7 @@
 
 <body>
 <?php $this->load->view('/common/analyticstracking')?>
-<div class="container-fluid">
+<div class="container">
 
 <?php $this->load->view('/theme/header')?>
 
@@ -174,43 +174,30 @@
 			</span>
 		</div>
 		<div class="product-panel col-md-12 no-margin no-padding">
-			<?php
-				if(isset($products) && count($products) > 0){
-					foreach ($products as $product) {
-						?>
-						<div itemscope itemtype="http://schema.org/Product" class="row product-list vip<?=$product->Vip?>">
-							<div class="row product-title">
-								<a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html">
-									<?php if($product->Vip < PRODUCT_STANDARD){?>
-										<?php if($product->Vip == PRODUCT_VIP_0){?>
-											<span class="pvip glyphicon glyphicon-star"></span>
-										<?php } else{ ?>
-											<span class="pvip"><?='v'.$product->Vip?></span>
-										<?php } ?>
-									<?php } ?>
-									<h3 itemprop="name"><?=$product->Title?></h3>
-								</a>
+			<div class="row">
+				<?php
+				foreach ($products as $product){?>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="product-thumb transition">
+							<div class="image">
+								<a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img src="<?=base_url('/img/product/'.$product->Thumb)?>" class="img-responsive" ></a>
 							</div>
-							<div class="row product-content">
-								<div class="col-md-2 col-xs-3 no-padding"><a itemprop="url" href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img itemprop="image" class="width100pc product-thumbnail" src="<?=$product->Thumb?>" alt="<?=$product->Title?>"/></a></div>
-								<div class="col-md-10 col-xs-9">
-									<div class="row pos-relative">
-										<div class="productTop">
-											<div class="col-md-10 col-xs-12 no-padding"><span><span class="mobile-hide">Giá: </span><span class="color bold price"><?=$product->PriceString?></span><span class="margin-left-10"><span class="mobile-hide">Diện tích: </span><span class="color bold"><?=is_numeric($product->Area) ? $product->Area.' m²' : $product->Area?></span></span><span class="margin-left-10"><span class="mobile-hide">Quận/Huyện: </span><span class="color bold  mobile-block"><a href="<?=base_url(seo_url($product->district.' '.$product->city)).'-dt'.$product->DistrictID.'.html'?>"><?=$product->district.', '.$product->city?></a></span></div>
-											<div class="col-md-2 color bold mobile-block relative-time no-padding text-right"><?=date('d/m/Y', strtotime($product->ModifiedDate))?></div>
-											<div class="clear-both"></div>
-										</div>
-										<div class="col-md-12 col-xs-12 product-brief no-padding mobile-hide">
-											<div itemprop="description" class="no-margin no-padding col-md-12 col-xs-12"><?=$product->Brief?></div>
-										</div>
-									</div>
+							<div class="caption">
+								<h3><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><?=$product->Title?></a></h3>
+								<h4><?=substr_at_middle($product->Brief, 200)?></h4>
+							</div>
+							<div class="button-group">
+								<div class="button-group">
+									<button type="button"><p class="price"><?=number_format($product->Price)?>đ</p></button>
+									<a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><i class="glyphicon glyphicon-shopping-cart"></i> Mua Hàng</a>
 								</div>
 							</div>
 						</div>
-						<?php
-					}
+					</div>
+					<?php
 				}
-			?>
+				?>
+			</div>
 			<?php
 			if(isset($products) && count($products) > 0) {
 				?>
