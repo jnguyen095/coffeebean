@@ -360,11 +360,9 @@ class Product_Model extends CI_Model
 
 	public function findByCatIdFetchAddress($catId, $offset, $limit){
 		//$this->output->enable_profiler(TRUE);
-		$sql = 'select p.*, c.cityname as city, d.districtname as district from product p';
-		$sql .= ' inner join city c on p.cityid = c.cityid';
-		$sql .= ' inner join district d on p.districtid = d.districtid';
+		$sql = 'select p.* from product p';
 		$sql .= ' where p.categoryid = '.$catId.' and p.status = 1';
-		$sql .= ' order by date(p.modifieddate) desc, p.vip asc';
+		$sql .= ' order by date(p.modifieddate) desc';
 		$sql .= ' limit '.$offset.','.$limit;
 
 		$countsql = 'select count(*) as total from product where CategoryID = '.$catId.' and Status = 1';
@@ -586,9 +584,7 @@ class Product_Model extends CI_Model
 
 	public function searchByProperties($keyword, $catId, $cityId, $districtId, $area, $price, $offset, $limit){
 		//$this->output->enable_profiler(TRUE);
-		$sql = 'select p.*, c.cityname as city, d.districtname as district from product p';
-		$sql .= ' inner join city c on p.cityid = c.cityid';
-		$sql .= ' inner join district d on p.districtid = d.districtid';
+		$sql = 'select p.* from product p';
 		$sql .= ' where p.status = '.ACTIVE;
 		if(isset($keyword)){
 			$sql .= ' and p.Title like \'%' . $keyword .'%\'';
@@ -609,7 +605,7 @@ class Product_Model extends CI_Model
 			$sql .= $this->buildAreaWhere($area);
 		}
 
-		$sql .= ' order by date(p.modifieddate) desc, p.vip asc';
+		$sql .= ' order by date(p.modifieddate) desc';
 		$sql .= ' limit '.$offset.','.$limit;
 
 		$countsql = 'select count(*) as total from product p where p.Status = '.ACTIVE;
