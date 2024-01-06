@@ -2,7 +2,7 @@
 <html lang = "en">
 
 <head>
-	<title>Cà phê rang xay Việt Nam</title>
+	<title>Vân Anh Shop - Đồ Lót Giá Tốt</title>
 	<link rel="icon" sizes="48x48" href="<?=base_url('/img/favicon.ico')?>">
 
 	<?php $this->load->view('common_header')?>

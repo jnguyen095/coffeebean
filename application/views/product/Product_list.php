@@ -84,9 +84,7 @@
 				<?php echo $pagination ?>
 			</div>
 		</div>
-		<div class="text-center mobile-hide">
-			<a href="<?=base_url('/dang-tin.html')?>"><img src="<?=base_url('/img/bottom_banner.jpg')?>" alt="bottom banner"/></a>
-		</div>
+
 	</div>
 </div>
 

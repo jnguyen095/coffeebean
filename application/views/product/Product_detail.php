@@ -42,7 +42,7 @@
 	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name"><?php echo $product->Title?></span></span><meta itemprop="position" content="<?=$position++?>" /></li>
 </ul>
 <div class="row">
-	<div class="col-sm-6"><img src="<?=base_url('/img/product/'.$product->Thumb)?>" class="img-responsive-large" ></div>
+	<div class="col-sm-6"><img src="<?=base_url('/img/product/'.str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" ></div>
 	<div class="col-sm-6">
 		<div class="product-title">
 			<h1 class="h1Class" itemprop="name"><?php echo $product->Title?></h1>
