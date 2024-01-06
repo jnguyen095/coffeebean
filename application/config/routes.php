@@ -208,3 +208,7 @@ $route['check-out'] = "ShoppingCart_controller/checkOut";
 $route['check-out/address'] = "ShoppingCart_controller/shippingAddress";
 $route['check-out/review'] = "ShoppingCart_controller/review";
 $route['check-out/success'] = "ShoppingCart_controller/success";
+// Order
+$route['order/list'] = "Order_controller";
+$route['order/process-(:num)'] = "Order_controller/process/$1";
+$route['order/update-(:num)'] = "Order_controller/update/$1";
