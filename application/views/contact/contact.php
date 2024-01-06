@@ -17,7 +17,7 @@
 			</button>
 			<h4 class="modal-title h4" id="myModalLabel">Liên Hệ Với Nhà Tìm Chủ</h4>
 		</div>
-
+		[<?=print_r($captcha)?>]
 		<!-- Modal Body -->
 		<div class="modal-body">
 			<p class="statusMsg">Vui lòng để lại thông tin bên dưới!</p>
