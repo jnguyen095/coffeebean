@@ -98,7 +98,7 @@ class ShoppingCart_controller extends CI_Controller
 			print_r($user);
 			$orderTracking = array(
 				'CreatedDate' => date('Y-m-d H:i:s'),
-				'Message' => $user->FullName. ' tạo đơn hàng'
+				'Message' => $user->FullName. ' tạo đơn hàng' . (isset($note) && strlen($note) > 0 ? ' với ghi chú: <b>'. $note .'</b>' : '')
 			);
 
 			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $options, $shippingInfo, $orderTracking);

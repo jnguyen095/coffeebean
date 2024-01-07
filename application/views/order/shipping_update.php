@@ -36,7 +36,6 @@ echo form_open("Order_controller/updateShippingInfo", $attributes);
 			<div class="form-group">
 				<label>Thành phố <span class="required">*</span></label>
 				<select id="txtCity" class="form-control" name="txt_city">
-					<option>Chọn tỉnh/thành phố</option>
 					<?php
 					if($cities != null && count($cities) > 0){
 						$str = '';
@@ -53,7 +52,6 @@ echo form_open("Order_controller/updateShippingInfo", $attributes);
 			<div class="form-group">
 				<label>Quận/huyện <span class="required">*</span></label>
 				<select id="txtDistrict" class="form-control" name="txt_district">
-					<option>Chọn quận/huyện</option>
 					<?php
 					if(isset($districts) && count($districts) > 0) {
 						foreach ($districts as $dt) {
@@ -70,7 +68,6 @@ echo form_open("Order_controller/updateShippingInfo", $attributes);
 			<div class="form-group">
 				<label>Phường/xã <span class="required">*</span></label>
 				<select id="txtWard" class="form-control" name="txt_ward">
-					<option>Chọn phường/xã</option>
 					<?php
 					if(isset($wards) && count($wards) > 0) {
 						foreach ($wards as $wd) {
@@ -128,4 +125,50 @@ echo form_open("Order_controller/updateShippingInfo", $attributes);
 			}
 		});
 	}
+
+	function loadWardByDistrictId(){
+		$("#txtDistrict").change(function(){
+			var districtId = $(this).val();
+			$(".overlay").show();
+			jQuery.ajax({
+				type: "POST",
+				url: '<?=base_url('/ajax_controller/findWardByDistrictId')?>',
+				dataType: 'json',
+				data: {districtId: districtId},
+				success: function(res){
+					document.getElementById("txtWard").options.length = 1;
+					for(key in res){
+						$("#txtWard").append("<option value='"+res[key].WardID+"'>"+res[key].WardName+"</option>");
+					}
+					$(".overlay").hide();
+				}
+			});
+		});
+	}
+
+	function loadDistrictByCityId(){
+		$("#txtCity").change(function(){
+			$(".overlay").show();
+			var cityId = $(this).val();
+			document.getElementById("txtWard").options.length = 1;
+			jQuery.ajax({
+				type: "POST",
+				url: '<?=base_url('/ajax_controller/findDistrictByCityId')?>',
+				dataType: 'json',
+				data: {cityId: cityId},
+				success: function(res){
+					document.getElementById("txtDistrict").options.length = 1;
+					for(key in res){
+						$("#txtDistrict").append("<option value='"+res[key].DistrictID+"'>"+res[key].DistrictName+"</option>");
+					}
+					$(".overlay").hide();
+				}
+			});
+		});
+	}
+
+	$(document).ready(function() {
+		loadDistrictByCityId();
+		loadWardByDistrictId();
+	});
 </script>

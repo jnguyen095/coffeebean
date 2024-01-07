@@ -9,8 +9,8 @@
 <footer class="main-footer">
 	<!-- To the right -->
 	<div class="pull-right hidden-xs">
-		Develop by Khang Nguyen
+	Developed by <a href="mailto:nguyennhukhangvn@gmail.com">Khang Nguyen</a>
 	</div>
 	<!-- Default to the left -->
-	<strong>Copyright &copy; 2021 <a href="http://nhatimchu.com">Cà Phê Rang Hạt</a>.</strong> All rights reserved.
+	<strong>Copyright &copy; 2024 <a href="http://vananhshop.com">Vân Anh Shop</a>.</strong> All rights reserved.
 </footer>

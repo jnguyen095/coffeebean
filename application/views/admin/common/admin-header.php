@@ -161,7 +161,7 @@
 								<a href="#" class="btn btn-default btn-flat">Profile</a>
 							</div>
 							<div class="pull-right">
-								<a href="#" class="btn btn-default btn-flat">Sign out</a>
+								<a href="<?=base_url('/dang-xuat.html')?>" class="btn btn-default btn-flat">Đăng xuất</a>
 							</div>
 						</li>
 					</ul>
