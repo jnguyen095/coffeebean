@@ -14,7 +14,7 @@ class MyOrder_Model extends CI_Model
 		parent::__construct();
 	}
 
-	public function createOrder($order, $options, $shippingInfo){
+	public function createOrder($order, $options, $shippingInfo, $orderTracking){
 		$this->db->insert('myorder', $order);
 		$orderId = $this->db->insert_id();
 		// order detail
@@ -28,6 +28,10 @@ class MyOrder_Model extends CI_Model
 		$shippingInfo['OrderID'] = $orderId;
 		$this->db->insert('ordershipping', $shippingInfo);
 		$this->db->insert_id();
+
+		// order tracking
+		$orderTracking['OrderID'] = $orderId;
+		$this->db->insert('ordertracking', $orderTracking);
 
 		return $orderId;
 	}
@@ -76,10 +80,19 @@ class MyOrder_Model extends CI_Model
 			->get();
 		$shipping = $query->row();
 
+		// order tracking
+		$query = $this->db->select('tr.*')
+			->from('ordertracking tr')
+			->where('tr.OrderID', $order->OrderID)
+			->order_by('tr.CreatedDate', 'DESC')
+			->get();
+		$tracking = $query->result();
+
 
 		$data['order'] = $order;
 		$data['products'] = $products;
 		$data['shippingAddr'] = $shipping;
+		$data['trackings'] = $tracking;
 
 		return $data;
 	}

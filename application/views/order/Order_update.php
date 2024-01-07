@@ -57,6 +57,7 @@
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
+
 					<div class="search-filter">
 						<div class="row">
 							<div class="container-fluid text-center border-bottom">
@@ -84,11 +85,10 @@
 						</div>
 					</div>
 
-
-
-					<div class="col-lg-12">
+					<!-- Right column -->
+					<div class="col-lg-9 col-sm-12">
 						<div class="col-xs-12">
-							<h3><b>Người mua hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin"><i class="fa fa-edit"></i></a></h3>
+							<h3><b>Người mua hàng:</b></h3>
 						</div>
 						<table class="table table-bordered">
 							<thead>
@@ -98,7 +98,7 @@
 								<td class="text-left">Status</td>
 								<td class="text-right">Phí giao hàng</td>
 								<td class="text-right">Tổng cộng</td>
-								<td class="text-left">Note</td>
+								<td class="text-left">Ghi chú</td>
 							</tr>
 							</thead>
 							<tbody>
@@ -122,7 +122,7 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-xs-12">
-									<h3><b>Người nhận hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin"><i class="fa fa-edit"></i></a></h3>
+									<h3><b>Người nhận hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin người nhận hàng"><i class="fa fa-edit"></i></a></h3>
 								</div>
 								<table class="table table-bordered">
 									<thead>
@@ -148,7 +148,7 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-xs-12">
-									<h3><b>Mặt hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin"><i class="fa fa-edit"></i></a> 	</h3>
+									<h3><b>Mặt hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin mặt hàng"><i class="fa fa-edit"></i></a> 	</h3>
 								</div>
 								<div class="col-xs-12">
 									<table class="table table-bordered">
@@ -182,6 +182,26 @@
 						<div class="row no-margin top-buttons">
 							<a class="btn btn-warning" id="addBack" href="<?=base_url("/order/process-{$order->OrderID}.html")?>">Trở lại</a>&nbsp;
 							<a class="btn btn-primary" id="addNew" href="<?=base_url("/order/update-{$order->OrderID}.html")?>">Cập nhật đơn hàng</a>
+						</div>
+					</div>
+
+					<!-- Left column -->
+					<div class="col-lg-3 col-sm-12 order-history">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-title">Lịch sử giao dịch</h6>
+								<div id="content">
+									<ul class="timeline">
+									<?php foreach ($trackings as $tracking) {
+										?>
+										<li class="event">
+											<p><?=$tracking->Message?></p>
+										</li>
+										<?php
+									}?>
+									</ul>
+								</div>
+							</div>
 						</div>
 					</div>
 

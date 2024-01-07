@@ -20,6 +20,7 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->helper("my_date");
 		$this->load->helper('form');
 		$this->load->model('City_Model');
+		$this->load->model('User_Model');
 		$this->load->model('District_Model');
 		$this->load->model('Ward_Model');
 		$this->load->model('MyOrder_Model');
@@ -38,8 +39,9 @@ class ShoppingCart_controller extends CI_Controller
 			$note = $this->input->post("note");
 			$payment = $this->input->post("payment");
 			// order
+			$loginID = $this->session->userdata('loginid');
 			$newOrder = [];
-			$newOrder['UserID'] = $this->session->userdata('loginid');
+			$newOrder['UserID'] = $loginID;
 			$newOrder['Status'] = ORDER_STATUS_NEW;
 			$newOrder['ShippingFee'] = 12000;
 			$newOrder['TotalPrice'] = $this->cart->total() + $this->cart->total_items();
@@ -47,8 +49,8 @@ class ShoppingCart_controller extends CI_Controller
 			$newOrder['Payment'] = $payment;
 			$newOrder['CreatedDate'] = date('Y-m-d H:i:s');
 			$newOrder['UpdatedDate'] = date('Y-m-d H:i:s');
-			$newOrder['CreatedBy'] = $this->session->userdata('loginid');
-			$newOrder['UpdatedBy'] = $this->session->userdata('loginid');
+			$newOrder['CreatedBy'] = $loginID;
+			$newOrder['UpdatedBy'] = $loginID;
 
 			// order items
 			$options = [];
@@ -91,7 +93,15 @@ class ShoppingCart_controller extends CI_Controller
 				'Street' => $shippingAddr['street']
 			);
 
-			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $options, $shippingInfo);
+			// tracking
+			$user = $this->User_Model->getUserById($loginID);
+			print_r($user);
+			$orderTracking = array(
+				'CreatedDate' => date('Y-m-d H:i:s'),
+				'Message' => $user->FullName. ' tạo đơn hàng'
+			);
+
+			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $options, $shippingInfo, $orderTracking);
 			redirect('/check-out/success');
 		}
 		$categories = $this->Category_Model->getCategories();

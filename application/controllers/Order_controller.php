@@ -44,7 +44,6 @@ class Order_controller extends CI_Controller
 	public function process($orderId)
 	{
 		$order = $this->MyOrder_Model->findByOrderId($orderId);
-		print_r($order);
 		$this->load->view('order/Order_detail', $order);
 	}
 
