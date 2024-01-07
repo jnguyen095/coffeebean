@@ -1661,3 +1661,25 @@ li.thumbnail img, .img-thumbnail {
 	border-bottom: solid 1px #ccc;
 	margin-bottom: 10px;
 }
+
+.fa-zalo{
+	background-image: url('../img/zalo_icon.png');
+	width: 24px;
+	height: 24px;
+	vertical-align: bottom;
+	background-color: #ffffff;
+	display: block;
+}
+.fa-face{
+	background-image: url('../img/face_icon.png');
+	width: 24px;
+	height: 24px;
+	vertical-align: bottom;
+	background-color: #ffffff;
+	display: block;
+}
+
+.copyright div > a{
+	display: inline-block;
+	margin-left: 5px;
+}

@@ -80,10 +80,10 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-4 col-sm-4">
+			<div class="col-lg-4 col-sm-4 col-xs-4">
 				<input type="text" id="quantity" name="quantity" value="1" class="form-control"/>
 			</div>
-			<div class="col-lg-6 col-sm-6"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Mua Hàng</a></div>
+			<div class="col-lg-6 col-sm-6 col-xs-4"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Mua Hàng</a></div>
 		</div>
 	</div>
 </div>
