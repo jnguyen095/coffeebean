@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/coffeebean';
-// $config['base_url'] = 'https://nhatimchu.com';
+//$config['base_url'] = 'https://capheranghat.com';
 
 // Set default timezone
 date_default_timezone_set('asia/ho_chi_minh');

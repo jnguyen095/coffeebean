@@ -73,6 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+# Localhost
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
@@ -94,17 +95,19 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
 /*
+# Production
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'nhatimch_root',
-	'password' => '.g58wS!TOV[Q',
-	'database' => 'nhatimch_db',
+	'hostname' => 'capheranghat.com',
+	'username' => 'caphe597',
+	'password' => 'N3X546tngBrY',
+	'database' => 'caphe597_coffeebean',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => TRUE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	'db_debug' => FALSE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
@@ -115,4 +118,5 @@ $db['default'] = array(
 	'stricton' => FALSE,
 	'failover' => array(),
 	'save_queries' => TRUE
-);*/
+);
+*/

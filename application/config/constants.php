@@ -113,11 +113,6 @@ defined('GOOGLE_ID')			OR define('GOOGLE_ID', '425783171151-utka0e2mvtbvjievajdg
 // defined('GOOGLE_ANALYTIC_ID')	OR define('GOOGLE_ANALYTIC_ID', 'G-XSFLVBPT63'); // Google Analytic production: https://nhatimchu.com
 defined('GOOGLE_ANALYTIC_ID')	OR define('GOOGLE_ANALYTIC_ID', 'UA-105379684-2'); // Google Analytic local
 
-
-// Category Type
-defined("CATEGORY_MENU")		OR define('CATEGORY_MENU', 1); // Category will be displayed on top menu
-
-
 // Product Package
 defined("PRODUCT_STANDARD")		OR define('PRODUCT_STANDARD', 5); // Free product
 defined("PRODUCT_VIP_0")		OR define('PRODUCT_VIP_0', 0); // Highest priority
@@ -140,3 +135,6 @@ defined("MAX_POST_PER_DAY")		OR define('MAX_POST_PER_DAY', 1);
 defined("MAX_REFRESH_STANDARD_POST")		OR define('MAX_REFRESH_STANDARD_POST', 3);
 defined("MAX_FREE_POST")		OR define('MAX_FREE_POST', 2);
 
+// Order status
+defined("ORDER_STATUS_NEW")		OR define('ORDER_STATUS_NEW', 'NEW');
+defined("ORDER_STATUS_CONFIRM")		OR define('ORDER_STATUS_CONFIRM', 'CONFIRMED');
