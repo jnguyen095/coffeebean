@@ -85,12 +85,15 @@ function bindingAdd2Cart() {
 function bindingChangeCaptchaEvent(){
 	$("#changeCaptcha").click(function (){
 		$("#captchaImg").html("<img src='/img/load.gif'/>");
-		jQuery.ajax({
+		$.ajax({
 			type: "POST",
 			url: urls.loadCaptchaUrl,
 			dataType: 'json',
 			success: function(res){
 				$("#captchaImg").html(res[0].capchaImg);
+			},
+			error: function(xhr, err){
+				console.log(err);
 			}
 		});
 	});

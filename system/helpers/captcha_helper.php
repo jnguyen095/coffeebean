@@ -93,7 +93,6 @@ if ( ! function_exists('create_captcha'))
 				$$key = isset($data[$key]) ? $data[$key] : $val;
 			}
 		}
-		echo '>>'.extension_loaded('gd');
 		if ($img_path === '' OR $img_url === ''
 			OR ! is_dir($img_path) OR ! is_really_writable($img_path)
 			OR ! extension_loaded('gd'))

@@ -57,7 +57,7 @@
 <!-- SWIPER -->
 <script src="<?php echo base_url()?>theme/site/js/swiper-bundle.min.js"></script>
 <!-- Custom JS File Link  -->
-<script src="<?php echo base_url()?>theme/site/js/script.js"></script>
+<!--<script src="--><?php //echo base_url()?><!--theme/site/js/script.js"></script>-->
 
 </body>
 
