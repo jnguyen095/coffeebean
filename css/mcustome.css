@@ -1302,9 +1302,13 @@ img.imgBrief {
 	padding: 1px;
 	margin-left:1px;
 }
-
+.productDetailPage .price{
+	font-size:24px;
+	font-weight: 500;
+}
 .price{
 	color: #ff5400;
+
 }
 
 .briefHome .product-info div, .briefHome .product-info span {
@@ -1609,11 +1613,22 @@ input[type=checkbox], input[type=radio] {
 	margin-left: 20px;
 }
 li.thumbnail {
-	display: inline-block;
+	/*display: inline-block;*/
 }
 li.thumbnail img, .img-thumbnail {
-	max-width: 120px;
+	/*max-width: 120px;*/
 }
+
+div.thumbnails{
+	width: 120px;
+	float: left;
+	padding-right: 5px;
+}
+div.main-image{
+	width: 430px;
+	float: right;
+}
+
 .progresses{
 	display: inline-flex;
 	align-items: center;
@@ -1694,14 +1709,14 @@ form.inde-value #decrease{
 	margin-right: -4px;
 	border-radius: 8px 0 0 8px;
 	height: 36px;
-	margin-top:-2px;
+	margin-top:-3px;
 }
 
 form.inde-value #increase{
 	margin-left: -4px;
 	border-radius: 0 8px 8px 0;
 	height: 36px;
-	margin-top:-2px;
+	margin-top:-3px;
 }
 
 .value-button{

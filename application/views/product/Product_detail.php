@@ -28,7 +28,7 @@
 </head>
 
 <body>
-<div class="container">
+<div class="container productDetailPage">
 <?php $this->load->view('/theme/header')?>
 
 <ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb always">
@@ -42,7 +42,25 @@
 	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name"><?php echo $product->Title?></span></span><meta itemprop="position" content="<?=$position++?>" /></li>
 </ul>
 <div class="row">
-	<div class="col-sm-6"><img src="<?=base_url('/img/product/'.str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" ></div>
+	<div class="col-sm-6">
+		<div class="thumbnails">
+			<?php
+			if(count($product->Assets) > 0){
+				echo '<ul class="popup-gallery">';
+				foreach ($product->Assets as $asset){
+					?>
+					<li class="thumbnail"> <a href="<?php echo base_url($asset->Url)?>" class="image-link" title="<?=$product->Title?>"> <img  src="<?php echo base_url($asset->Url)?>"?></a></li>
+					<?php
+				}
+				echo '</ul>';
+			}
+			?>
+		</div>
+		<div class="main-image">
+			<img src="<?=base_url('/img/product/'.str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" >
+		</div>
+		<div class="clear-both"></div>
+	</div>
 	<div class="col-sm-6">
 		<div class="product-title">
 			<h1 class="h1Class" itemprop="name"><?php echo $product->Title?></h1>
@@ -87,26 +105,16 @@
 					<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
 				</form>
 			</div>
-			<div class="col-lg-6 col-sm-6 col-xs-4"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Mua Hàng</a></div>
+			<div class="col-lg-6 col-sm-6 col-xs-4"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Thêm Vào Giỏ Hàng</a></div>
 		</div>
 	</div>
 </div>
-<div class="thumbnails">
-	<?php
-	if(count($product->Assets) > 0){
-		echo '<ul class="popup-gallery">';
-		foreach ($product->Assets as $asset){
-			?>
-			<li class="thumbnail"> <a href="<?php echo base_url($asset->Url)?>" class="image-link" title="<?=$product->Title?>"> <img  src="<?php echo base_url($asset->Url)?>"?></a></li>
-			<?php
-		}
-		echo '</ul>';
-	}
-	?>
-</div>
+
 <div class="product-detail">
 	<?=$product->Brief?>
 </div>
+
+<div class="overlay" style="display: none"><img src="<?=base_url('/img/spinner.gif')?>"/></div>
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 <script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>

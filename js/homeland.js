@@ -66,6 +66,7 @@ function bindingAdd2Cart() {
 			qty = 1;
 		}
 		if (qty > 0) {
+			$(".overlay").show();
 			$.ajax({
 				type: "POST",
 				url: urls.base_url + '/ShoppingCart_controller/addItemToCart',
@@ -75,6 +76,7 @@ function bindingAdd2Cart() {
 				//update cart
 				$("#myHeaderCart").html(data);
 				//alert('them thanh cong');
+				$(".overlay").hide();
 			});
 		} else {
 			alert('qty > 0');
@@ -286,4 +288,14 @@ function submitContactForm(){
 				$('.modal-body').css('opacity', '');
 			}
 		});
+}
+
+function increaseValue(){
+	var currentVal = parseInt($("#quantity").val());
+	$("#quantity").val(currentVal + 1)
+}
+
+function decreaseValue(){
+	var currentVal = parseInt($("#quantity").val());
+	$("#quantity").val(currentVal < 2 ? 1 : currentVal - 1)
 }
