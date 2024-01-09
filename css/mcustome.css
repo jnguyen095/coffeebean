@@ -1683,3 +1683,65 @@ li.thumbnail img, .img-thumbnail {
 	display: inline-block;
 	margin-left: 5px;
 }
+
+form.inde-value{
+	width: 150px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+form.inde-value #decrease{
+	margin-right: -4px;
+	border-radius: 8px 0 0 8px;
+	height: 36px;
+	margin-top:-2px;
+}
+
+form.inde-value #increase{
+	margin-left: -4px;
+	border-radius: 0 8px 8px 0;
+	height: 36px;
+	margin-top:-2px;
+}
+
+.value-button{
+	display: inline-block;
+	border: solid 1px #ddd;
+	margin: 0px;
+	width: 36px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 8px 0;
+	background: #eee;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.value-button:hover{
+	cursor: pointer;
+}
+
+input#quantity{
+	text-align: center;
+	border: none;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	margin:0px;
+	width: 40px;
+	height: 36px;
+	display: inline-block;
+	box-shadow: none;
+	border-radius: inherit;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+	-webkit-appearance: none;
+	margin:0;
+}
+input[type=number]{
+	-moz-appearance: textfield;
+}
