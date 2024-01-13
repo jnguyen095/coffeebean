@@ -37,10 +37,11 @@ class ShippingFee_controller extends CI_Controller
 	public function index()
 	{
 		$crudaction = $this->input->post('crudaction');
-
+		$data = [];
 		if($crudaction == 'insert-update'){
 			$fees = $this->input->post('fees');
 			$this->ShippingFee_Model->insert($fees);
+			$data['message_response'] = "Thêm mới phí giao hàng thành công";
 		}
 		$fees = $this->ShippingFee_Model->findAll();
 		$data['fees'] = $fees;
