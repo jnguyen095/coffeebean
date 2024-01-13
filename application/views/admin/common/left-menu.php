@@ -50,10 +50,11 @@
 					<li><a href="<?=base_url('/admin/property/list.html')?>"><i class="fa fa-list"></i> <span>Quản lý thuộc tính sản phẩm</span></a></li>
 					<li><a href="<?=base_url('/admin/product/list.html')?>"><i class="fa fa-product-hunt"></i> <span>Quản lý sản phẩm</span></a></li>
 					<li><a href="<?=base_url('/admin/area/list.html')?>"><i class="fa fa-map"></i> <span>Quản lý khu vực</span></a></li>
+					<li><a href="<?=base_url('/admin/shipping-fee/list.html')?>"><i class="fa fa-truck"></i> <span>Phí giao hàng</span></a></li>
 				</ul>
 			</li>
 			<li><a href="<?=base_url('/order/list.html')?>"><i class="fa fa-shopping-cart"></i> <span>Đơn hàng</span></a></li>
-			<li><a href="<?=base_url('/admin/feedback/list.html')?>"><i class="fa fa-handshake-o"></i> <span>Khách liên hệ</span></a></li>
+
 			<!-- Optionally, you can add icons to the links -->
 			<li class="active"><a href="<?=base_url('/admin/dashboard.html')?>"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
 			<li><a href="<?=base_url('/admin/user/list.html')?>"><i class="fa fa-link"></i> <span>Người dùng</span></a></li>
