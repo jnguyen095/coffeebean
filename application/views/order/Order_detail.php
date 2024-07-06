@@ -168,7 +168,18 @@
 												<td class="text-left"><a href="<?=base_url().seo_url($item->ProductName).'-p'.$item->ProductID?>.html" target="_blank"><?=$item->ProductName?></a></td>
 												<td class="text-center"><?=$item->Quantity?></td>
 												<td class="text-right"><?=number_format($item->Price)?></td>
-												<td class="text-left"><?=$item->Options?></td>
+												<td class="text-left">
+													<?php
+														$ops = json_decode($item->Options);
+														foreach ($ops as $k=>$v){
+															foreach ($v as $k1=>$v1){
+																if(!empty($v1)){
+																	echo "<li>".$k1.": ".$v1."</li>";
+																}
+															}
+														}
+													 ?>
+												</td>
 											</tr>
 											<?php
 										} ?>
