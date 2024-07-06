@@ -14,14 +14,28 @@ class MyOrder_Model extends CI_Model
 		parent::__construct();
 	}
 
-	public function createOrder($order, $options, $shippingInfo, $orderTracking){
+	public function createOrder($order, $orderItems, $shippingInfo, $orderTracking){
 		$this->db->insert('myorder', $order);
 		$orderId = $this->db->insert_id();
 		// order detail
-		foreach ($options as $item){
+		foreach ($orderItems as $item){
 			$item['OrderID'] = $orderId;
+			$options = $item['Options'];
+			unset($item['Options']);
 			$this->db->insert('orderdetail', $item);
-			$this->db->insert_id();
+			$orderDetailId = $this->db->insert_id();
+			foreach ($options as $option){
+				foreach ($option as $k => $v){
+					print_r($k.','.$v);
+					$op = array(
+						'OrderDetailID' => $orderDetailId,
+						'Pro' => $k,
+						'Val' => $v
+					);
+					$this->db->insert('orderdetailprop', $op);
+				}
+			}
+
 		}
 
 		// shipping info
@@ -60,11 +74,12 @@ class MyOrder_Model extends CI_Model
 		$order = $query->row();
 
 		// order detail
-		$query = $this->db->select('od.*, p.Title as ProductName')
+		$query = $this->db->select('od.*, p.Title as ProductName, concat(\'[\', group_concat(JSON_OBJECT(po.Pro, po.Val)), \']\') as  Options')
 			->from('orderdetail od')
 			->join('myorder o', 'od.OrderID = o.OrderID')
 			->join('product p', 'p.ProductID = od.ProductID')
-			->where('od.OrderID', $order->OrderID)
+			->join('orderdetailprop po', 'po.OrderDetailID = od.OrderDetailID')
+			->where('od.OrderID', $orderId)
 			->get();
 
 		$products = $query->result();
