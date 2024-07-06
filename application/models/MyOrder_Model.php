@@ -22,11 +22,11 @@ class MyOrder_Model extends CI_Model
 			$item['OrderID'] = $orderId;
 			$options = $item['Options'];
 			unset($item['Options']);
+			//print_r($item);
 			$this->db->insert('orderdetail', $item);
 			$orderDetailId = $this->db->insert_id();
 			foreach ($options as $option){
 				foreach ($option as $k => $v){
-					print_r($k.','.$v);
 					$op = array(
 						'OrderDetailID' => $orderDetailId,
 						'Pro' => $k,
@@ -78,8 +78,10 @@ class MyOrder_Model extends CI_Model
 			->from('orderdetail od')
 			->join('myorder o', 'od.OrderID = o.OrderID')
 			->join('product p', 'p.ProductID = od.ProductID')
-			->join('orderdetailprop po', 'po.OrderDetailID = od.OrderDetailID')
+			->join('orderdetailprop po', 'po.OrderDetailID = od.OrderDetailID', 'left')
 			->where('od.OrderID', $orderId)
+			->group_by('od.OrderDetailID')
+
 			->get();
 
 		$products = $query->result();
