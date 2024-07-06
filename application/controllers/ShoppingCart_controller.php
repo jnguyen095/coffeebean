@@ -54,33 +54,24 @@ class ShoppingCart_controller extends CI_Controller
 
 			// order items
 			$options = [];
+			$orderItems = [];
 			foreach ($this->cart->contents() as $item){
-				$str = '';
 				// property
 				if($this->cart->has_options($item['rowid']) == TRUE) {
-					foreach ($this->cart->product_options($item['rowid']) as $option_name => $option_value) {
-						$i = 1;
-						$str .= '{';
-						foreach ($option_value as $k => $v){
-							$str .= $v;
-							$str .= $i == 1 ? ':' : '},';
-							$i++;
-						}
+					foreach ($this->cart->product_options($item['rowid']) as $option_attr => $option_val) {
+						$option = [];
+						$option[$option_val['key']] = $option_val['attr'];
+						array_push($options, $option);
 					}
-				}
-
-				if(strlen($str) > 0){
-					$lastComma = strripos($str, ',');
-					$str = substr($str, 0, $lastComma);
 				}
 
 				$orderItem = array(
 					'ProductID' => $item['id'],
 					'Price' => $item['price'],
 					'Quantity' => $item['qty'],
-					'Options' => $str
+					'Options' => $options
 				);
-				array_push($options, $orderItem);
+				array_push($orderItems, $orderItem);
 			}
 
 			// shipping
@@ -95,13 +86,13 @@ class ShoppingCart_controller extends CI_Controller
 
 			// tracking
 			$user = $this->User_Model->getUserById($loginID);
-			print_r($user);
+			//print_r($user);
 			$orderTracking = array(
 				'CreatedDate' => date('Y-m-d H:i:s'),
 				'Message' => $user->FullName. ' tạo đơn hàng' . (isset($note) && strlen($note) > 0 ? ' với ghi chú: <b>'. $note .'</b>' : '')
 			);
 
-			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $options, $shippingInfo, $orderTracking);
+			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $orderItems, $shippingInfo, $orderTracking);
 			redirect('/check-out/success');
 		}
 		$categories = $this->Category_Model->getCategories();
