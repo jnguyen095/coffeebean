@@ -1616,7 +1616,7 @@ li.thumbnail {
 	/*display: inline-block;*/
 }
 li.thumbnail img, .img-thumbnail {
-	/*max-width: 120px;*/
+	max-width: 120px;
 }
 
 div.thumbnails{
