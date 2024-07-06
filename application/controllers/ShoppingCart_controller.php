@@ -53,9 +53,9 @@ class ShoppingCart_controller extends CI_Controller
 			$newOrder['UpdatedBy'] = $loginID;
 
 			// order items
-			$options = [];
 			$orderItems = [];
 			foreach ($this->cart->contents() as $item){
+				$options = [];
 				// property
 				if($this->cart->has_options($item['rowid']) == TRUE) {
 					foreach ($this->cart->product_options($item['rowid']) as $option_attr => $option_val) {
@@ -93,6 +93,7 @@ class ShoppingCart_controller extends CI_Controller
 			);
 
 			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $orderItems, $shippingInfo, $orderTracking);
+			//return;
 			redirect('/check-out/success');
 		}
 		$categories = $this->Category_Model->getCategories();
