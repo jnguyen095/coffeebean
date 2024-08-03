@@ -112,6 +112,7 @@ class User_Model extends CI_Model
 		$result['items'] = $query->result();
 		$query = $this->db->or_like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->get('us3r');
 		$result['total'] = $query->num_rows();
+print_r($result);
 		return $result;
 	}
 

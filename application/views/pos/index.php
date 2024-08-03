@@ -14,43 +14,19 @@
 <?php $this->load->view('/pos/header')?>
 
 <div class="row no-margin pos">
-	<div class="col-md-9 no-margin no-padding " style="background-color: #cccccc">
-		<?php
-		foreach ($products as $product) {?>
-		<div class="col-sm-2">
-			<div class="productItem">
-				<div class="col-sm-6 no-padding productImg">
-					<img src="<?=base_url('/img/product/').$product->Thumb?>" width="100%"/>
-				</div>
-				<div class="col-sm-6 no-padding">
-					<div class="productName"><?=$product->Title?></div>
-					<div class="productPrice"><?=number_format($product->Price)?></div>
-				</div>
-			</div>
-		</div>
-		<?php }
-		?>
-	</div>
-	<div class="col-md-3 no-margin-right no-padding-right no-padding-left-mobile" style="background-color: #ECE8DC">
-		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-			<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-			<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+
+	<div class="col-md-12 no-margin no-padding">
+		<ul id="tabId" class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" id="tab-1" href="#order1">Order 1 <i onclick="removeTab('tab-1')" class="glyphicon glyphicon-remove"></i> </a></li>
+			<a id="addTab" title="Thêm đơn" data-toggle="tooltip" href="#" style="display: block;margin-top: 8px; color: #008000"><i class="glyphicon glyphicon-plus"></i></a>
 		</ul>
 
-		<div class="tab-content">
-			<div id="home" class="tab-pane fade in active">
-				<h3>HOME</h3>
-				<p>Some content.</p>
+
+		<div id="tabContent" class="tab-content">
+			<div id="tab-1-content" class="tab-pane fade in active">
+				
 			</div>
-			<div id="menu1" class="tab-pane fade">
-				<h3>Menu 1</h3>
-				<p>Some content in menu 1.</p>
-			</div>
-			<div id="menu2" class="tab-pane fade">
-				<h3>Menu 2</h3>
-				<p>Some content in menu 2.</p>
-			</div>
+			
 		</div>
 	</div>
 </div>
@@ -59,6 +35,117 @@
 <?php $this->load->view('/pos/footer')?>
 </div>
 
+<script src="<?=base_url('/js/bootbox.min.js')?>"></script>
 </body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		initialTabsEvent();
+		loadTabContent('tab-1');
 
+		$("#addTab").click(function(){
+			addNewTab();
+		});
+	});
+
+	function initialCatCollapseExpend(tabID){
+		$("#cat-" + tabID).unbind('click');
+		$("#cat-" + tabID).click(function(e){
+			$this = $(e);
+			$elm = $('#cat-' + tabID + ' i');
+			if($(".pos-navbar-nav").is(":visible")){
+				$elm.removeClass("glyphicon-menu-up");
+				$elm.addClass("glyphicon-menu-down");
+				$("#navbar-" + tabID).hide();
+			}else{
+				$elm.removeClass("glyphicon-menu-down");
+				$elm.addClass("glyphicon-menu-up");
+				$("#navbar-" + tabID).show();
+				
+			}
+		});
+	}
+
+	function initialTabsEvent(){
+		$("#tabId > li > a").unbind('click');
+		$("#tabId > li > a").click(function(){
+			$id = $(this).attr("id");
+			selectedTab($id);
+		});
+	}	
+
+	function addNewTab(){	
+		$tabs = $("#tabId li");
+		var newID = $tabs.length + 1;
+		for(var i = 1; i < newID; i++){
+			if($("#tab-"+i).length == 0){
+				// missing tab
+				newID = i;
+				break;
+			}
+		}
+		$('<li><a data-toggle="tab" id="tab-'+ newID +'" href="#menu'+ newID +'">Order '+ newID +' <i onclick="removeTab(\'tab-'+ newID +'\')" class="glyphicon glyphicon-remove"></i></a></li>').insertBefore($("#addTab"));
+		$("#tabContent").append('<div id="tab-'+ newID +'-content" class="tab-pane fade"><h3>Menu '+newID+'</h3><p>Some content in menu '+newID+'.</p></div>');
+		loadTabContent('tab-'+newID);
+		initialTabsEvent();
+	}
+
+	function loadTabContent(tabID){
+		$.ajax({
+			type:'POST',
+			url: '<?=base_url()?>POS_controller/loadTabContent',
+			data: {'tabID': tabID},
+			success:function(msg) {
+				$("#" + tabID + '-content').html(msg);
+				initialCatCollapseExpend(tabID);
+				initialSearchCustomer(tabID);
+			}
+		});
+	}
+
+	function initialSearchCustomer(tabID){
+		$("#customer-" + tabID).click(function(){
+			var $modal = $('#modalCustomerDialog-' + tabID);
+			$.ajax({
+				type: "POST",
+				url: '<?=base_url()?>POS_controller/getCustomer',
+				data: {'keyword': ''}
+			}).done(function (data) {
+				$modal.html(data);
+				$modal.modal('show');
+			});
+		});
+	}
+
+	function loadProduct(catId, tabID){
+		$.ajax({
+			type:'POST',
+			url: '<?=base_url()?>POS_controller/loadProductByCatId',
+			data: {'catId': catId},
+			success:function(msg) {
+				$("#product-" + tabID).html(msg);
+			}
+		});
+	}
+
+	function removeTab(tabID){
+		
+		bootbox.confirm("Bạn có chắc chắn xóa đơn hàng: <b>" + $("#" + tabID).text() + "</b>?", function(r){
+			if(r){
+				// Remove Tab content
+				$("#"+ tabID + "-content").remove();
+				// Remove Tab header
+				$("#" + tabID).parent().remove();
+			}
+		});
+	}
+
+	function selectedTab(tabId){
+		$(".nav-tabs li").removeClass("active");
+		$(this).parent().addClass("active");
+		$(".tab-content .tab-pane").removeClass("active");
+		$(".tab-content .tab-pane").removeClass("in");
+		$("#" + tabId + "-content").addClass("active");
+		$("#" + tabId + "-content").addClass("in");
+	}
+</script>
 </html>

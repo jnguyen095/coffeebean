@@ -664,11 +664,6 @@ ul.nearme {
 	line-height: 30px;
 }
 
-.active{
-	color: #008000;
-	font-weight: bold;
-}
-
 .paymentDelay{
 	color: #ff0000;
 }

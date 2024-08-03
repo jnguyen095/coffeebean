@@ -148,7 +148,7 @@
 					<div class="form-group">
 						<div class="row colbox no-margin">
 							<div class="col-lg-2 col-sm-4">
-								<label for="txt_address" class="control-label">Tình Trạng</label>
+								<label for="txt_address" class="control-label">Hoạt động</label>
 							</div>
 							<div class="col-lg-8 col-sm-8">
 								<input type="checkbox" name="ch_status" value="1" <?=(isset($ch_status) && $ch_status == 1) ? "checked" : "" ?> class="form-control minimal">
