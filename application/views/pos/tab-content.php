@@ -38,10 +38,18 @@
 			<div class="modal fade" id="modalCustomerDialog-<?=$tabID?>" role="dialog"><?=$tabID?></div>
 		</form>
 		<!-- end popup -->
+		
 		<div class="row text-right no-margin-right">
-			<a class="btn btn-primary" id="customer-<?=$tabID?>"><i class="glyphicon glyphicon-user"></i> Khách hàng</a>
+			<a class="btn btn-primary" id="addcustomer-<?=$tabID?>"><i class="glyphicon glyphicon-user"></i> Khách hàng</a>
 			<a class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Thêm</a>
 		</div>
+		
+		<!-- customer infomation -->
+		<div id="customer-<?=$tabID?>" class="row text-left customerInfo no-margin-right">
+			<?php $this->load->view('/pos/customer-info')?>	
+		</div>
+		<!-- end -->
+		
 		<div class="">
 			<table class="table">
 				<thead class="thead-dark">

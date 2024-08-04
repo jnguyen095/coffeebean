@@ -56,11 +56,22 @@ class POS_controller extends CI_Controller
 		$this->load->view('pos/product-list', $data);
 	}
 
-	public function getCustomer(){
+	public function getCustomerList(){
 		$keyword = $this->input->post('keyword');
+		$tabID = $this->input->post('tabID');
 		$results = $this->User_Model->getAllUsers(0, 20, $keyword, "CreatedDate", "DESC");
 		$data['users'] = $results['items'];
+		$data['tabID'] = $tabID;
 		$this->load->view('pos/customer-list', $data);
+	}
+
+	public function getCustomerById(){
+		$userId = $this->input->post('userId');
+		$tabID = $this->input->post('tabID');
+		$user = $this->User_Model->getUserById($userId);
+		$data['user'] = $user;
+		$data['tabID'] = $tabID;
+		$this->load->view('pos/customer-info', $data);
 	}
 
 }

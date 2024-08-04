@@ -34,3 +34,11 @@
 li.active > a{
 	background-color: #ddd !important;
 }
+
+.customerInfo{
+	background: #ececec;
+	border: solid 1px green;
+	border-radius: 5px;
+	margin-top: 2px;
+	padding: 2px 5px;
+}

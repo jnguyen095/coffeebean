@@ -103,16 +103,27 @@
 	}
 
 	function initialSearchCustomer(tabID){
-		$("#customer-" + tabID).click(function(){
+		$("#addcustomer-" + tabID).click(function(){
 			var $modal = $('#modalCustomerDialog-' + tabID);
 			$.ajax({
 				type: "POST",
-				url: '<?=base_url()?>POS_controller/getCustomer',
-				data: {'keyword': ''}
+				url: '<?=base_url()?>POS_controller/getCustomerList',
+				data: {'tabID': tabID, 'keyword': ''},
 			}).done(function (data) {
 				$modal.html(data);
 				$modal.modal('show');
 			});
+		});
+	}
+
+	function selectCustomer(customerId, tabID){
+		$.ajax({
+			type: "POST",
+			url: '<?=base_url()?>POS_controller/getCustomerById',
+			data: {'tabID': tabID, 'userId': customerId},
+		}).done(function (data) {
+			$("#customer-" + tabID).html(data);
+			$('#modalCustomerDialog-' + tabID).modal('hide');
 		});
 	}
 
