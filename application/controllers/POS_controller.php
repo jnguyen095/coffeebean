@@ -74,4 +74,11 @@ class POS_controller extends CI_Controller
 		$this->load->view('pos/customer-info', $data);
 	}
 
+	public function getCustomerNameById(){
+		$userId = $this->input->post('userId');
+		$tabID = $this->input->post('tabID');
+		$user = $this->User_Model->getUserById($userId);
+		echo $user->FullName;
+	}
+
 }

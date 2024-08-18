@@ -36,7 +36,6 @@
 
 		<!-- Modal Footer -->
 		<div class="modal-footer">
-			<input type="hidden" name="crudaction" value="insert"/>
 			<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 		</div>
 	</div>

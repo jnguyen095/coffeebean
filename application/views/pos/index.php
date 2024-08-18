@@ -17,7 +17,10 @@
 
 	<div class="col-md-12 no-margin no-padding">
 		<ul id="tabId" class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" id="tab-1" href="#order1">Order 1 <i onclick="removeTab('tab-1')" class="glyphicon glyphicon-remove"></i> </a></li>
+			<li class="active">
+				<a data-toggle="tab" id="tab-1" href="#order1">Order 1</a>
+				<a onclick="removeTab('tab-1')" class="glyphicon glyphicon-remove removeTab no-padding no-margin"></a>
+			</li>
 			<a id="addTab" title="Thêm đơn" data-toggle="tooltip" href="#" style="display: block;margin-top: 8px; color: #008000"><i class="glyphicon glyphicon-plus"></i></a>
 		</ul>
 
@@ -41,11 +44,18 @@
 	$(document).ready(function() {
 		initialTabsEvent();
 		loadTabContent('tab-1');
+		initialAddNewTab();
+	});
 
+	function addProduct2Cart(productId, tabID){
+
+	}
+
+	function initialAddNewTab(){
 		$("#addTab").click(function(){
 			addNewTab();
 		});
-	});
+	}
 
 	function initialCatCollapseExpend(tabID){
 		$("#cat-" + tabID).unbind('click');
@@ -71,6 +81,10 @@
 			$id = $(this).attr("id");
 			selectedTab($id);
 		});
+		$("#tabId > li > a:after").click(function(){
+			console.log(this);
+		});
+		
 	}	
 
 	function addNewTab(){	
@@ -83,7 +97,7 @@
 				break;
 			}
 		}
-		$('<li><a data-toggle="tab" id="tab-'+ newID +'" href="#menu'+ newID +'">Order '+ newID +' <i onclick="removeTab(\'tab-'+ newID +'\')" class="glyphicon glyphicon-remove"></i></a></li>').insertBefore($("#addTab"));
+		$('<li><a data-toggle="tab" id="tab-'+ newID +'" href="#menu'+ newID +'">Order '+ newID +'</a><a onclick="removeTab(tab-' + newID + ')" class="glyphicon glyphicon-remove removeTab no-padding no-margin"></a></li>').insertBefore($("#addTab"));
 		$("#tabContent").append('<div id="tab-'+ newID +'-content" class="tab-pane fade"><h3>Menu '+newID+'</h3><p>Some content in menu '+newID+'.</p></div>');
 		loadTabContent('tab-'+newID);
 		initialTabsEvent();
@@ -123,7 +137,18 @@
 			data: {'tabID': tabID, 'userId': customerId},
 		}).done(function (data) {
 			$("#customer-" + tabID).html(data);
+			updateTabName(customerId, tabID);
 			$('#modalCustomerDialog-' + tabID).modal('hide');
+		});
+	}
+
+	function updateTabName(customerId, tabID){
+		$.ajax({
+			type: "POST",
+			url: '<?=base_url()?>POS_controller/getCustomerNameById',
+			data: {'tabID': tabID, 'userId': customerId},
+		}).done(function (data) {
+			$("#" + tabID).html(data);
 		});
 	}
 
