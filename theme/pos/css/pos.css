@@ -68,3 +68,8 @@ a#addTab:hover{
 	background-color: #008000;
 	color: #fff;
 }
+
+.btn-filter{
+	margin-left: 5px;
+	vertical-align: middle;
+}

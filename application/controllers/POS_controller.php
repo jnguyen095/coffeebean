@@ -51,7 +51,12 @@ class POS_controller extends CI_Controller
 	public function loadProductByCatId(){
 		$catId = $this->input->post('catId');
 		$tabID = $this->input->post('tabID');
-		$products = $this->Product_Model->findByCatId($catId);
+		if($catId > 0){
+			$products = $this->Product_Model->findByCatId($catId);
+		}else{
+			$products = $this->Product_Model->loadAvailableProducts(0, 10, null, null, null, null);
+		}
+		
 		$data['products'] = $products['products'];
 		$data['total'] = $products['total'];
 		$data['tabID'] = $tabID;
@@ -85,9 +90,14 @@ class POS_controller extends CI_Controller
 
 	public function getProductById(){
 		$productId = $this->input->post('productId');
-		$tabID = $this->input->post('tabID');
 		$product = $this->Product_Model->findById($productId);
 		echo json_encode($product);
+	}
+
+	public function getCategoryById(){
+		$catId = $this->input->post('catId');
+		$category = $this->Category_Model->findByNotChildId($catId);
+		echo json_encode($category);
 	}
 
 }

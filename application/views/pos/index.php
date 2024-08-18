@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset = "utf-8">
-	<title>POS</title>
+	<title>Point of Sales</title>
 	<?php $this->load->view('common_header')?>
 	<link rel="stylesheet" href="<?=base_url('/theme/pos/css/pos.css')?>">
 </head>
@@ -152,14 +152,40 @@
 	}
 
 	function loadProduct(catId, tabID){
+		$(".overlay").show();
 		$.ajax({
 			type:'POST',
 			url: '<?=base_url()?>POS_controller/loadProductByCatId',
 			data: {'catId': catId, 'tabID': tabID},
 			success:function(msg) {
 				$("#product-" + tabID).html(msg);
+				if(catId != undefined && catId > 0){
+					loadCategoryFilter(catId, tabID);	
+				} else {
+					$(".overlay").hide();
+				}
+				
 			}
 		});
+	}
+
+	function loadCategoryFilter(catId, tabID){
+		$.ajax({
+			type:'POST',
+			url: '<?=base_url()?>POS_controller/getCategoryById',
+			data: {'catId': catId},
+			success:function(data) {
+				var json = $.parseJSON(data);
+				$(".cat-filter-" + tabID).remove();
+				$("#cat-" + tabID).after('<a class="btn-filter cat-filter-' + tabID + '" href="#" onclick="removeCatFillter(\'' + tabID + '\')">' + json.CatName + ' <i class="glyphicon glyphicon-remove"></i></a>');
+				$(".overlay").hide();
+			}
+		});
+	}
+
+	function removeCatFillter(tabID){
+		loadProduct(-1, tabID);
+		$(".cat-filter-" + tabID).remove();
 	}
 
 	function removeTab(tabID){
