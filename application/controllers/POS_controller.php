@@ -50,9 +50,11 @@ class POS_controller extends CI_Controller
 
 	public function loadProductByCatId(){
 		$catId = $this->input->post('catId');
+		$tabID = $this->input->post('tabID');
 		$products = $this->Product_Model->findByCatId($catId);
 		$data['products'] = $products['products'];
 		$data['total'] = $products['total'];
+		$data['tabID'] = $tabID;
 		$this->load->view('pos/product-list', $data);
 	}
 
@@ -79,6 +81,13 @@ class POS_controller extends CI_Controller
 		$tabID = $this->input->post('tabID');
 		$user = $this->User_Model->getUserById($userId);
 		echo $user->FullName;
+	}
+
+	public function getProductById(){
+		$productId = $this->input->post('productId');
+		$tabID = $this->input->post('tabID');
+		$product = $this->Product_Model->findById($productId);
+		echo json_encode($product);
 	}
 
 }

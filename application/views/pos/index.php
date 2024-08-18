@@ -18,10 +18,10 @@
 	<div class="col-md-12 no-margin no-padding">
 		<ul id="tabId" class="nav nav-tabs">
 			<li class="active">
-				<a data-toggle="tab" id="tab-1" href="#order1">Order 1</a>
+				<a class="mytab" data-toggle="tab" id="tab-1" href="#order1">Order 1</a>
 				<a onclick="removeTab('tab-1')" class="glyphicon glyphicon-remove removeTab no-padding no-margin"></a>
 			</li>
-			<a id="addTab" title="Thêm đơn" data-toggle="tooltip" href="#" style="display: block;margin-top: 8px; color: #008000"><i class="glyphicon glyphicon-plus"></i></a>
+			<a id="addTab" title="Thêm đơn" data-toggle="tooltip" href="#"><i class="glyphicon glyphicon-plus"></i></a>
 		</ul>
 
 
@@ -39,6 +39,7 @@
 </div>
 
 <script src="<?=base_url('/js/bootbox.min.js')?>"></script>
+<div class="overlay" style="display: none"><img src="<?=base_url('/img/spinner.gif')?>"/></div>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -76,18 +77,15 @@
 	}
 
 	function initialTabsEvent(){
-		$("#tabId > li > a").unbind('click');
-		$("#tabId > li > a").click(function(){
+		$("#tabId > li > a.mytab").unbind('click');
+		$("#tabId > li > a.mytab").click(function(){
 			$id = $(this).attr("id");
 			selectedTab($id);
 		});
-		$("#tabId > li > a:after").click(function(){
-			console.log(this);
-		});
-		
 	}	
 
-	function addNewTab(){	
+	function addNewTab(){
+		$(".overlay").show();	
 		$tabs = $("#tabId li");
 		var newID = $tabs.length + 1;
 		for(var i = 1; i < newID; i++){
@@ -97,7 +95,7 @@
 				break;
 			}
 		}
-		$('<li><a data-toggle="tab" id="tab-'+ newID +'" href="#menu'+ newID +'">Order '+ newID +'</a><a onclick="removeTab(tab-' + newID + ')" class="glyphicon glyphicon-remove removeTab no-padding no-margin"></a></li>').insertBefore($("#addTab"));
+		$('<li><a class="mytab" data-toggle="tab" id="tab-'+ newID +'" href="#menu'+ newID +'">Order '+ newID +'</a><a onclick="removeTab(\'tab-' + newID + '\')" class="glyphicon glyphicon-remove removeTab no-padding no-margin"></a></li>').insertBefore($("#addTab"));
 		$("#tabContent").append('<div id="tab-'+ newID +'-content" class="tab-pane fade"><h3>Menu '+newID+'</h3><p>Some content in menu '+newID+'.</p></div>');
 		loadTabContent('tab-'+newID);
 		initialTabsEvent();
@@ -112,6 +110,7 @@
 				$("#" + tabID + '-content').html(msg);
 				initialCatCollapseExpend(tabID);
 				initialSearchCustomer(tabID);
+				$(".overlay").hide();
 			}
 		});
 	}
@@ -156,7 +155,7 @@
 		$.ajax({
 			type:'POST',
 			url: '<?=base_url()?>POS_controller/loadProductByCatId',
-			data: {'catId': catId},
+			data: {'catId': catId, 'tabID': tabID},
 			success:function(msg) {
 				$("#product-" + tabID).html(msg);
 			}
@@ -182,6 +181,44 @@
 		$(".tab-content .tab-pane").removeClass("in");
 		$("#" + tabId + "-content").addClass("active");
 		$("#" + tabId + "-content").addClass("in");
+	}
+
+	function add2Cart(productId, tabID){
+		$(".overlay").show();
+		$.ajax({
+			type:'POST',
+			url: '<?=base_url()?>POS_controller/getProductById',
+			data: {'productId': productId},
+			success:function(data) {
+				var json = $.parseJSON(data);
+				// console.log(json);
+				$("." + tabID + "-emptyrow").parent().remove();
+				if($("#" + json.ProductID  + "-" + tabID).length < 1){
+					var html = '<tr>';
+						html += '<td scope="row">'+ ($("#cart-" + tabID + " tr").length) +'</td>';
+						html += '<td>' + json.Title + '</td>';
+						html += '<td id="' + json.ProductID + '-' + tabID + '">1</td>';
+						html += '<td>' + json.Price + '</td>';
+						html += '<td class="text-center"><a href="#" onclick="removePrd(' + json.ProductID + ', \''+ tabID + '\')"><i class="glyphicon glyphicon-remove"></i></a></td>';
+						html += '</tr>';
+
+						$("#cart-" + tabID + " tbody").append(html);
+				}else{
+					$("#" + json.ProductID  + "-" + tabID).text(parseInt($("#" + json.ProductID  + "-" + tabID).text()) + 1);
+				}
+				$(".overlay").hide();
+			}
+		});
+	}
+
+	function removePrd(productId, tabID){
+		$("#" + productId + "-" + tabID).parent().remove();
+		if($("#cart-" + tabID + " tbody tr").length < 1){
+			var html = '<tr>';
+			html += '<td colspan="5" class="text-warning text-center ' + tabID + '-emptyrow">Chưa có sản phẩm nào</td>';
+			html += '</tr>';
+			$("#cart-" + tabID + " tbody").append(html);
+		}
 	}
 </script>
 </html>

@@ -51,7 +51,7 @@
 		<!-- end -->
 		
 		<div class="">
-			<table class="table">
+			<table id="cart-<?=$tabID?>" class="table">
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">#</th>
@@ -63,25 +63,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						<td><a><i class="glyphicon glyphicon-remove"></i></a></td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td><a><i class="glyphicon glyphicon-remove"></i></a></td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Larry</td>
-						<td>the Bird</td>
-						<td>@twitter</td>
-						<td><a><i class="glyphicon glyphicon-remove"></i></a></td>
+						<td colspan="5" class="text-warning text-center <?=$tabID?>-emptyrow">Chưa có sản phẩm nào</td>
 					</tr>
 				</tbody>
 			</table>
