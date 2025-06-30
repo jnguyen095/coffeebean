@@ -944,7 +944,7 @@ ul.nearme {
 }
 
 .menu_bottom {
-	background: #5EAB1F;
+	/*background: #5EAB1F;*/
 	float: left;
 	width: 100%;
 	margin-bottom: 10px;
@@ -1541,7 +1541,7 @@ ul.user-menu{
 }
 .product-thumb .caption {
 	padding: 0 10px;
-	min-height: 120px;
+	min-height: 90px;
 }
 .product-thumb .button-group {
 	border-top: 1px solid #ddd;
@@ -1555,7 +1555,6 @@ ul.user-menu{
 .img-responsive {
 	display: block;
 	max-width: 100%;
-	height: 200px;
 	padding-top: 2px;
 }
 .img-responsive-large{
@@ -1611,7 +1610,7 @@ li.thumbnail {
 	/*display: inline-block;*/
 }
 li.thumbnail img, .img-thumbnail {
-	max-width: 120px;
+	/*max-width: 120px;*/
 }
 
 div.thumbnails{
@@ -1633,7 +1632,10 @@ div.main-image{
 .line{
 	width: 120px;
 	height: 6px;
-	background: #63d19e;
+	background: #dddddd;
+}
+.line.active{
+	background-color: #63d19e;
 }
 .last-line{
 	width: 0px;
@@ -1654,10 +1656,13 @@ div.main-image{
 	position: absolute;
 }
 
-.steps{
+.steps.in-progress{
+	background-color: #FFA500;
+}
 
+.steps{
 	display: flex;
-	background-color: #63d19e;
+	background-color: #dddddd;
 	color: #fff;
 	font-size: 14px;
 	width: 40px;
@@ -1665,6 +1670,10 @@ div.main-image{
 	align-items: center;
 	justify-content: center;
 	border-radius: 50%;
+}
+
+.steps.active{
+	background-color: #63d19e;
 }
 
 .border-bottom{

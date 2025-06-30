@@ -20,8 +20,7 @@ class ProductProperty_Model extends CI_Model
 			if($v != null && $v > 0){
 				$newData = array(
 					'ProductID' => $productId,
-					'PropertyID' => $k,
-					'Price' => $v
+					'PropertyID' => $k
 				);
 
 				$this->db->insert('productproperty', $newData);
@@ -30,7 +29,7 @@ class ProductProperty_Model extends CI_Model
 	}
 
 	public function findByProductId($productId){
-		$sql = "select pp.PropertyID, pp.Price from productproperty pp where pp.ProductID = {$productId}";
+		$sql = "select pp.PropertyID from productproperty pp where pp.ProductID = {$productId}";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}

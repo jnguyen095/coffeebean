@@ -60,7 +60,7 @@
 							<label>Mã sản phẩm <span class="required">*</span></label>
 						</div>
 						<div class="col-md-2">
-							<input type="text" name="Code" class="form-control" value="<?=isset($product->Code) ? $product->Code: ''?>"/>
+							<input type="text" name="Code" readonly="readonly" class="form-control" value="<?=isset($product->Code) ? $product->Code: ''?>"/>
 							<span class="text-danger"><?php echo form_error('Code'); ?></span>
 						</div>
 					</div>
@@ -128,11 +128,12 @@
 						</div>
 						<div class="col-md-10">
 							<input type="file" id="txt_image" name="txt_image">
+							<input type="hidden" value="<?=$product->Code?>" name="txt_pimg">
 							<span class="text-danger"><?php echo form_error('txt_image'); ?></span>
 							<?php
 							if(isset($product->Thumb) && strlen($product->Thumb) > 0){
 								?>
-								<img style="width:50px" src="<?=base_url('/img/product/'.$product->Thumb)?>"/>
+								<img style="width:50px" src="<?=base_url($product->Thumb)?>"/>
 								<?php
 							}
 							?>
@@ -159,17 +160,18 @@
 							if($properties != null && count($properties) > 0){
 								foreach ($properties['properties'] as $p){
 									?>
-									<div class="parent-property col-lg-4" id="<?=$p->PropertyID?>">
+									<div class="parent-property col-lg-2" id="<?=$p->PropertyID?>">
 										<div class="form-group parent-property">
-											<div class="col-lg-4 col-sm-8"><?=$p->PropertyName?></div>
-											<div class="col-lg-4 col-sm-8">Giá bán:</div>
+											<div class="col-lg-12"><?=$p->PropertyName?></div>
 										</div>
 										<?php
 										if(($properties['child'][$p->PropertyID]) > 0){
 											foreach ($properties['child'][$p->PropertyID] as $k){?>
 												<div class="form-group children-property">
-													<div class="col-lg-4 col-sm-8"><?=$k->PropertyName?></div>
-													<div class="col-lg-4 col-sm-8"><input type="text" name="properties[<?=$k->PropertyID?>]" class="form-control" value="<?=isset($productProperties[$k->PropertyID]) ? $productProperties[$k->PropertyID] : ""?>"></div>
+													<div class="col-lg-12">
+														<input type="checkbox" name="properties[<?=$k->PropertyID?>]" value="<?=$k->PropertyID?>" <?=isset($productProperties[$k->PropertyID]) ? "checked" : "" ?> class="form-control minimal">
+														<?=$k->PropertyName?>
+													</div>
 												</div>
 												<?php
 											}

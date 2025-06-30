@@ -26,13 +26,13 @@
 	<div class="col-lg-12 mobile-hide ">
 		<div class="container-fluid text-center border-bottom">
 			<div class="progresses">
-				<div class="steps">
+				<div class="steps active">
 					<span><i class="glyphicon glyphicon-ok"></i></span>
 				</div>
 
-				<span class="line"><label class="label1">Xem đơn hàng</label></span>
+				<span class="line active"><label class="label1">Xem đơn hàng</label></span>
 
-				<div class="steps">
+				<div class="steps in-progress">
 					<span class="font-weight-bold">2</span>
 				</div>
 
@@ -139,7 +139,7 @@
 				<thead>
 				<tr>
 					<td class="text-left">Sản phẩm</td>
-					<td class="text-left">Số lượng</td>
+					<td class="text-left">SL</td>
 					<td class="text-right">Tổng cộng</td>
 				</tr>
 				</thead>
@@ -172,11 +172,11 @@
 				<?php } ?>
 				<tr>
 					<td colspan="2">Phí giao hàng</td>
-					<td class="text-right">12,000</td>
+					<td class="text-right">-</td>
 				</tr>
 				<tr>
 					<td colspan="2">Tổng cộng</td>
-					<td class="text-right"><?=number_format($this->cart->total() + 12000)?> VNĐ</td>
+					<td class="text-right"><?=number_format($this->cart->total() )?>(VNĐ)</td>
 				</tr>
 
 				</tbody>
@@ -184,7 +184,7 @@
 		</div>
 	</div>
 
-	<div class="col-lg-12 text-right">
+	<div class="col-lg-12 text-right margin-bottom-20">
 		<a class="btn btn-info" href="<?=base_url('/check-out.html')?>"><i class="glyphicon glyphicon-menu-left"></i> Trở Lại  </a>
 		<button class="btn btn-primary" type="submit">Tiếp Theo <i class="glyphicon glyphicon-menu-right"></i> </button>
 	</div>
@@ -195,8 +195,10 @@
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 <script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>
-<?php $this->load->view('/theme/footer')?>
+
 </div>
+
+<?php $this->load->view('/theme/footer')?>
 
 <script type="text/javascript">
 	$(document).ready(function() {

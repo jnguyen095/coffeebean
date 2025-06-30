@@ -224,7 +224,7 @@ class Product_Model extends CI_Model
 			$product->Assets = $query->result();
 
 			// Product Properties
-			$sql = 'select P0.ProductPropertyID, P0.PropertyName, P0.Price, P1.PropertyID as \'ParentID\', P1.PropertyName as \'ParentName\' from(select pp.ProductPropertyID, p.PropertyName, p.PropertyID, pp.Price, p.ParentID from productproperty pp inner join property p ON pp.PropertyID = p.PropertyID where pp.ProductID = '.$productId.') as P0 INNER join property P1 on P0.ParentID = P1.PropertyID';
+			$sql = 'select P0.ProductPropertyID, P0.PropertyName, P1.PropertyID as \'ParentID\', P1.PropertyName as \'ParentName\' from(select pp.ProductPropertyID, p.PropertyName, p.PropertyID, p.ParentID from productproperty pp inner join property p ON pp.PropertyID = p.PropertyID where pp.ProductID = '.$productId.') as P0 INNER join property P1 on P0.ParentID = P1.PropertyID';
 
 			$query = $this->db->query($sql);
 			$properties = $query->result();
@@ -237,7 +237,6 @@ class Product_Model extends CI_Model
 				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['ParentID'] = $property->ParentID;
 				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['ProductPropertyID'] = $property->ProductPropertyID;
 				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['Name'] = $property->PropertyName;
-				$propertyKeyVal[$property->ParentName][$property->ProductPropertyID]['Price'] = $property->Price;
 
 			}
 			//print_r($propertyKeyVal);
@@ -899,6 +898,28 @@ class Product_Model extends CI_Model
 			->order_by('PostDate', 'DESC')
 			->get();
 		return $query->result();
+	}
+
+	public function getNewProductCode(){
+		$sql = 'select p.Code from product p';
+		$sql .= ' order by p.PostDate desc';
+		$sql .= ' limit 1';
+		$productCodes = $this->db->query($sql);
+		$code = $productCodes->row();
+		if($code != null){
+			$newCode = (int)str_replace('P-', '', $code->Code) + 1;
+			if($newCode < 10){
+				return "P-0000".$newCode;
+			} else if($newCode < 100){
+				return "P-000".$newCode;
+			} else if($newCode < 1000){
+				return "P-0".$newCode;
+			} else if($newCode < 10000){
+				return "P-".$newCode;
+			}
+		}else {
+			return "P-00001";
+		}
 	}
 
 

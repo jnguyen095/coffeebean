@@ -12,8 +12,8 @@ class POS_controller extends CI_Controller
 	{
 		parent::__construct();
 		if (!$this->session->userdata('loginid')){
-			// redirect('dang-nhap');
-			$this->session->set_userdata('loginid', 0);
+			redirect('dang-nhap');
+			//$this->session->set_userdata('loginid', 0);
 		}
 		$this->load->helper('form');
 		$this->load->helper('url');
@@ -28,12 +28,6 @@ class POS_controller extends CI_Controller
 
 	public function index()
 	{
-
-		/*$categories = $this->Category_Model->getCategories();
-		$data = $categories;
-		$products = $this->Product_Model->loadAvailableProducts(0, 10, null, null, null, null);
-		$data['products'] = $products['products'];
-		$data['total'] = $products['total'];*/
 		$this->load->view('pos/index');
 	}
 

@@ -43,7 +43,7 @@ class ShoppingCart_controller extends CI_Controller
 			$newOrder = [];
 			$newOrder['UserID'] = $loginID;
 			$newOrder['Status'] = ORDER_STATUS_NEW;
-			$newOrder['ShippingFee'] = 12000;
+			// $newOrder['ShippingFee'] = 12000;
 			$newOrder['TotalPrice'] = $this->cart->total() + $this->cart->total_items();
 			$newOrder['Note'] = $note;
 			$newOrder['Payment'] = $payment;
@@ -51,6 +51,7 @@ class ShoppingCart_controller extends CI_Controller
 			$newOrder['UpdatedDate'] = date('Y-m-d H:i:s');
 			$newOrder['CreatedBy'] = $loginID;
 			$newOrder['UpdatedBy'] = $loginID;
+			$newOrder['Code'] = $this->MyOrder_Model->getNewOrderCode();
 
 			// order items
 			$orderItems = [];
@@ -198,7 +199,7 @@ class ShoppingCart_controller extends CI_Controller
 
 	public function reloadHeadCart()
 	{
-		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm - '.number_format($this->cart->total() + ($this->cart->total_items() > 0 ? 12000 : 0)).'đ';
+		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm '.number_format($this->cart->total() + ($this->cart->total_items() > 0 ? 12000 : 0)).'đ';
 		$html .= ' <span class="caret"></span>';
 		return $html;
 	}
@@ -237,16 +238,7 @@ class ShoppingCart_controller extends CI_Controller
 								$html .= '<td><a class="remove-cart-item glyphicon glyphicon-remove-circle text-red" rowid="'. $item['rowid'] .'" style="color: #ff0000"></a></td>';
 								$html .= '</tr>';
 							}
-							$html .= '<tr>
-										<td colspan="2" class="text-right">Phí giao hàng</td>
-										<td class="text-right">'.number_format(12000).'</td>
-									</tr>';
-							$html .= '<tr>
-										<td colspan="2" class="text-right">Tổng:</td>
-										<td class="text-right">'.number_format($this->cart->total() + 12000).'</td>
-									</tr>';
-
-							$html .= '<tr><td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Giỏ Hàng</a> </td></tr>';
+							$html .= '<tr><td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Đặt Hàng</a> </td></tr>';
 					$html .= '</table>';
 					$html .= '</a>';
 					$html .= '</li>';

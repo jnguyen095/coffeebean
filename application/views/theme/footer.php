@@ -8,39 +8,48 @@
 
 ?>
 <a id="myBtn" href="javascript:void(0);" class="mobile-hide" title="Go to top"><img src="<?=base_url().'/img/gotop.png'?>" alt="Go Top"/></a>
-<div class="footer row no-margin">
-	<div class="quickLink mobile-hide">
 
-		<div class="clear-both"></div>
-	</div>
-	<div class="menu_bottom">
-		<ul>
-			<li><a href="<?=base_url('/bao-gia-quang-cao.html')?>">Báo giá quảng cáo</a></li>
-			<li><a href="<?=base_url('/dieu-khoan-su-dung.html')?>">Điều khoản thỏa thuận</a></li>
-			<li><a href="<?=base_url('/quy-che-hoat-dong.html')?>">Quy chế hoạt động</a></li>
-			<li><a href="<?=base_url('/bao-gia-dich-vu.html')?>">Báo giá</a></li>
-			<li><a href="<?=base_url('/cau-hoi-thuong-gap.html')?>">Câu hỏi thường gặp</a></li>
-			<li><a href="javascript:void(0);" id="contactModalForm">Liên hệ - góp ý</a></li>
-			<li><a href="<?=base_url('/tuyen-dung.html')?>">Tuyển dụng</a></li>
+<nav class="navbar navbar-default m-navbar">
+	<div class="container-fluid">
+		<div class="container">
+			<div class="footer row no-margin">
+				<!--
+				<div class="quickLink mobile-hide">
+					<div class="clear-both"></div>
+				</div>
+				-->
+				<div class="menu_bottom">
+					<ul>
+						<li><a href="<?=base_url('/bao-gia-quang-cao.html')?>">Báo giá quảng cáo</a></li>
+						<li><a href="<?=base_url('/dieu-khoan-su-dung.html')?>">Điều khoản thỏa thuận</a></li>
+						<li><a href="<?=base_url('/quy-che-hoat-dong.html')?>">Quy chế hoạt động</a></li>
+						<li><a href="<?=base_url('/bao-gia-dich-vu.html')?>">Báo giá</a></li>
+						<li><a href="<?=base_url('/cau-hoi-thuong-gap.html')?>">Câu hỏi thường gặp</a></li>
+						<li><a href="javascript:void(0);" id="contactModalForm">Liên hệ - góp ý</a></li>
+						<li><a href="<?=base_url('/tuyen-dung.html')?>">Tuyển dụng</a></li>
 
-		</ul>
-	</div>
-	<div class="copyright text-center">
-		<div>Copyright © 2024 vananhshop.com ®</div>
-		<div>Hotline: <b>0778763790</b> | Email:  vananhshop@gmail.com</div>
-		<div>
-			<a href="http://zalo.me/0778763790"><i class="fa fa-zalo"></i>
-			<a href="https://www.facebook.com/%C4%90%E1%BB%93-l%C3%B3t-gi%C3%A1-s%E1%BB%89-V%C3%A2n-Anh-103836747787793/"><i class="fa fa-face"></i></a>
+					</ul>
+				</div>
+				<div class="copyright text-center">
+					<div>Copyright © 2024 vananhshop.com ®</div>
+					<div>Hotline: <b>0778763790</b> | Email:  vananhshop@gmail.com</div>
+					<div>
+						<a href="http://zalo.me/0778763790"><i class="fa fa-zalo"></i>
+						<a href="https://www.facebook.com/%C4%90%E1%BB%93-l%C3%B3t-gi%C3%A1-s%E1%BB%89-V%C3%A2n-Anh-103836747787793/"><i class="fa fa-face"></i></a>
+					</div>
+				</div>
+
+				<!-- Modal -->
+				<form id="modalForm" role="form">
+					<div class="modal fade" id="modalFormDialog" role="dialog">
+
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
+</nav>
 
-	<!-- Modal -->
-	<form id="modalForm" role="form">
-		<div class="modal fade" id="modalFormDialog" role="dialog">
-
-		</div>
-	</form>
-</div>
 <script>
 	var urls = {
 		social_login_url: '<?=base_url('/login_controller/socialLogin')?>',

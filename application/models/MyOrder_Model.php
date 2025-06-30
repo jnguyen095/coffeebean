@@ -111,4 +111,26 @@ class MyOrder_Model extends CI_Model
 
 		return $data;
 	}
+
+	public function getNewOrderCode(){
+		$sql = 'select o.Code from myorder o';
+		$sql .= ' order by o.CreatedDate desc';
+		$sql .= ' limit 1';
+		$orderCodes = $this->db->query($sql);
+		$code = $orderCodes->row();
+		if($code != null){
+			$newCode = (int)str_replace('O-', '', $code->Code) + 1;
+			if($newCode < 10){
+				return "O-0000".$newCode;
+			} else if($newCode < 100){
+				return "O-000".$newCode;
+			} else if($newCode < 1000){
+				return "O-0".$newCode;
+			} else if($newCode < 10000){
+				return "O-".$newCode;
+			}
+		}else {
+			return "O-00001";
+		}
+	}
 }

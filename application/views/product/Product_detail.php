@@ -49,7 +49,7 @@
 				echo '<ul class="popup-gallery">';
 				foreach ($product->Assets as $asset){
 					?>
-					<li class="thumbnail"> <a href="<?php echo base_url($asset->Url)?>" class="image-link" title="<?=$product->Title?>"> <img  src="<?php echo base_url($asset->Url)?>"?></a></li>
+					<li class="thumbnail"> <a href="<?php echo base_url(str_replace('_thumb', '', $asset->Url))?>" class="image-link" title="<?=$product->Title?>"> <img  src="<?php echo base_url($asset->Url)?>"?></a></li>
 					<?php
 				}
 				echo '</ul>';
@@ -57,7 +57,7 @@
 			?>
 		</div>
 		<div class="main-image">
-			<img src="<?=base_url('/img/product/'.str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" >
+			<img src="<?=base_url(str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" >
 		</div>
 		<div class="clear-both"></div>
 	</div>
@@ -118,8 +118,9 @@
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 <script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>
-<?php $this->load->view('/theme/footer')?>
 </div>
+
+<?php $this->load->view('/theme/footer')?>
 
 <script type="text/javascript">
 	$(document).ready(function() {

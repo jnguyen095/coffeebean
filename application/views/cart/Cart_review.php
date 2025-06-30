@@ -26,19 +26,19 @@
 	<div class="col-lg-12 mobile-hide ">
 		<div class="container-fluid text-center border-bottom">
 			<div class="progresses">
-				<div class="steps">
+				<div class="steps active">
 					<span><i class="glyphicon glyphicon-ok"></i></span>
 				</div>
 
-				<span class="line"><label class="label1">Xem đơn hàng</label></span>
+				<span class="line active"><label class="label1">Xem đơn hàng</label></span>
 
-				<div class="steps">
+				<div class="steps active">
 					<span class="font-weight-bold"><i class="glyphicon glyphicon-ok"></i></span>
 				</div>
 
-				<span class="line"><label class="label2">Địa chỉ giao hàng</label></span>
+				<span class="line active"><label class="label2">Địa chỉ giao hàng</label></span>
 
-				<div class="steps">
+				<div class="steps in-progress">
 					<span >3</span>
 				</div>
 				<span class="last-line"><label class="label3">Hoàn thành</label></span>
@@ -59,7 +59,7 @@
 				<thead>
 				<tr>
 					<td class="text-left">Sản phẩm</td>
-					<td class="text-left">Số lượng</td>
+					<td class="text-left">SL</td>
 					<td class="text-right">Tổng cộng</td>
 				</tr>
 				</thead>
@@ -92,11 +92,11 @@
 				<?php } ?>
 				<tr>
 					<td colspan="2">Phí giao hàng</td>
-					<td class="text-right">12,000</td>
+					<td class="text-right">-</td>
 				</tr>
 				<tr>
 					<td colspan="2">Tổng cộng</td>
-					<td class="text-right"><?=number_format($this->cart->total() + 12000)?> VNĐ</td>
+					<td class="text-right"><?=number_format($this->cart->total())?>(VNĐ)</td>
 				</tr>
 
 				</tbody>
@@ -133,22 +133,26 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-					<h3><b>Ghi chú:</b></h3>
+					<h3><b>Ghi chú cho đơn hàng:</b></h3>
 				</div>
 				<div class="col-xs-12">
-					<textarea name="note" value="COD" placeholder="ví dụ: giao hàng giờ hành chính" style="width: 100%;height: 30px;resize: none"></textarea>
+					<textarea name="note" value="COD" placeholder="ví dụ: giao hàng giờ hành chính" style="width: 100%;height: 40px;resize: none"></textarea>
 				</div>
 				<div class="clear-both"></div>
+			</div>
+
+			<div class="row margin-bottom-20">
+				<div class="col-xs-12">
+					<a class="btn btn-info" href="<?=base_url('/check-out/address.html')?>"><i class="glyphicon glyphicon-menu-left"></i> Trở Lại  </a>
+					<button class="btn btn-warning" type="submit">Tạo Đơn</button>
+				</div>
 			</div>
 		</div>
 
 
 	</div>
 
-	<div class="col-lg-12 text-right">
-		<a class="btn btn-info" href="<?=base_url('/check-out/address.html')?>"><i class="glyphicon glyphicon-menu-left"></i> Trở Lại  </a>
-		<button class="btn btn-primary" type="submit">Hoàn Thành <i class="glyphicon glyphicon-menu-right"></i> </button>
-	</div>
+
 
 	<input type="hidden" name="crudaction" value="insert" >
 	<?php echo form_close(); ?>
@@ -156,8 +160,10 @@
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 <script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>
-<?php $this->load->view('/theme/footer')?>
+
 </div>
+
+<?php $this->load->view('/theme/footer')?>
 
 <script type="text/javascript">
 	$(document).ready(function() {

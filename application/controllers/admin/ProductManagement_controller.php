@@ -89,7 +89,7 @@ class ProductManagement_controller extends CI_Controller
 			$productId = $this->input->post('ProductID');
 		}
 		$product['ProductID'] = $productId;
-		$product['Code'] = uniqid('P-');
+		$product['Code'] = $this->Product_Model->getNewProductCode(); // uniqid('P-');
 
 		$data = $categories;
 		$data['properties'] = $property;
@@ -143,7 +143,7 @@ class ProductManagement_controller extends CI_Controller
 			$productProperties = $this->ProductProperty_Model->findByProductId($productId);
 			if(count($productProperties) > 0){
 				foreach ($productProperties as $property){
-					$properties[$property->PropertyID] = $property->Price;
+					$properties[$property->PropertyID] = $property->PropertyID;
 				}
 			}
 			$data['other_images'] = $this->loadOthersImages($productId);
@@ -196,7 +196,8 @@ class ProductManagement_controller extends CI_Controller
 			return $this->input->post("txt_image");
 		}else{
 			$this->allowed_img_types = $this->config->item('allowed_img_types');
-			$upath = 'img' . DIRECTORY_SEPARATOR .'product'. DIRECTORY_SEPARATOR;
+			// $upath = 'img' . DIRECTORY_SEPARATOR .'product'. DIRECTORY_SEPARATOR;
+			$upath = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_pimg'] . DIRECTORY_SEPARATOR;
 
 			if (!file_exists($upath)) {
 				mkdir($upath, 0777, true);
@@ -227,16 +228,15 @@ class ProductManagement_controller extends CI_Controller
 				$imgDetailArray = explode('.', $img['file_name']);
 				$thumbimgname = $imgDetailArray[0].'_thumb'.'.'.$imgDetailArray[1];
 				// unlink($upath.$img['file_name']);
-				return $thumbimgname;
+				return "/".$upath.$thumbimgname;
 			}
-			//return '/'.$upath.$img['file_name'];
 		}
 	}
 
 	public function do_upload_others_images()
 	{
 		if ($this->input->is_ajax_request()) {
-			$upath = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR;
+			$upath = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR .'details'. DIRECTORY_SEPARATOR;
 			if (!file_exists($upath)) {
 				mkdir($upath, 0777, true);
 			}
@@ -264,6 +264,21 @@ class ProductManagement_controller extends CI_Controller
 					echo json_encode($error);
 					$is_OK = false;
 				}
+				// Resize images
+				$img = $this->upload->data();
+				if ($img['file_name'] != null) {
+					// Resize image
+					$this->load->library('image_lib');
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = $upath.$img['file_name'];
+					$config['create_thumb'] = TRUE;
+					$config['maintain_ratio'] = TRUE;
+					$config['width']     = 100;
+
+					$this->image_lib->clear();
+					$this->image_lib->initialize($config);
+					$this->image_lib->resize();
+				}
 			}
 			if($is_OK){
 				echo json_encode(array('success' => true));
@@ -276,17 +291,17 @@ class ProductManagement_controller extends CI_Controller
 	{
 		$output = '';
 		if (isset($_POST['txt_folder']) && $_POST['txt_folder'] != null) {
-			$dir = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR;
+			$dir = 'attachments' . DIRECTORY_SEPARATOR .'u'. $_POST['txt_folder'] . DIRECTORY_SEPARATOR .'details'. DIRECTORY_SEPARATOR;
 			//$output = $dir;
 			if (is_dir($dir)) {
 				if ($dh = opendir($dir)) {
 					$i = 0;
 					while (($file = readdir($dh)) !== false) {
 						if (is_file($dir . $file)) {
-							if (strpos($file, '_thumb.') != true) {
+							if (strpos($file, '_thumb.') == true) {
 								$output .= '
                                 <div class="other-img" id="image-container-' . $i . '">
-                                    <img src="' . base_url($dir . $file ) . '" style="width:100px; height: 100px;">
+                                    <img src="' . base_url($dir . $file ) . '">
                                     <input type="hidden" name="otherImages[]" value="\'/' . $dir . $file . '\'"/>
                                     <a href="javascript:void(0);" onclick="removeSecondaryProductImage(\'' . $file . '\', \'' . $_POST['txt_folder'] . '\', ' . $i . ')">
                                         <span class="glyphicon glyphicon-remove"></span>
@@ -309,7 +324,7 @@ class ProductManagement_controller extends CI_Controller
 				foreach ($productAssets as $asset){
 					$output .= '
                                 <div class="other-img" id="image-container-' . $asset->ProductAssetID . '">
-                                    <img src="' . base_url($asset->Url) . '" style="width:100px; height: 100px;">
+                                    <img src="' . base_url($asset->Url) . '" >
                                     <input type="hidden" name="otherImages[]" value="\'/' . $asset->Url . '\'"/>
                                     <a href="javascript:void(0);" onclick="removeSecondaryProductImage(\'' . $asset->Name . '\', \''. $asset->Code . '\',\''. $asset->ProductAssetID.'\')">
                                         <span class="glyphicon glyphicon-remove"></span>

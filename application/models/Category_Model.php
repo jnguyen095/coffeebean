@@ -13,8 +13,8 @@ class Category_Model extends CI_Model
 	}
 
 	public function getCategories() {
-		$this->db->where("ParentID IS NULL");
-
+		$this->db->where("ParentID IS NULL AND Active = 1");
+		$this->db->order_by("DisplayIndex", "ASC");
 		$query = $this->db->get("category");
 
 		$data['categories'] = $query->result();

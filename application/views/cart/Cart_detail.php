@@ -25,7 +25,7 @@
 	<div class="col-lg-12 mobile-hide ">
 		<div class="container-fluid text-center border-bottom">
 			<div class="progresses">
-				<div class="steps step">
+				<div class="steps step in-progress">
 					<span class="font-weight-bold">1</span>
 				</div>
 
@@ -63,7 +63,7 @@
 				<tr>
 					<td class="text-center">
 						<a href="<?=base_url().seo_url($item['name']).'-p'.$item['id']?>.html">
-							<img src="<?=base_url('/img/product/'.$item['image'])?>" alt="<?=$item['name']?>" title="<?=$item['name']?>" class="img-thumbnail">
+							<img src="<?=base_url($item['image'])?>" alt="<?=$item['name']?>" title="<?=$item['name']?>" class="img-thumbnail">
 						</a>
 					</td>
 					<td class="text-left">
@@ -86,31 +86,33 @@
 					<td class="text-left">
 						<input type="text" name="quantity[<?=$item['rowid']?>]" value="<?=$item['qty']?>" size="1" class="form-control">
 					</td>
-					<td class="text-right"><?=number_format($item['price'])?> VNĐ</td>
-					<td class="text-right"><?=number_format($item['price'] * $item['qty'])?> VNĐ</td>
+					<td class="text-right"><?=number_format($item['price'])?></td>
+					<td class="text-right"><?=number_format($item['price'] * $item['qty'])?></td>
 				</tr>
 			<?php } ?>
 			<tr>
 				<td class="text-right" colspan="4">Phí giao hàng</td>
-				<td class="text-right">12,000</td>
+				<td class="text-right">-</td>
 			</tr>
 			<tr>
 				<td class="text-right" colspan="4">Tổng cộng</td>
-				<td class="text-right"><?=number_format($this->cart->total() + 12000)?></td>
+				<td class="text-right"><?=number_format($this->cart->total())?>(VNĐ)</td>
 			</tr>
 			</tbody>
 		</table>
 	</div>
 
-	<div class="col-lg-12 text-right">
+	<div class="col-lg-12 text-right margin-bottom-20">
 		<a class="btn btn-primary" href="<?=base_url('/check-out/address.html')?>">Tiếp Theo <i class="glyphicon glyphicon-menu-right"></i> </a>
 	</div>
 </div>
 
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 <script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>
-<?php $this->load->view('/theme/footer')?>
+
 </div>
+
+<?php $this->load->view('/theme/footer')?>
 
 <script type="text/javascript">
 	$(document).ready(function() {

@@ -94,82 +94,19 @@
 		<div class="search-result-panel col-md-12">
 			<?=number_format($total)?> kết quả<span class="search-total-result">
 			<?php
-			if(isset($district)){
-				if(isset($city)){
-					echo ', nhà đất tại quận '.$district->DistrictName.', '. $city->CityName;
-				}else{
-					echo ', nhà đất tại quận '.$district->DistrictName;
-				}
-			}else if(isset($city)){
-				 echo ', nhà đất tại '.$city->CityName;
-			 }else if(isset($branch)){
-				 echo ', nhà đất dự án '.$branch->BrandName;
-			 }else if(isset($cat_city)){
-				 echo ', '.$cat_city;
-			 }else{
-				 $str = '';
-				 if(isset($keyword) && strlen($keyword) > 0){
-					 $str .= ' "'.$keyword.'"';
-				 }
-				 if(isset($category)){
-					 if(isset($keyword)){
-						 $str .= ', '.$category->CatName;
-					 }else {
-						 $str .= $category->CatName;
-					 }
-				 }
-				 if(isset($cmPrice) && $cmPrice > -1){
-					 switch($cmPrice){
-						 case 0: $str .= ', giá thỏa thuận';break;
-						 case 1: $str .= ', giá dưới 500 triệu';break;
-						 case 2: $str .= ', giá dưới 1 tỷ';break;
-						 case 3: $str .= ', giá 1 - 2 tỷ';break;
-						 case 4: $str .= ', giá 2 - 3 tỷ';break;
-						 case 5: $str .= ', giá 3 - 5 tỷ';break;
-						 case 6: $str .= ', giá 5 - 7 tỷ';break;
-						 case 7: $str .= ', giá 7 - 10 tỷ';break;
-						 case 8: $str .= ', giá 10 - 20 tỷ';break;
-						 case 9: $str .= ', giá trên 20 tỷ';break;
-					 }
-				 }
-				 if(isset($cmArea) && $cmArea > -1){
-					 switch($cmArea) {
-						 case 0:
-							 $str .= ', chưa xác định';
-							 break;
-						 case 1:
-							 $str .= ', dưới 30m²';
-							 break;
-						 case 2:
-							 $str .= ', 30 - 50m²';
-							 break;
-						 case 3:
-							 $str .= ', 50 - 80m²';
-							 break;
-						 case 4:
-							 $str .= ', 80 - 100m²';
-							 break;
-						 case 5:
-							 $str .= ', 100 - 150m²';
-							 break;
-						 case 6:
-							 $str .= ', 150 - 200m²';
-							 break;
-						 case 7:
-							 $str .= ', trên 200m²';
-							 break;
-					 }
-
-				 }
-				 if(isset($scity)){
-					 if(isset($sdistrict)){
-						 $str .= ' tại '.$sdistrict->DistrictName.', '.$scity->CityName;
-					 }else{
-						 $str .= ' tại '.$scity->CityName;
-					 }
-				 }
-				 echo $str;
+			 $str = '';
+			 if(isset($keyword) && strlen($keyword) > 0){
+				 $str .= ' "'.$keyword.'"';
 			 }
+			 if(isset($category)){
+				 if(isset($keyword)){
+					 $str .= ', '.$category->CatName;
+				 }else {
+					 $str .= $category->CatName;
+				 }
+			 }
+
+			 echo $str;
 			?>
 			</span>
 		</div>
@@ -180,7 +117,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 						<div class="product-thumb transition">
 							<div class="image">
-								<a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img src="<?=base_url('/img/product/'.$product->Thumb)?>" class="img-responsive" ></a>
+								<a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><img src="<?=base_url($product->Thumb)?>" class="img-responsive" ></a>
 							</div>
 							<div class="caption">
 								<h3><a href="<?=base_url().seo_url($product->Title).'-p'.$product->ProductID?>.html"><?=$product->Title?></a></h3>
