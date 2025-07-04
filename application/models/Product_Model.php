@@ -375,6 +375,24 @@ class Product_Model extends CI_Model
 		return $data;
 	}
 
+	public function findByCatIdFetchChildrent($catId, $offset, $limit){
+		//$this->output->enable_profiler(TRUE);
+		$sql = 'select p.* from product p';
+		$sql .= ' where p.status = 1 and (p.categoryid = '.$catId.' or p.categoryid in (select c.CategoryID from category c where c.Active = 1 AND c.ParentID = '.$catId.' ))';
+		$sql .= ' order by date(p.modifieddate) desc';
+		$sql .= ' limit '.$offset.','.$limit;
+
+		$countsql = 'select count(*) as total from product where Status = 1 and (CategoryID = '.$catId.' or CategoryID in (select c.CategoryID from category c where c.Active = 1 AND c.ParentID = '.$catId.' ))';
+
+		$products = $this->db->query($sql);
+		$total = $this->db->query($countsql);
+
+		$data['products'] = $products->result();
+		$total = $total->row();
+		$data['total'] = $total->total;
+		return $data;
+	}
+
 	public function findByCatIdAndDistrictId($catId, $districtId, $offset, $limit){
 		// $this->output->enable_profiler(TRUE);
 		$sql = 'select p.*, c.cityname as city, d.districtname as district from product p';

@@ -41,7 +41,7 @@
 	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?php echo base_url().seo_url($category->CatName).'-c'.$category->CategoryID?>.html"><span itemprop="name"><?php echo $category->CatName?></span></a><meta itemprop="position" content="<?=$position++?>" /></li>
 	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name"><?php echo $product->Title?></span></span><meta itemprop="position" content="<?=$position++?>" /></li>
 </ul>
-<div class="row">
+<div class="row margin-bottom-20 margin-top-20">
 	<div class="col-sm-6">
 		<div class="thumbnails">
 			<?php
@@ -107,12 +107,16 @@
 			</div>
 			<div class="col-lg-6 col-sm-6 col-xs-4"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Thêm Vào Giỏ Hàng</a></div>
 		</div>
+
+		<div class="row">
+			<div class="product-detail">
+				<?=$product->Brief?>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div class="product-detail">
-	<?=$product->Brief?>
-</div>
+
 
 <div class="overlay" style="display: none"><img src="<?=base_url('/img/spinner.gif')?>"/></div>
 

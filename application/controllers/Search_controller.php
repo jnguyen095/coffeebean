@@ -29,7 +29,7 @@ class Search_controller extends CI_Controller
 
 	public function index($offset=0){
 		// begin file cached
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 
 		$keyword = $this->input->post("keyword");

@@ -212,7 +212,7 @@ body > .container{
 }
 
 .fix-height-standard {
-	height: 313px;
+	height: 410px;
 }
 
 a:focus, a{
@@ -1544,7 +1544,6 @@ ul.user-menu{
 	min-height: 90px;
 }
 .product-thumb .button-group {
-	border-top: 1px solid #ddd;
 	background-color: #eee;
 	overflow: auto;
 }
@@ -1552,6 +1551,12 @@ ul.user-menu{
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.product-thumb .button-group a:hover{
+	text-decoration: no-underline !important;
+	color: #20C063 !important;
+}
+
 .img-responsive {
 	display: block;
 	max-width: 100%;
@@ -1574,7 +1579,6 @@ h3 {
 	margin: 10px 0 10px;
 }
 .product-thumb .button-group {
-	border-top: 1px solid #ddd;
 	background-color: #eee;
 	overflow: auto;
 }

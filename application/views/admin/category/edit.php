@@ -96,6 +96,17 @@
 					<div class="form-group">
 						<div class="row colbox no-margin">
 							<div class="col-lg-2 col-sm-4">
+								<label for="txt_catname" class="control-label">Thứ tự</label>
+							</div>
+							<div class="col-lg-1 col-sm-1">
+								<input class="form-control" id="txt_index" name="txt_index" placeholder="Thứ tự" type="text" value="<?=isset($index) ? $index : ""?>" />
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row colbox no-margin">
+							<div class="col-lg-2 col-sm-4">
 								<label for="txt_active" class="control-label">Hoạt động</label>
 							</div>
 							<div class="col-lg-8 col-sm-8">

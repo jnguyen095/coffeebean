@@ -86,6 +86,18 @@ class Banner_Model extends CI_Model
 		return $query->row();
 	}
 
+	function loadListByCode($code){
+		//$this->output->enable_profiler(TRUE);
+		$query = $this->db->select('bn.BannerID, bn.Image, bn.TargetUrl')
+			->from('banner bn')
+			->where('Code', $code)
+			->where('Status', ACTIVE)
+			->order_by("Priority", "ASC")
+			->get();
+		return $query->result();
+	}
+
+
 	function increaseCounterAndUpdateView($id, $data){
 		$this->db->set('Click', 'Click + 1', false);
 		$this->db->where('BannerID', $id);

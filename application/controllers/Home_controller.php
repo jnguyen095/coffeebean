@@ -28,11 +28,12 @@ class Home_controller extends CI_Controller
 	}
 
 	public function index() {
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 		$newProducts = $this->Product_Model->topNewProducts(20);
-
+		$data['sampleHouses'] = $this->SampleHouse_Model->findTopNewExceptCurrent(0, 10);
 		$data['products'] = $newProducts;
+		$data['topBanners'] = $this->Banner_Model->loadListByCode('BANNER_HOME_0');
 		$this->load->helper('url');
 		$this->load->view('Home_view', $data);
 	}

@@ -36,10 +36,11 @@ class Category_controller extends CI_Controller
 		$data['CategoryID'] = $categoryId;
 		if ($this->input->post('crudaction') == "insert") {
 			$parentID = $this->input->post("txt_parent");
+			$index = $this->input->post("txt_index");
 			$data['txt_parent'] = isset($parentID) ? $parentID : null;
 			$data['txt_catname'] = $this->input->post("txt_catname");
 			$data['ch_status'] = $this->input->post("ch_status") == null ? INACTIVE : ACTIVE;
-			$data['index'] = 0;
+			$data['index'] = isset($index) ? $index : 0;
 
 			//set validations
 			$this->form_validation->set_rules("txt_catname", "Tên danh mục", "trim|required");
@@ -59,6 +60,7 @@ class Category_controller extends CI_Controller
 			$data['txt_catname'] = $category->CatName;
 			$data['txt_parent'] = $category->ParentID;
 			$data['ch_status'] = $category->Active;
+			$data['index'] = $category->DisplayIndex;
 		}
 
 		$this->load->view("admin/category/edit", $data);

@@ -13,6 +13,28 @@ class Category_Model extends CI_Model
 	}
 
 	public function getCategories() {
+		$this->db->where("ParentID IS NULL");
+		$this->db->order_by("DisplayIndex", "ASC");
+		$query = $this->db->get("category");
+
+		$data['categories'] = $query->result();
+		$child = [];
+		foreach ($data as $key=>$value){
+			foreach ($data[$key] as $k=>$v){
+				$categoryId = $v->CategoryID;
+				if($categoryId != null){
+					$this->db->where("ParentID = ". $categoryId);
+					$query = $this->db->get("category");
+					$child[$categoryId] = $query->result();
+				}
+			}
+		}
+		$data['child'] = $child;
+
+		return $data;
+	}
+
+	public function getActiveCategories() {
 		$this->db->where("ParentID IS NULL AND Active = 1");
 		$this->db->order_by("DisplayIndex", "ASC");
 		$query = $this->db->get("category");
@@ -36,6 +58,7 @@ class Category_Model extends CI_Model
 
 	public function getRootCategories() {
 		$this->db->where("ParentID IS NULL and Active = 1");
+		$this->db->order_by("DisplayIndex", "ASC");
 		$query = $this->db->get("category");
 		$data['categories'] = $query->result();
 		return $data;
@@ -103,6 +126,7 @@ class Category_Model extends CI_Model
 		} else{
 			$this->db->set('CatName', $data['txt_catname']);
 			$this->db->set('Active', $data['ch_status']);
+			$this->db->set('DisplayIndex', $data['index']);
 			$this->db->set('ParentID', isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL);
 
 			$this->db->where('CategoryID', $data['CategoryID']);

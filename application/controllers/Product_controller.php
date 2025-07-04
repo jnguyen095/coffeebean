@@ -27,9 +27,9 @@ class Product_controller extends CI_Controller
 	}
 
 	public function listItem($catId, $offset=0) {
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
-		$search_data = $this->Product_Model->findByCatIdFetchAddress($catId, $offset, MAX_PAGE_ITEM);
+		$search_data = $this->Product_Model->findByCatIdFetchChildrent($catId, $offset, MAX_PAGE_ITEM);
 		$data = array_merge($data, $search_data);
 
 		$thisCat = $this->Category_Model->findById($catId);
@@ -50,7 +50,7 @@ class Product_controller extends CI_Controller
 
 	public function detailItem($productId) {
 		// $categories = $this->Category_Model->getCategories();
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 		$product = $this->Product_Model->findByDetailId($productId);
 		$data['product'] = $product;
@@ -71,7 +71,7 @@ class Product_controller extends CI_Controller
 		$categories = $this->cache->file->get('category');
 		$footerMenus = $this->cache->file->get('footer');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
+			$categories = $this->Category_Model->getActiveCategories();
 			$this->cache->file->save('category', $categories, 1440);
 		}
 		if(!$footerMenus) {
@@ -108,7 +108,7 @@ class Product_controller extends CI_Controller
 		$categories = $this->cache->file->get('category');
 		$footerMenus = $this->cache->file->get('footer');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
+			$categories = $this->Category_Model->getActiveCategories();
 			$this->cache->file->save('category', $categories, 1440);
 		}
 		if(!$footerMenus) {
