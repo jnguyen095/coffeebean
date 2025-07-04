@@ -14,14 +14,9 @@ class Home_controller extends CI_Controller
 		$this->load->library('cart');
 		$this->load->model('Category_Model');
 		$this->load->model('Product_Model');
-		$this->load->model('City_Model');
-		$this->load->model('Brand_Model');
 		$this->load->helper("seo_url");
 		$this->load->helper('text');
 		$this->load->helper("my_date");
-		$this->load->model('News_Model');
-		$this->load->model('Cooperate_Model');
-		$this->load->model('SampleHouse_Model');
 		$this->load->model('Banner_Model');
 		$this->load->helper('form');
 
@@ -31,7 +26,6 @@ class Home_controller extends CI_Controller
 		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 		$newProducts = $this->Product_Model->topNewProducts(20);
-		$data['sampleHouses'] = $this->SampleHouse_Model->findTopNewExceptCurrent(0, 10);
 		$data['products'] = $newProducts;
 		$data['topBanners'] = $this->Banner_Model->loadListByCode('BANNER_HOME_0');
 		$this->load->helper('url');

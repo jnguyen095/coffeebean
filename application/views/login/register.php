@@ -3,7 +3,7 @@
 <head>
 	<head>
 		<meta charset = "utf-8">
-		<title>Nhà Tìm Chủ | Đăng Ký</title>
+		<title>Nhà Đất An Cư | Đăng Ký</title>
 		<?php $this->load->view('common_header')?>
 		<?php $this->load->view('/common/googleadsense')?>
 	</head>
@@ -29,11 +29,11 @@
 			}?>
 
 			<?php
-				$attributes = array("class" => "form-horizontal", "id" => "register", "name" => "register");
-				echo form_open("dang-ky", $attributes);
+			$attributes = array("class" => "form-horizontal", "id" => "register", "name" => "register");
+			echo form_open("dang-ky", $attributes);
 			?>
 			<fieldset>
-				<legend class="text-center">ĐĂNG KÝ TÀI KHOẢN</legend>
+				<legend class="text-center">ĐĂNG KÝ TÀI KHOẢN ĐĂNG TIN</legend>
 				<div class="form-group">
 					<div class="row colbox no-margin">
 						<div class="col-lg-4 col-sm-4">
@@ -49,11 +49,11 @@
 				<div class="form-group">
 					<div class="row colbox no-margin">
 						<div class="col-lg-4 col-sm-4">
-							<label for="txt_username" class="control-label">Tên đăng nhập <span class="required">*</span> </label>
+							<label for="txt_phone" class="control-label">Số điện thoại <span class="required">*</span> </label>
 						</div>
 						<div class="col-lg-8 col-sm-8">
-							<input class="form-control" id="txt_username" name="txt_username" placeholder="Tên đăng nhập" type="text" value="<?php echo set_value('txt_username'); ?>" />
-							<span class="text-danger"><?php echo form_error('txt_username'); ?></span>
+							<input class="form-control" id="txt_phone" name="txt_phone" placeholder="Số điện thoại" type="text" value="<?php echo set_value('txt_phone'); ?>" />
+							<span class="text-danger"><?php echo form_error('txt_phone'); ?></span>
 						</div>
 					</div>
 				</div>
@@ -78,29 +78,6 @@
 						<div class="col-lg-8 col-sm-8">
 							<input class="form-control" id="txt_email" name="txt_email" placeholder="Email" type="text" value="<?php echo set_value('txt_email'); ?>" />
 							<span class="text-danger"><?php echo form_error('txt_email'); ?></span>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="row colbox no-margin">
-						<div class="col-lg-4 col-sm-4">
-							<label for="txt_phone" class="control-label">Số điện thoại</label>
-						</div>
-						<div class="col-lg-8 col-sm-8">
-							<input class="form-control" id="txt_phone" name="txt_phone" placeholder="Số điện thoại" type="text" value="<?php echo set_value('txt_phone'); ?>" />
-							<span class="text-danger"><?php echo form_error('txt_phone'); ?></span>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="row colbox no-margin">
-						<div class="col-lg-4 col-sm-4">
-							<label for="txt_address" class="control-label">Địa chỉ</label>
-						</div>
-						<div class="col-lg-8 col-sm-8">
-							<input class="form-control" id="txt_address" name="txt_address" placeholder="Địa chỉ" type="text" value="<?php echo set_value('txt_address'); ?>" />
 						</div>
 					</div>
 				</div>

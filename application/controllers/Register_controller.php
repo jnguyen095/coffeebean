@@ -24,61 +24,54 @@ class Register_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->model('Category_Model');
 		$this->load->helper("seo_url");
+		$this->load->library('cart');
+		$this->load->helper('my_email');
 	}
 
 	public function index()
 	{
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
+		$categories = $this->cache->file->get('categories');
 		$footerMenus = $this->cache->file->get('footer');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
-		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
 		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
 		// end file cached
 
 		if($this->input->post('crudaction') == "register"){
 			$this->form_validation->set_message('txt_fullname', 'Họ tên không được để trống');
 
 			$this->form_validation->set_rules("txt_fullname", "Họ tên", "trim|required");
-			$this->form_validation->set_rules("txt_username", "Tên đăng nhập", "trim|required");
 			$this->form_validation->set_rules("txt_password", "Mật khẩu", "trim|required");
 			$this->form_validation->set_rules("txt_email", "Email", "valid_email");
-			$this->form_validation->set_rules('txt_phone', 'Số điện thoại', 'regex_match[/^[0-9]{10,11}$/]'); //{10} for 10 or 11 digits number
+			$this->form_validation->set_rules('txt_phone', 'Số điện thoại', 'trim|required|regex_match[/^[0-9]{10,11}$/]'); //{10} for 10 or 11 digits number
 
-			if ($this->form_validation->run() == FALSE)
-			{
-				//validation fails
-				$this->load->view('login/register', $data);
-			}else{
+			if ($this->form_validation->run()) {
 				$fullname = $this->input->post('txt_fullname');
-				$username = $this->input->post('txt_username');
 				$password = $this->input->post('txt_password');
 				$email = $this->input->post('txt_email');
 				$phone = $this->input->post('txt_phone');
-				$address = $this->input->post('txt_address');
 
-				$count = $this->User_Model->checkExistUserName($username);
+				$count = $this->User_Model->checkExistUserName($phone);
 				if($count > 0){
-					$data['error_response'] = 'Tên đăng nhập đã tồn tại.';
-					$this->load->view('login/register', $data);
+					$data['error_response'] = 'Số điện thoại này đã có trong hệ thống, vui lòng kiểm tra lại';
+					// $this->load->view('login/register', $data);
 				}else{
+					$newdata['Us3rID'] = null;
 					$newdata['fullname'] = $fullname;
-					$newdata['username'] = $username;
 					$newdata['password'] = $password;
 					$newdata['email'] = $email;
 					$newdata['phone'] = $phone;
-					$newdata['address'] = $address;
 
 					$this->User_Model->addNewUser($newdata, USER_GROUP_CUSTOMER);
-					$data['message_response'] = 'Đăng ký thành công';
+					$this->session->set_flashdata('message_response', 'Đăng ký tài khoản thành công, hãy đăng nhập');
+					if($email != null && valid_email($email)){
+						my_send_email($email,"Nhadatancu.com - Đăng ký tài khoản thành công", "<p>Đăng nhập tại đây: https://nhadatancu.com/dang-nhap.html</p>" );
+					}
+					redirect('dang-nhap');
 				}
 			}
 		}

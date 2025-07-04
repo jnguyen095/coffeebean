@@ -22,18 +22,18 @@ class User_Model extends CI_Model
 		return $query->row();
 	}
 
-	function checkExistUserName($userName)
+	function checkExistUserName($phone)
 	{
-		$this->db->where('UserName', $userName);
+		$this->db->where('Phone', $phone);
 		$query = $this->db->get('us3r');
 		return $query->num_rows();
 	}
 
-	function checkExistUserNameAddGroup($userName, $groupId, $userId){
-		$this->db->where('UserName', $userName);
+	function checkExistUserNameAddGroup($phone, $groupId, $userId){
+		$this->db->where('Phone', $phone);
 		$this->db->where('UserGroupID', $groupId);
 		if($userId != null){
-			$this->db->where('Us3rID != ', $userId);
+			$this->db->where('Us3rID !=', $userId);
 		}
 		$query = $this->db->get('us3r');
 		return $query->num_rows();
@@ -41,43 +41,38 @@ class User_Model extends CI_Model
 
 	function addNewUser($data, $groupId)
 	{
-		$newdata = array(
-			'FullName' => $data['fullname'],
-			'UserName' => $data['username'],
-			'Password' => md5($data['password']),
-			'Email' => $data['email'],
-			'Phone' => $data['phone'],
-			'Address' => $data['address'],
-			'CreatedDate' => date('Y-m-d H:i:s'),
-			'UpdatedDate' => date('Y-m-d H:i:s'),
-			'Status' => $data['status'],
-			'UserGroupID' => $groupId,
-			'AvailableMoney' => 0,
-			'DepositedMoney' => 0,
-			'SpentMoney' => 0,
-			'StandardPost' => 0,
-			'TotalPost' => 0
-		);
-		$this->db->insert('us3r', $newdata);
-	}
-
-	function updateExistingUser($userID, $data)
-	{
-		$newdata = array(
-			'FullName' => $data['fullname'],
-			'UserName' => $data['username'],
-			'Email' => $data['email'],
-			'Phone' => $data['phone'],
-			'Address' => $data['address'],
-			'UpdatedDate' => date('Y-m-d H:i:s'),
-			'UserGroupID' => $data['usergroup'],
-			'Status' => $data['status'],
-		);
-		if(isset($data['password']) && $data['password'] != ""){
-			$newdata['Password'] = md5($data['password']);
+		$userId = $data['Us3rID'];
+		if($userId == null){
+			$newdata = array(
+				'FullName' => $data['fullname'],
+				'Password' => md5($data['password']),
+				'Email' => $data['email'],
+				'Phone' => $data['phone'],
+				'CreatedDate' => date('Y-m-d H:i:s'),
+				'UpdatedDate' => date('Y-m-d H:i:s'),
+				'Status' => (isset($data['status']) ? $data['status'] : ACTIVE),
+				'UserGroupID' => $groupId
+			);
+			$this->db->insert('us3r', $newdata);
+			$userId = $this->db->insert_id();
+		} else {
+			$newdata = array(
+				'FullName' => $data['fullname'],
+				'UserGroupID' => $groupId,
+				'Email' => $data['email'],
+				'Status' => $data['status'],
+				'Phone' => $data['phone'],
+				'UpdatedDate' => date('Y-m-d H:i:s')
+			);
+			if(isset($data['password']) && strlen($data['password']) > 0) {
+				$newdata['Password'] = md5($data['password']);
+			}
+			$this->db->where('Us3rID', $userId);
+			$this->db->update('us3r', $newdata);
 		}
-		$this->db->where('Us3rID', $userID);
-		$this->db->update('us3r', $newdata);
+
+		return $userId;
+
 	}
 
 	function updateUser($data)
@@ -88,7 +83,6 @@ class User_Model extends CI_Model
 			'FullName' => $data['txt_fullname'],
 			'Email' => $data['txt_email'],
 			'Phone' => $data['txt_phone'],
-			'Address' => $data['txt_address'],
 			'UpdatedDate' => date('Y-m-d H:i:s')
 		);
 		$this->db->where('Us3rID', $userId);
@@ -100,9 +94,12 @@ class User_Model extends CI_Model
 		$query = $this->db->select('u.*')
 			->from('us3r u')
 			//->join('product p', 'u.Us3rID = p.CreatedByID', 'left')
-			->or_like('u.FullName', $st)
+			->where('u.UserGroupID', USER_GROUP_CUSTOMER)
+			->group_start()
+			->like('u.FullName', $st)
 			->or_like('u.Email', $st)
 			->or_like('u.Phone', $st)
+			->group_end()
 			->limit($limit, $offset)
 			->group_by('u.Us3rID')
 			->order_by($orderField, $orderDirection)
@@ -110,27 +107,26 @@ class User_Model extends CI_Model
 
 		// $query = $this->db->or_like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->limit($limit, $offset)->order_by($orderField, $orderDirection)->get('us3r');
 		$result['items'] = $query->result();
-		$query = $this->db->or_like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->get('us3r');
+		$query = $this->db->where('UserGroupID', USER_GROUP_CUSTOMER)->like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->get('us3r');
 		$result['total'] = $query->num_rows();
 		return $result;
 	}
 
 	function getAllStaff($offset, $limit, $st, $orderField, $orderDirection){
-		// $this->output->enable_profiler(TRUE);
-		$query = $this->db->select('u.*, ug.GroupName')
+		//$this->output->enable_profiler(TRUE);
+		$query = $this->db->select('u.*')
 			->from('us3r u')
-			->join('usergroup ug', 'u.UserGroupID = ug.UserGroupID', 'left')
-			// ->where('UserGroupID', USER_GROUP_STAFF)
+			//->join('product p', 'u.Us3rID = p.CreatedByID', 'left')
+			->where_in('UserGroupID', [USER_GROUP_STAFF, USER_GROUP_BROKER])
 			->limit($limit, $offset)
-			// ->group_by('u.Us3rID')
+			->group_by('u.Us3rID')
 			->order_by($orderField, $orderDirection)
 			->get();
 
 		// $query = $this->db->or_like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->limit($limit, $offset)->order_by($orderField, $orderDirection)->get('us3r');
 		$result['items'] = $query->result();
-		$query = $this->db->get('us3r');
+		$query = $this->db->where_in('UserGroupID', [USER_GROUP_STAFF, USER_GROUP_BROKER])->get('us3r');
 		$result['total'] = $query->num_rows();
-		// print_r($result);
 		return $result;
 	}
 
@@ -141,6 +137,29 @@ class User_Model extends CI_Model
 		);
 		$this->db->where('Us3rID', $userId);
 		$this->db->update('us3r', $newdata);
+	}
+
+	function checkIfPhoneAndEmailExisting($phone, $email){
+		$user = $this->db->select('Us3rID')
+			->from('us3r')
+			->where(array('Email' => $email, 'Phone' => $phone))
+			->get()
+			->row();
+		return $user != null ? $user -> Us3rID : null;
+	}
+
+	function updatePasswordByEmail($email, $password){
+		$newdata = array(
+			'Password' => $password,
+			'UpdatedDate' => date('Y-m-d H:i:s')
+		);
+		$this->db->where('Email', $email);
+		$this->db->update('us3r', $newdata);
+	}
+
+	function deleteByUserId($userId){
+		$this->db->delete('us3r', array('Us3rID' => $userId));
+		// TODO: delete reference tables
 	}
 
 }

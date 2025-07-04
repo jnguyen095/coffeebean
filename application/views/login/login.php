@@ -3,31 +3,46 @@
 <head>
 	<head>
 		<meta charset = "utf-8">
-		<title>Nhà Tìm Chủ - Đăng Nhập</title>
+		<title>Nhà Đất An Cư - Đăng Nhập</title>
 		<?php $this->load->view('common_header')?>
 		<?php $this->load->view('/common/googleadsense')?>
 		<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">
 	</head>
 </head>
-<body class="mylogin">
+<body>
 <?php $this->load->view('/common/analyticstracking')?>
-<div class="container-fluid ">
+<div class="container-fluid">
+	<?php $this->load->view('/theme/header')?>
+
 	<div class="row no-margin">
-		<div class="col-lg-4 col-lg-offset-4 col-sm-4 well login-panel">
+		<div class="col-lg-6 col-lg-offset-3 col-sm-6 no-background well login-panel">
+			<?php if(!empty($message_response)){
+				echo '<div class="alert alert-success">';
+				echo '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>';
+				echo $message_response;
+				echo '</div>';
+			}?>
+			<?php if(!empty($this->session->flashdata('message_response'))){
+				echo '<div class="alert alert-success">';
+				echo '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>';
+				echo $this->session->flashdata('message_response');
+				echo '</div>';
+			}?>
 			<?php
-				$attributes = array("class" => "form-horizontal", "id" => "loginform", "name" => "loginform");
-				echo form_open("dang-nhap", $attributes);
+			$attributes = array("class" => "form-horizontal", "id" => "loginform", "name" => "loginform");
+			echo form_open("dang-nhap", $attributes);
 			?>
+
 			<fieldset>
 				<legend class="text-center">ĐĂNG NHẬP</legend>
 				<div class="form-group">
 					<div class="row colbox no-margin">
 						<div class="col-lg-4 col-sm-4">
-							<label for="txt_username" class="control-label">Tên đăng nhập</label>
+							<label for="txt_username" class="control-label">Số điện thoại</label>
 						</div>
 						<div class="col-lg-8 col-sm-8">
-							<input class="form-control" id="txt_username" name="txt_username" placeholder="Username" type="text" value="<?php echo set_value('txt_username'); ?>" />
-							<span class="text-danger"><?php echo form_error('txt_username'); ?></span>
+							<input class="form-control" id="txt_phone" name="txt_phone" placeholder="Số điện thoại" type="text" value="<?php echo set_value('txt_phone'); ?>" />
+							<span class="text-danger"><?php echo form_error('txt_phone'); ?></span>
 						</div>
 					</div>
 				</div>
@@ -57,9 +72,36 @@
 				<div class="form-group">
 					<div class="col-lg-8 col-sm-8 col-lg-offset-4 text-left">
 						<input type="hidden" name="crudaction" value="Login"/>
-						<input id="btn_login" name="btn_login" type="submit" class="btn btn-primary" value="Đăng nhập" />
+						<input id="btn_login" name="btn_login" type="submit" class="btn btn-info" value="Đăng nhập" /> | <a href="<?=base_url('quen-mat-khau.html')?>">Quên mật khẩu</a>
 					</div>
 				</div>
+				<?php /*
+				<legend class="text-center">Hoặc</legend>
+
+				<div class="form-group">
+					<div class="social-login-buttons text-center">
+
+						<?php $this->load->view('/FacebookID'); ?>
+						<a id="loginBtnFacebook" class="loginBtn loginBtn--facebook" >
+							Đăng nhập bằng Facebook
+						</a>
+
+						<?php $this->load->view('/GoogleID'); ?>
+						<a id="loginBtnGoogle" class="loginBtn loginBtn--google">
+							Đăng nhập bằng Google
+						</a>
+
+					</div>
+				</div>
+ 				*/?>
+
+				<legend class="text-center">Chưa có tài khoản?</legend>
+				<div class="form-group">
+					<div class="social-login-buttons">
+						Đăng ký tại đây: <a href="<?=base_url('dang-ky.html')?>" class="btn btn-primary"><i class="glyphicon glyphicon-registration-mark"></i> Đăng ký</a> để mua hàng nhanh chóng.
+					</div>
+				</div>
+
 			</fieldset>
 			<?php echo form_close(); ?>
 			<?php echo $this->session->flashdata('msg'); ?>
@@ -143,6 +185,8 @@
 			})
 		});
 	</script>
+
+	<?php $this->load->view('/theme/footer')?>
 </div>
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
 </body>
