@@ -40,6 +40,23 @@
 	<?php $this->load->view('/common/quick-search')?>
 </ul>
 <div class="row no-margin">
+
+	<?php
+	if(isset($category->Image)){
+		?>
+	<div class="col-md-12 no-margin no-padding">
+		<img class="cat-image" src="<?=base_url('/img/category/'.$category->Image)?>"/>
+	</div>
+	<?php
+	} else if(isset($category->Parent->Image)){
+		?>
+		<div class="col-md-12 no-margin no-padding">
+			<img class="cat-image" src="<?=base_url('/img/category/'.$category->Parent->Image)?>"/>
+		</div>
+		<?php
+	}
+	?>
+
 	<div class="col-md-12 no-margin no-padding">
 
 		<?php
@@ -56,6 +73,16 @@
 
 
 		<div class="product-panel col-md-12  no-margin no-padding">
+			<?php
+			if(count($products) < 1){
+				?>
+				<div class="col-lg-12 alert alert-warning" role="alert">
+					Sản phẩm đang trong quá trình cập nhật, quý khách vui lòng quay lại sau.
+				</div>
+				<?php
+			}
+			?>
+
 			<div class="row">
 				<?php
 				foreach ($products as $product){?>

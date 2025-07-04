@@ -375,7 +375,7 @@ class Product_Model extends CI_Model
 		return $data;
 	}
 
-	public function findByCatIdFetchChildrent($catId, $offset, $limit){
+	public function findByCatIdFetchChildren($catId, $offset, $limit){
 		//$this->output->enable_profiler(TRUE);
 		$sql = 'select p.* from product p';
 		$sql .= ' where p.status = 1 and (p.categoryid = '.$catId.' or p.categoryid in (select c.CategoryID from category c where c.Active = 1 AND c.ParentID = '.$catId.' ))';

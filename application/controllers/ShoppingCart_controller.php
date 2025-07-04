@@ -199,7 +199,7 @@ class ShoppingCart_controller extends CI_Controller
 
 	public function reloadHeadCart()
 	{
-		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm '.number_format($this->cart->total() + ($this->cart->total_items() > 0 ? 12000 : 0)).'đ';
+		$html = '<i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;'.$this->cart->total_items().' sản phẩm '.number_format($this->cart->total()).'đ';
 		$html .= ' <span class="caret"></span>';
 		return $html;
 	}
@@ -238,7 +238,13 @@ class ShoppingCart_controller extends CI_Controller
 								$html .= '<td><a class="remove-cart-item glyphicon glyphicon-remove-circle text-red" rowid="'. $item['rowid'] .'" style="color: #ff0000"></a></td>';
 								$html .= '</tr>';
 							}
-							$html .= '<tr><td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Đặt Hàng</a> </td></tr>';
+							$html .= '<tr>';
+							if(count($this->cart->contents()) > 0){
+								$html .='<td colspan="4" class="text-right"><a href="'.base_url('/check-out.html'). '" class="btn-primary btn-sm">Đặt Hàng</a></td>';
+							} else {
+								$html .='<td colspan="4" class="text-center"><i>Chưa có sản phẩm!</i></td>';
+							}
+							$html .= '</tr>';
 					$html .= '</table>';
 					$html .= '</a>';
 					$html .= '</li>';

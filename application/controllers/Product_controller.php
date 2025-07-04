@@ -29,7 +29,7 @@ class Product_controller extends CI_Controller
 	public function listItem($catId, $offset=0) {
 		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
-		$search_data = $this->Product_Model->findByCatIdFetchChildrent($catId, $offset, MAX_PAGE_ITEM);
+		$search_data = $this->Product_Model->findByCatIdFetchChildren($catId, $offset, MAX_PAGE_ITEM);
 		$data = array_merge($data, $search_data);
 
 		$thisCat = $this->Category_Model->findById($catId);
