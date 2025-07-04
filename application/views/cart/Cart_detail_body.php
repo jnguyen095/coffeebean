@@ -23,11 +23,11 @@
 
 		</td>
 		<td class="text-left">
-			<div class="col-lg-4 col-sm-4 col-xs-4">
+			<div class="col-lg-12">
 				<form class="inde-value">
-					<div class="value-button decreaseBtn" value="Decrease Value" data-pid="<?=$item['id']?>">-</div>
+					<div class="value-button decreaseBtn" value="Decrease Value" data-pid="<?=$item['id']?>"><i class="glyphicon glyphicon-minus"></i></div>
 					<input type="number" id="quantity-<?=$item['id']?>" name="quantity[<?=$item['rowid']?>]" value="<?=$item['qty']?>" size="1" class="form-control quantity">
-					<div class="value-button increaseBtn" value="Increase Value" data-pid="<?=$item['id']?>">+</div>
+					<div class="value-button increaseBtn" value="Increase Value" data-pid="<?=$item['id']?>"><i class="glyphicon glyphicon-plus"></i></div>
 				</form>
 			</div>
 

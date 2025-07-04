@@ -41,7 +41,12 @@ class Category_controller extends CI_Controller
 			$data['txt_catname'] = $this->input->post("txt_catname");
 			$data['ch_status'] = $this->input->post("ch_status") == null ? INACTIVE : ACTIVE;
 			$data['index'] = isset($index) ? $index : 0;
-
+			$preImg = $this->input->post("preImg");
+			$img = $this->uploadImage();
+			if($img == null && $preImg != null){
+				$img = $preImg;
+			}
+			$data['txt_image'] = $img;
 			//set validations
 			$this->form_validation->set_rules("txt_catname", "Tên danh mục", "trim|required");
 			$validateResult = $this->form_validation->run();
@@ -60,9 +65,34 @@ class Category_controller extends CI_Controller
 			$data['txt_catname'] = $category->CatName;
 			$data['txt_parent'] = $category->ParentID;
 			$data['ch_status'] = $category->Active;
+			$data['txt_image'] = $category->Image;
 			$data['index'] = $category->DisplayIndex;
 		}
 
 		$this->load->view("admin/category/edit", $data);
+	}
+
+	private function uploadImage(){
+		if(!empty($this->input->post("txt_image"))){
+			return $this->input->post("txt_image");
+		}else{
+			$this->allowed_img_types = $this->config->item('allowed_img_types');
+			$upath = 'img' . DIRECTORY_SEPARATOR .'category'. DIRECTORY_SEPARATOR;
+
+			if (!file_exists($upath)) {
+				mkdir($upath, 0777, true);
+			}
+
+			$config['upload_path'] = $upath;
+			$config['allowed_types'] = $this->allowed_img_types;
+			$config['remove_spaces'] = true;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('txt_image')) {
+				log_message('error', 'Image Upload Error: ' . $this->upload->display_errors());
+			}
+			$img = $this->upload->data();
+			return $img['file_name'];
+		}
 	}
 }

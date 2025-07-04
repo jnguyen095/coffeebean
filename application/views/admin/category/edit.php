@@ -50,7 +50,7 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 					<?php
-					$attributes = array("id" => "frmAddCategory", "class" => "form-horizontal");
+					$attributes = array("id" => "frmAddCategory", "enctype" => "multipart/form-data", "class" => "form-horizontal");
 					echo form_open("admin/category/add".(isset($CategoryID) ? "-".$CategoryID : ""), $attributes);
 					?>
 					<div class="form-group">
@@ -103,6 +103,24 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Hình ảnh</label>
+						</div>
+						<div class="col-md-10">
+							<input type="file" id="txt_image" name="txt_image">
+							<span class="text-danger"><?php echo form_error('txt_image'); ?></span>
+							<?php
+							if(isset($txt_image) && strlen($txt_image) > 0){
+								?>
+								<img style="max-height: 200px" src="<?=base_url('/img/category/'.$txt_image)?>"/>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+
 
 					<div class="form-group">
 						<div class="row colbox no-margin">

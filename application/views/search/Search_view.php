@@ -159,9 +159,9 @@
 	</div>
 </div>
 
+</div>
 
 <?php $this->load->view('/theme/footer')?>
-</div>
 </body>
 
 </html>

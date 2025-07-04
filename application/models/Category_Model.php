@@ -119,6 +119,7 @@ class Category_Model extends CI_Model
 				'CatName' => $data['txt_catname'],
 				'Active' => $data['ch_status'],
 				'DisplayIndex' => $data['index'],
+				'Image' => $data['txt_image'],
 				'ParentID' => isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL
 			);
 			$this->db->insert('category', $newData);
@@ -128,6 +129,9 @@ class Category_Model extends CI_Model
 			$this->db->set('Active', $data['ch_status']);
 			$this->db->set('DisplayIndex', $data['index']);
 			$this->db->set('ParentID', isset($data['txt_parent']) && strlen($data['txt_parent']) > 0 ? $data['txt_parent'] : NULL);
+			if(isset($data['txt_image']) && strlen($data['txt_image']) > 0){
+				$this->db->set('Image', $data['txt_image']);
+			}
 
 			$this->db->where('CategoryID', $data['CategoryID']);
 			$this->db->update('category');

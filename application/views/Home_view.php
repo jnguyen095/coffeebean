@@ -15,8 +15,19 @@
 
 	<div class="container-fluid no-padding-left no-padding-right">
 		<div class="row no-margin">
-			<div id='carousel-custom' class='carousel slide hot-product fix-height-standard' data-interval="7000" data-ride='carousel'>
+			<div id='carousel-custom' class='carousel slide hot-product fix-height-standard' data-interval="5000" data-ride='carousel'>
 				<div class='carousel-outer'>
+					<ol class="carousel-indicators">
+						<?php
+						$counter = 0;
+						foreach ($topBanners as $banner) {
+							?>
+							<li data-target="#carousel-custom" data-slide-to="<?=$counter?>" class="<?=$counter == 0 ? 'active' : ''?>"></li>
+							<?php
+							$counter++;
+						}
+						?>
+					</ol>
 					<!-- Wrapper for slides -->
 					<div class='carousel-inner'>
 						<?php
@@ -24,11 +35,7 @@
 						foreach ($topBanners as $banner) {
 							?>
 							<div class="item <?=$counter++ == 0 ? 'active' : ''?>">
-								<div>
-									<a href="<?=base_url('/redirect-adv-' . $banner->BannerID .'.html')?>">
-										<img style="height: 400px; width: 100%" src="<?=base_url('/img/banner/'.$banner->Image)?>" />
-									</a>
-								</div>
+								<img style="height: 400px; width: 100%" src="<?=base_url('/img/banner/'.$banner->Image)?>" />
 							</div>
 							<?php
 						}

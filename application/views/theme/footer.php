@@ -30,14 +30,6 @@
 
 					</ul>
 				</div>
-				<div class="copyright text-center">
-					<div>Copyright © 2024 vananhshop.com ®</div>
-					<div>Hotline: <b>0778763790</b> | Email:  vananhshop@gmail.com</div>
-					<div>
-						<a href="http://zalo.me/0778763790"><i class="fa fa-zalo"></i>
-						<a href="https://www.facebook.com/%C4%90%E1%BB%93-l%C3%B3t-gi%C3%A1-s%E1%BB%89-V%C3%A2n-Anh-103836747787793/"><i class="fa fa-face"></i></a>
-					</div>
-				</div>
 
 				<!-- Modal -->
 				<form id="modalForm" role="form">
@@ -45,6 +37,17 @@
 
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container container-bottom">
+		<div class="copyright text-center">
+			<div>Copyright © 2025</div>
+			<div>Hotline: <b>0778763790</b> | Email: info@hailua.com</div>
+			<div>
+				<a href="http://zalo.me/0778763790"><i class="fa fa-zalo"></i>
+				<a href="https://www.facebook.com/%C4%90%E1%BB%93-l%C3%B3t-gi%C3%A1-s%E1%BB%89-V%C3%A2n-Anh-103836747787793/"><i class="fa fa-face"></i></a>
 			</div>
 		</div>
 	</div>
