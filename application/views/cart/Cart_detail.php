@@ -49,55 +49,17 @@
 
 	<div class="col-lg-12">
 		<table class="table table-bordered">
-			<thead>
-			<tr>
-				<td class="text-center">Hình ảnh</td>
-				<td class="text-left">Tên sản phẩm</td>
-				<td class="text-left">Số lượng</td>
-				<td class="text-right">Đơn Giá</td>
-				<td class="text-right">Tổng cộng</td>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($this->cart->contents() as $item){?>
-				<tr>
-					<td class="text-center">
-						<a href="<?=base_url().seo_url($item['name']).'-p'.$item['id']?>.html">
-							<img src="<?=base_url($item['image'])?>" alt="<?=$item['name']?>" title="<?=$item['name']?>" class="img-thumbnail">
-						</a>
-					</td>
-					<td class="text-left">
-						<a href="<?=base_url().seo_url($item['name']).'-p'.$item['id']?>.html"><?=$item['name']?></a>
-						<?php if($this->cart->has_options($item['rowid']) == TRUE){
-							echo "<br>";
-							foreach ($this->cart->product_options($item['rowid']) as $option_name => $option_value){
-								$i = 1;
-								foreach ($option_value as $k => $v){ ?>
-									<i><small><?=$v?></small></i>
-									<?=$i == 1 ? ':' : ''?>
-									<?php
-									$i++;
-								}
-								echo "</br>";
-							}
-						}?>
-
-					</td>
-					<td class="text-left">
-						<input type="text" name="quantity[<?=$item['rowid']?>]" value="<?=$item['qty']?>" size="1" class="form-control">
-					</td>
-					<td class="text-right"><?=number_format($item['price'])?></td>
-					<td class="text-right"><?=number_format($item['price'] * $item['qty'])?></td>
+			<thead class="thead-default">
+				<tr class="bg-light-blue">
+					<td class="text-center">Hình ảnh</td>
+					<td class="text-left">Tên sản phẩm</td>
+					<td class="text-left">Số lượng</td>
+					<td class="text-right">Đơn Giá</td>
+					<td class="text-right">Tổng cộng</td>
 				</tr>
-			<?php } ?>
-			<tr>
-				<td class="text-right" colspan="4">Phí giao hàng</td>
-				<td class="text-right">-</td>
-			</tr>
-			<tr>
-				<td class="text-right" colspan="4">Tổng cộng</td>
-				<td class="text-right"><?=number_format($this->cart->total())?>(VNĐ)</td>
-			</tr>
+			</thead>
+			<tbody id="cartBody">
+				<?php $this->load->view('/cart/Cart_detail_body')?>
 			</tbody>
 		</table>
 	</div>
@@ -116,8 +78,26 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
+		initiateBtnIncrease();
+		initiateBtnDecrease();
 	});
+
+	function initiateBtnIncrease(){
+		$(".increaseBtn").unbind('click');
+		$(".increaseBtn").click(function(){
+			var pId = $(this).data('pid');
+			var currentVal = parseInt($("#quantity-" + pId).val());
+			$("#quantity-" + pId).val(currentVal + 1)
+		});
+	}
+	function initiateBtnDecrease(){
+		$(".decreaseBtn").unbind('click');
+		$(".decreaseBtn").click(function(){
+			var pId = $(this).data('pid');
+			var currentVal = parseInt($("#quantity-" + pId).val());
+			$("#quantity-" + pId).val(currentVal < 2 ? 1 : currentVal - 1)
+		});
+	}
 </script>
 
 </body>

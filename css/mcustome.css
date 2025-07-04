@@ -1709,14 +1709,14 @@ form.inde-value{
 	text-align: center;
 }
 
-form.inde-value #decrease{
+form.inde-value #decrease, .decreaseBtn{
 	margin-right: -4px;
 	border-radius: 8px 0 0 8px;
 	height: 36px;
 	margin-top:-3px;
 }
 
-form.inde-value #increase{
+form.inde-value #increase, .increaseBtn{
 	margin-left: -4px;
 	border-radius: 0 8px 8px 0;
 	height: 36px;
@@ -1743,7 +1743,7 @@ form.inde-value #increase{
 	cursor: pointer;
 }
 
-input#quantity{
+input#quantity, input.quantity{
 	text-align: center;
 	border: none;
 	border-top: 1px solid #ddd;
