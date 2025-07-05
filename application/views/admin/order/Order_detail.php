@@ -34,7 +34,7 @@
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-				<li><a href="<?=base_url("/order/process-{$order->OrderID}")?>"> Xử lý đơn hàng</a></li>
+				<li><a href="<?=base_url("/admin/order/process-{$order->OrderID}")?>"> Xử lý đơn hàng</a></li>
 				<li class="active">Cập nhật đơn hàng</li>
 			</ol>
 		</section>
@@ -42,7 +42,7 @@
 		<!-- Main content -->
 		<?php
 		$attributes = array("id" => "frmOrder");
-		echo form_open("order/process", $attributes);
+		echo form_open("admin/order/process", $attributes);
 		?>
 		<section class="content container-fluid">
 			<?php if(!empty($message_response)){
@@ -89,40 +89,41 @@
 					<div class="col-lg-9 col-sm-12">
 						<div class="col-xs-12">
 							<h3><b>Người mua hàng:</b></h3>
+							<table class="table table-bordered">
+								<thead>
+								<tr>
+									<td class="text-left">Người mua</td>
+									<td class="text-left">Ngày mua</td>
+									<td class="text-left">Status</td>
+									<td class="text-right">Phí giao hàng</td>
+									<td class="text-right">Tổng cộng</td>
+									<td class="text-left">Ghi chú</td>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td class="text-left"><?=$order->FullName?><br/><i class="fa fa-phone"></i> <?=$order->Phone?></td>
+									<td class="text-left"><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></td>
+									<td class="text-left">
+										<?php
+										if($order->Status == 'NEW'){
+											echo '<lable class="label label-success">Đơn mới</lable>';
+										}
+										?>
+									</td>
+									<td class="text-right"><?=number_format($order->ShippingFee)?></td>
+									<td class="text-right"><?=number_format($order->TotalPrice)?></td>
+									<td class="text-left"><?=$order->Note?></td>
+								</tr>
+								</tbody>
+							</table>
 						</div>
-						<table class="table table-bordered">
-							<thead>
-							<tr>
-								<td class="text-left">Người mua</td>
-								<td class="text-left">Ngày mua</td>
-								<td class="text-left">Status</td>
-								<td class="text-right">Phí giao hàng</td>
-								<td class="text-right">Tổng cộng</td>
-								<td class="text-left">Ghi chú</td>
-							</tr>
-							</thead>
-							<tbody>
-							<tr>
-								<td class="text-left"><?=$order->FullName?><br/><i class="fa fa-phone"></i> <?=$order->Phone?></td>
-								<td class="text-left"><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></td>
-								<td class="text-left">
-									<?php
-									if($order->Status == 'NEW'){
-										echo '<lable class="label label-success">Đơn mới</lable>';
-									}
-									?>
-								</td>
-								<td class="text-right"><?=number_format($order->ShippingFee)?></td>
-								<td class="text-right"><?=number_format($order->TotalPrice)?></td>
-								<td class="text-left"><?=$order->Note?></td>
-							</tr>
-							</tbody>
-						</table>
+
 
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-xs-12">
-									<h3><b>Người nhận hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin người nhận hàng"><i class="fa fa-edit"></i></a></h3>
+									<h3><b>Người nhận hàng:</b> <a data-toggle="tooltip" id="updateReceiver" title="Sửa thông tin người nhận hàng"><i class="fa fa-edit"></i></a></h3>
 								</div>
 								<table class="table table-bordered">
 									<thead>
@@ -169,18 +170,18 @@
 												<td class="text-right"><?=number_format($item->Price)?></td>
 												<td class="text-left">
 													<?php
-													$ops = json_decode($item->Options);
-													foreach ($ops as $k=>$v){
-														foreach ($v as $k1=>$v1){
-															if(!empty($v1)){
-																echo "<li>".$k1.": ".$v1."</li>";
+														$ops = json_decode($item->Options);
+														foreach ($ops as $k=>$v){
+															foreach ($v as $k1=>$v1){
+																if(!empty($v1)){
+																	echo "<li>".$k1.": ".$v1."</li>";
+																}
 															}
 														}
-													}
-													?>
+													 ?>
 												</td>
 											</tr>
-										<?php
+											<?php
 										} ?>
 										</tbody>
 									</table>
@@ -191,8 +192,8 @@
 						</div>
 
 						<div class="row no-margin top-buttons">
-							<a class="btn btn-warning" id="addBack" href="<?=base_url("/order/process-{$order->OrderID}.html")?>">Trở lại</a>&nbsp;
-							<a class="btn btn-primary" id="addNew" href="<?=base_url("/order/update-{$order->OrderID}.html")?>">Cập nhật đơn hàng</a>
+							<a class="btn btn-warning" id="addBack" href="<?=base_url("/admin/order/process-{$order->OrderID}.html")?>">Trở lại</a>&nbsp;
+							<a class="btn btn-primary" id="addNew" href="<?=base_url("/admin/order/update-{$order->OrderID}.html")?>">Cập nhật đơn hàng</a>
 						</div>
 					</div>
 
@@ -203,13 +204,14 @@
 								<h6 class="card-title">Lịch sử giao dịch</h6>
 								<div id="content">
 									<ul class="timeline">
-									<?php foreach ($trackings as $tracking) {
-										?>
-										<li class="event">
-											<p><?=$tracking->Message?></p>
-										</li>
-										<?php
-									}?>
+										<?php foreach ($trackings as $tracking) {
+											?>
+											<li class="event">
+												<h3><?=date('d/m/Y H:i', strtotime($tracking->CreatedDate))?></h3>
+												<p><?=$tracking->Message?></p>
+											</li>
+											<?php
+										}?>
 									</ul>
 								</div>
 							</div>
@@ -226,54 +228,12 @@
 		<?php echo form_close(); ?>
 
 		<!-- popups -->
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<div class="float-left"><h5 class="modal-title" id="exampleModalLabel">Yêu cầu người đăng tin liên hệ theo thông tin bên dưới</h5></div>
-					<div class="text-right">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</div>
-				<div class="modal-body">
-					<p class="statusMsg">
-						<?php
-						if($success == 'SUCCESS'){
-							echo '<div class="alert alert-success">Gửi thành công, tác giả bài đăng sẻ liên hệ với bạn.</div>';
-						} else if($success == 'EXISTED'){
-							echo '<div class="alert alert-danger">Số điện thoại này đã được đăng ký, vui lòng chờ liên hệ.</div>';
-						}
-						?>
-					</p>
-					<div class="form-group row">
-						<label for="staticEmail" class="col-sm-4 col-form-label">Họ và tên</label>
-						<div class="col-sm-8">
-							<input type="text" name="txt_fullname" class="form-control" id="staticEmail" placeholder="Họ và tên">
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="inputPassword" class="col-sm-4 col-form-label">Số điện thoại <span class="required">*</span></label>
-						<div class="col-sm-8">
-							<input type="text" name="txt_phonenumber" class="form-control" id="inputPassword" placeholder="Số điện thoại">
-							<span class="text-danger"><?php echo form_error('txt_phonenumber'); ?></span>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="inputPassword" class="col-sm-4 col-form-label">Lời nhắn</label>
-						<div class="col-sm-8">
-							<textarea name="txt_message" rows="3" style="resize: none;text-align: left" class="form-control">Tôi muốn biết thêm thông tin bất động sản này.</textarea>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<input type="hidden" name="crudaction" value="insert"/>
-					<input type="hidden" name="postid" value="<?=$postid?>"/>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-					<button id="submitBtn" type="button" class="btn btn-primary" onclick="submitCallMeBackForm()">Gửi tin nhắn</button>
-				</div>
+		<!-- Modal -->
+		<form id="modalForm" role="form">
+			<div class="modal fade" id="modalOrderFormDialog" role="dialog">
+
 			</div>
-		</div>
+		</form>
 		<!-- end popup -->
 
 
@@ -415,9 +375,26 @@
 			});
 		});
 	}
+
+	function contactFormHandler(){
+		$("#updateReceiver").click(function(){
+			$.ajax({
+				type:'POST',
+				url: '<?=base_url("admin/OrderManagement_controller/updateShippingInfo")?>',
+				data: {'orderId': <?=$order->OrderID?>},
+				success:function(msg) {
+					$("#modalOrderFormDialog").html(msg);
+					var $modal = $('#modalOrderFormDialog');
+					$modal.modal('show');
+				}
+			});
+		});
+	}
+
 	$(document).ready(function(){
-		deletePostHandler();
-		deleteMultiplePostHandler();
+		contactFormHandler();
+		//deletePostHandler();
+		//deleteMultiplePostHandler();
 	});
 </script>
 </body>

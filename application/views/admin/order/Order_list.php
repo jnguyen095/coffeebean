@@ -40,7 +40,7 @@
 		<!-- Main content -->
 		<?php
 		$attributes = array("id" => "frmOrder");
-		echo form_open("order/list", $attributes);
+		echo form_open("admin/order/list", $attributes);
 		?>
 		<section class="content container-fluid">
 			<?php if(!empty($message_response)){
@@ -115,7 +115,7 @@
 									<td><?=$order->FullName?></td>
 									<td><?=$order->Payment?></td>
 									<td>
-										<a href="<?=base_url('/order/process-'.$order->OrderID.'.html')?>" data-toggle="tooltip" title="Xử lý đơn hàng"><i class="glyphicon glyphicon-shopping-cart"></i></a>
+										<a href="<?=base_url('/admin/order/process-'.$order->OrderID.'.html')?>" data-toggle="tooltip" title="Xử lý đơn hàng"><i class="glyphicon glyphicon-shopping-cart"></i></a>
 									</td>
 								</tr>
 								<?php

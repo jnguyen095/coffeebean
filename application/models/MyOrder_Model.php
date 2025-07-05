@@ -63,6 +63,24 @@ class MyOrder_Model extends CI_Model
 		return $data;
 	}
 
+	public function findByUserId($userId, $offset=null, $limit=null)
+	{
+		$sql = 'select m.*,u.FullName from myorder m inner join us3r u on m.CreatedBy = u.Us3rID';
+		$sql .= ' where m.CreatedBy = '.$userId;
+		$sql .= ' order by date(m.CreatedDate) desc';
+		if($offset != null && $limit != null){
+			$sql .= ' limit '.$offset.','.$limit;
+		}
+		$orders = $this->db->query($sql);
+
+		$this->db->where(array("CreatedBy" => $userId));
+		$total = $this->db->count_all_results('myorder');
+
+		$data['items'] = $orders->result();
+		$data['total'] = $total;
+		return $data;
+	}
+
 	public function findByOrderId($orderId)
 	{
 		$data = [];

@@ -96,7 +96,7 @@
 					</li>
 
 					<?php
-					if($this->session->userdata('username') != null){
+					if($this->session->userdata('phone') != null){
 						?>
 						<li role="presentation" class="dropdown">
 							<a href="<?=base_url('/thong-tin-ca-nhan.html')?>" role="button" aria-haspopup="true" aria-expanded="false">
@@ -111,8 +111,7 @@
 									<?php
 								}
 								?>
-								<li><a href="<?= base_url('/quan-ly-tin-rao.html') ?>">Quản lý tin rao</a></li>
-								<li><a href="<?= base_url('/quan-ly-giao-dich.html') ?>">Giao dịch</a></li>
+								<li><a href="<?= base_url('/quan-ly-don-hang.html') ?>">Đơn hàng</a></li>
 								<li><a href="<?= base_url('/thong-tin-ca-nhan.html') ?>">Thông tin cá nhân</a></li>
 								<li><a href="<?=base_url('/dang-xuat.html')?>">Đăng xuất</a></li>
 							</ul>

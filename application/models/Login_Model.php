@@ -17,20 +17,20 @@ class Login_Model extends CI_Model
 	//get the username & password from tbl_usrs
 	function get_user($usr, $pwd)
 	{
-		$sql = "select u.*, ug.Code as UserGroup from us3r u inner join usergroup ug on u.UserGroupID = ug.UserGroupID where u.UserName = '" . $usr . "' and u.Password = '" . md5($pwd) . "' and u.Status = '".ACTIVE."' limit 1";
+		$sql = "select u.*, ug.Code as UserGroup from us3r u inner join usergroup ug on u.UserGroupID = ug.UserGroupID where u.Phone = '" . $usr . "' and u.Password = '" . md5($pwd) . "' and u.Status = '".ACTIVE."' limit 1";
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
 
 	function get_facebooker($usr, $pwd, $fullname){
-		$sql = "select * from us3r where UserName = '" . $usr . "' and Password = '" . md5($pwd) . "' and status = '".ACTIVE."' limit 1";
+		$sql = "select * from us3r where Phone = '" . $usr . "' and Password = '" . md5($pwd) . "' and status = '".ACTIVE."' limit 1";
 		$query = $this->db->query($sql);
 		$result = $query->row();
 		$uId = null;
 		if($result == null || !isset($result->Us3rID)){
 			$data = array(
-				'UserGroupID' => 2,
-				'UserName' => $usr,
+				'UserGroupID' => USER_GROUP_CUSTOMER,
+				'Phone' => $usr,
 				'Password' => md5($pwd),
 				'Email' => $usr,
 				'CreatedDate' => date('Y-m-d H:i:s'),

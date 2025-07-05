@@ -1,11 +1,11 @@
 <?php
-/**
- * Created by Khang Nguyen
- * User: nguyennhukhangvn@gmail.com
- * Date: 12/25/2023
- * Time: 1:39 PM
- */
 
+/**
+ * Created by Khang Nguyen.
+ * Email: nguyennhukhangvn@gmail.com
+ * Date: 8/24/2017
+ * Time: 1:19 PM
+ */
 class Order_controller extends CI_Controller
 {
 	public function __construct()
@@ -14,104 +14,183 @@ class Order_controller extends CI_Controller
 		if (!$this->session->userdata('loginid')){
 			redirect('dang-nhap');
 		}
-		$this->load->helper('form');
-		$this->load->helper('url');
-		$this->load->helper('html');
-		$this->load->helper('date');
-		$this->load->library('form_validation');
-		$this->load->helper("seo_url");
-		$this->load->model('Category_Model');
-		$this->load->model('MyOrder_Model');
 		$this->load->model('Product_Model');
-		$this->load->model('Direction_Model');
+		$this->load->model('Category_Model');
 		$this->load->model('City_Model');
-		$this->load->model('User_Model');
-		$this->load->model('District_Model');
-		$this->load->model('Ward_Model');
-		$this->load->model('OrderShipping_Model');
-		$this->load->model('OrderTracking_Model');
+		$this->load->model('Transfer_Model');
+		$this->load->model('CallMeBack_Model');
+		$this->load->helper("seo_url");
+		$this->load->helper('date');
+		$this->load->helper('form');
+		$this->load->helper("bootstrap_pagination");
 		$this->load->library('pagination');
-		$this->load->helper("bootstrap_pagination_admin");
+		$this->load->model('User_Model');
+		$this->load->model('MyOrder_Model');
+		$this->load->library('cart');
 	}
 
-	public function index()
+	public function index($page = 0)
 	{
-		$searchOrders = $this->MyOrder_Model->searchByItems();
-		$orders = $searchOrders['items'];
-		$total = $searchOrders['total'];
-		$data['orders'] = $orders;
-		$config['total_rows'] = $total;
+		// begin file cached
+		$this->load->driver('cache');
+		$categories = $this->cache->file->get('categories');
+
+		if(!$categories){
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
+		}
+		$data = $categories;
+
+		// end file cached
+
+		$userId = $this->session->userdata('loginid');
+
+		$crudaction = $this->input->post("crudaction");
+		if($crudaction == DELETE){
+			$productId = $this->input->post("productId");
+			if($productId != null && $productId > 0) {
+				$product = $this->Product_Model->findById($productId);
+				$folder = $product->code;
+				$upath = 'attachments' . DIRECTORY_SEPARATOR .'u'. $userId . DIRECTORY_SEPARATOR. $folder;
+				// delete db first
+				$this->Product_Model->deleteById($productId);
+				if (file_exists($upath)){
+					$this->delete_directory($upath);
+				}
+				$data['message_response'] = 'Xóa tin rao thành công.';
+			}
+		}else if($crudaction == REFRESH){
+			$productId = $this->input->post("productId");
+			if($productId != null && $productId > 0) {
+				$this->Product_Model->pushPostUp($productId);
+				$data['message_response'] = 'Làm mới tin rao thành công.';
+			}
+		}else if($crudaction == INACTIVE_POST){
+			$productId = $this->input->post("productId");
+			if($productId != null && $productId > 0) {
+				$this->Product_Model->changeStatusPost($productId, INACTIVE);
+				$data['message_response'] = 'Đã tạm khóa tin rao.';
+			}
+		}else if($crudaction == ACTIVE_POST){
+			$productId = $this->input->post("productId");
+			if($productId != null && $productId > 0) {
+				$this->Product_Model->changeStatusPost($productId, ACTIVE);
+				$data['message_response'] = 'Tin rao đã mở trạng thái hoạt động.';
+			}
+		}
+
+		$orders = $this->MyOrder_Model->findByUserId($userId, $page, 10);
+
+		$data['orders'] = $orders['items'];
+
+		$config = pagination();
+		$config['base_url'] = base_url('quan-ly-don-hang.html');
+		$config['total_rows'] = $orders['total'];
+		$config['per_page'] = 10;
+
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 
-		$this->load->view('order/Order_list', $data);
+		$this->load->view('order/list', $data);
 	}
 
-	public function process($orderId)
-	{
-		$order = $this->MyOrder_Model->findByOrderId($orderId);
-		$this->load->view('order/Order_detail', $order);
-	}
+	public function transfer(){
+		// begin file cached
+		$this->load->driver('cache');
+		$categories = $this->cache->file->get('categories');
+		if(!$categories){
+			$categories = $this->Category_Model->getCategories();
+			$this->cache->file->save('categories', $categories, 1440);
+		}
+		$data = $categories;
+		// end file cached
 
-	public function update($orderId)
-	{
+		$userId = $this->session->userdata('loginid');
+
 		$crudaction = $this->input->post("crudaction");
-		if($crudaction == "insert-update"){
-			echo 'success';
+		if($crudaction == UPDATE){
+			$processId = $this->input->post("processId");
+			if($processId != null && $processId > 0){
+				$process = $this->Transfer_Model->findById($processId);
+				$loginUser = $this->User_Model->getUserById($userId);
+				if($loginUser->AvailableMoney >= $process->Money){
+					$this->Product_Model->changeStatusPost($process->ProductID, ACTIVE);
+					$this->Transfer_Model->changeStatusProcess($processId, ACTIVE);
+					$this->Transfer_Model->updateMeny4User($userId, PAYMENT_WITHDRAW, $process->Money);
+
+					$data['message_response'] = 'Thanh toán thành công, tin rao đang hiển thị.';
+				}else{
+					$data['error_message'] = 'Số tiền không đủ thanh toán, vui lòng nạp thêm tiền, <a href="'.base_url('/bao-gia-dich-vu.html').'">hướng dẫn nạp tiền</a>.';
+				}
+			}
 		}
-		$order = $this->MyOrder_Model->findByOrderId($orderId);
-		$this->load->view('order/Order_update', $order);
+
+		$userId = $this->session->userdata('loginid');
+		$data['histories'] = $this->Transfer_Model->findByUserId($userId);
+		$this->load->view('post/transfer', $data);
 	}
 
-	public function updateShippingInfo(){
-		$crudaction = $this->input->post('crudaction');
+	public function callMeBack($page = 0){
+		// begin file cached
+		$this->load->driver('cache');
+		$categories = $this->cache->file->get('category');
+		$footerMenus = $this->cache->file->get('footer');
+		if(!$categories){
+			$categories = $this->Category_Model->getCategories();
+			$this->cache->file->save('category', $categories, 1440);
+		}
+		if(!$footerMenus) {
+			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
+			$this->cache->file->save('footer', $footerMenus, 1440);
+		}
+		$data = $categories;
+		$data['footerMenus'] = $footerMenus;
+		// end file cached
 
-		if($crudaction == 'insert'){
-			$orderId = $this->input->post("orderId");
-			$receiver = $this->input->post("txt_receiver");
-			$phone = $this->input->post("txt_phone");
-			$city = $this->input->post("txt_city");
-			$district = $this->input->post("txt_district");
-			$ward = $this->input->post("txt_ward");
-			$street = $this->input->post("txt_street");
-
-			$shippingInfo = array(
-				'Receiver' => $receiver,
-				'Phone' => $phone,
-				'CityID' => $city,
-				'DistrictID' => $district,
-				'WardID' => $ward,
-				'Street' => $street
-			);
-			$this->OrderShipping_Model->update($orderId, $shippingInfo);
-
-			// tracking
-			$loginID = $this->session->userdata('loginid');
-			$user = $this->User_Model->getUserById($loginID);
-			$orderTracking = array(
-				'OrderID' => $orderId,
-				'CreatedDate' => date('Y-m-d H:i:s'),
-				'Message' => $user->FullName. ' cập nhật thông tin giao hàng'
-			);
-			$this->OrderTracking_Model->insert($orderTracking);
-
-
-			echo "success";
-		}else{
-			$orderId = $this->input->post('orderId');
-			$shipping = $this->OrderShipping_Model->findByOrderId($orderId);
-			$cities = $this->City_Model->getAllActive();
-			$districts = $this->District_Model->findByCityId($shipping->CityID);
-			$wards = $this->Ward_Model->findByDistrictId($shipping->DistrictID);
-
-			$data = [];
-			$data['shipping'] = $shipping;
-			$data['cities'] = $cities;
-			$data['wards'] = $wards;
-			$data['districts'] = $districts;
-
-			return $this->load->view('/order/shipping_update', $data);
+		$userId = $this->session->userdata('loginid');
+		$crudaction = $this->input->post("crudaction");
+		if($crudaction == UPDATE) {
+			$callMeBackID = $this->input->post("callMeBackID");
+			if ($callMeBackID != null && $callMeBackID > 0) {
+				$resolved = 'RESOLVED';
+				$this->CallMeBack_Model->updateMessage($callMeBackID, $resolved);
+				$data['message_response'] = 'Cập nhật thành công.';
+			}
+		} else if($crudaction == 'update-all'){
+			$resolved = 'RESOLVED';
+			$this->CallMeBack_Model->updateAllMessage($userId, $resolved);
+			$data['message_response'] = 'Cập nhật thành công.';
 		}
 
+		$callmebacks = $this->CallMeBack_Model->findByUserId($userId, $page);
+		$data['callmebacks'] = $callmebacks['callmebacks'];
+
+		$config = pagination();
+		$config['base_url'] = base_url('yeu-cau-goi-lai.html');
+		$config['total_rows'] = $callmebacks['total'];
+		$config['per_page'] = 10;
+
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+
+		$this->load->view('post/callmeback', $data);
+	}
+
+	private function delete_directory($dirname) {
+		if (is_dir($dirname))
+			$dir_handle = opendir($dirname);
+		if (!$dir_handle)
+			return false;
+		while($file = readdir($dir_handle)) {
+			if ($file != "." && $file != "..") {
+				if (!is_dir($dirname."/".$file))
+					unlink($dirname."/".$file);
+				else
+					delete_directory($dirname.'/'.$file);
+			}
+		}
+		closedir($dir_handle);
+		rmdir($dirname);
+		return true;
 	}
 }

@@ -8,7 +8,7 @@
 ?>
 <?php
 $attributes = array("id" => "frmShipping");
-echo form_open("Order_controller/updateShippingInfo", $attributes);
+echo form_open("admin/OrderManagement_controller/updateShippingInfo", $attributes);
 ?>
 <!-- Modal -->
 <div class="modal-dialog">
@@ -105,7 +105,7 @@ echo form_open("Order_controller/updateShippingInfo", $attributes);
 		console.log(dataString);
 		$.ajax({
 			type:'POST',
-			url: '<?=base_url('Order_controller/updateShippingInfo')?>',
+			url: '<?=base_url('admin/OrderManagement_controller/updateShippingInfo')?>',
 			data: dataString,
 			beforeSend: function () {
 				$('.submitBtn').attr("disabled","disabled");
@@ -114,7 +114,7 @@ echo form_open("Order_controller/updateShippingInfo", $attributes);
 			success:function(msg){
 				if(msg == "success"){
 					bootbox.alert("Cập nhật thành công", function(){
-						window.location.href = '<?=base_url("order/process-{$shipping->OrderID}.html")?>';
+						window.location.href = '<?=base_url("admin/order/process-{$shipping->OrderID}.html")?>';
 					});
 
 				}else{

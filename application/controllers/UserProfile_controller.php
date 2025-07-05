@@ -27,30 +27,25 @@ class UserProfile_controller extends CI_Controller
 		$this->load->model('Category_Model');
 		$this->load->model('City_Model');
 		$this->load->helper("seo_url");
+		$this->load->library('cart');
 	}
 
 	public function index()
 	{
 		$userId = $this->session->userdata('loginid');
-		$data = $this->Category_Model->getCategories();
+		$data = $this->Category_Model->getActiveCategories();
 		$data['UserId'] = $userId;
-		$data['footerMenus'] = $this->City_Model->findByTopProductOfCategoryGroupByCity();
 		$user = $this->User_Model->getUserById($userId);
+		$data['txt_phone'] = $user->Phone;
 		$crudaction = $this->input->post("crudaction");
 		if($crudaction == UPDATE){
 			$this->form_validation->set_rules("txt_fullname", "Fullname", "trim|required");
 			$this->form_validation->set_rules("txt_email", "Email", "valid_email");
-			$this->form_validation->set_rules('txt_phone', 'Mobile Number ', 'regex_match[/^[0-9]{10,11}$/]'); //{10} for 10 or 11 digits number
-
+			// $this->form_validation->set_rules('txt_phone', 'Mobile Number ', 'regex_match[/^[0-9]{10,11}$/]'); //{10} for 10 or 11 digits number
 			$data['txt_fullname'] = $this->input->post("txt_fullname");
 			$data['txt_email'] = $this->input->post("txt_email");
-			$data['txt_phone'] = $this->input->post("txt_phone");
-			$data['txt_address'] = $this->input->post("txt_address");
-			if ($this->form_validation->run() == FALSE)
-			{
-				$this->load->view('user/profile', $data);
-			}else{
-				
+
+			if ($this->form_validation->run()) {
 				$this->User_Model->updateUser($data);
 				$data['message_response'] = 'Cập nhật thành công';
 			}
@@ -58,7 +53,6 @@ class UserProfile_controller extends CI_Controller
 			$data['txt_fullname'] = $user->FullName;
 			$data['txt_email'] = $user->Email;
 			$data['txt_phone'] = $user->Phone;
-			$data['txt_address'] = $user->Address;
 		}
 		$this->load->view('user/profile', $data);
 	}

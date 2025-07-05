@@ -70,10 +70,10 @@ $route['chinh-sua-p(:num)'] = "Post_controller/edit/$1";
 // Dang bai thanh cong
 $route['dang-bai-thanh-cong-p(:num)'] = "Post_controller/done/$1";
 // Trang quan ly tin rao
-$route['quan-ly-tin-rao'] = "ManagePost_controller";
+// $route['quan-ly-tin-rao'] = "ManagePost_controller";
 $route['quan-ly-tin-rao.html/(:num)'] = "ManagePost_controller/index/$1";
 // Trang quan ly giao dich
-$route['quan-ly-giao-dich'] = "ManagePost_controller/transfer";
+$route['quan-ly-don-hang'] = "Order_controller";
 // Trang quan ly giao dich
 $route['yeu-cau-goi-lai'] = "ManagePost_controller/callMeBack";
 $route['yeu-cau-goi-lai.html/(:num)'] = "ManagePost_controller/callMeBack/$1";
@@ -202,6 +202,11 @@ $route['admin/property/add'] = "admin/Property_controller/add";
 $route['admin/property/add-(:num)'] = "admin/Property_controller/add/$1";
 // Shipping Fee
 $route['admin/shipping-fee/list'] = "admin/ShippingFee_controller";
+// Order management
+$route['admin/order/list'] = "admin/OrderManagement_controller";
+$route['admin/order/process-(:num)'] = "admin/OrderManagement_controller/process/$1";
+$route['admin/order/update-(:num)'] = "admin/OrderManagement_controller/update/$1";
+
 
 // POS
 $route['pos/index'] = "POS_controller";
@@ -210,7 +215,3 @@ $route['check-out'] = "ShoppingCart_controller/checkOut";
 $route['check-out/address'] = "ShoppingCart_controller/shippingAddress";
 $route['check-out/review'] = "ShoppingCart_controller/review";
 $route['check-out/success'] = "ShoppingCart_controller/success";
-// Order
-$route['order/list'] = "Order_controller";
-$route['order/process-(:num)'] = "Order_controller/process/$1";
-$route['order/update-(:num)'] = "Order_controller/update/$1";
