@@ -94,6 +94,23 @@ class Order_controller extends CI_Controller
 		$this->load->view('order/list', $data);
 	}
 
+	public function viewDetail($orderId){
+		$this->load->driver('cache');
+		$categories = $this->cache->file->get('categories');
+		if(!$categories){
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
+		}
+		$data = $categories;
+
+		$order = $this->MyOrder_Model->findByOrderId($orderId);
+		$data['order'] = $order['order'];
+		$data['products'] = $order['products'];
+		$data['shippingAddr'] = $order['shippingAddr'];
+
+		$this->load->view('order/detail', $data);
+	}
+
 	public function transfer(){
 		// begin file cached
 		$this->load->driver('cache');

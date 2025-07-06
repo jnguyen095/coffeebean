@@ -72,8 +72,9 @@ $route['dang-bai-thanh-cong-p(:num)'] = "Post_controller/done/$1";
 // Trang quan ly tin rao
 // $route['quan-ly-tin-rao'] = "ManagePost_controller";
 $route['quan-ly-tin-rao.html/(:num)'] = "ManagePost_controller/index/$1";
-// Trang quan ly giao dich
+// Trang quan ly đơn hàng
 $route['quan-ly-don-hang'] = "Order_controller";
+$route['don-hang-(:num)'] = "Order_controller/viewDetail/$1";
 // Trang quan ly giao dich
 $route['yeu-cau-goi-lai'] = "ManagePost_controller/callMeBack";
 $route['yeu-cau-goi-lai.html/(:num)'] = "ManagePost_controller/callMeBack/$1";

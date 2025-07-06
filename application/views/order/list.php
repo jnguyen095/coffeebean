@@ -88,7 +88,7 @@
 								?>
 								<tr>
 									<th scope="row"><?=$counter++?>.</th>
-									<td><a href="<?=base_url('/don-hang.html?code=' . $order->OrderID)?>"><?=$order->Code?></a></td>
+									<td><a href="<?=base_url('/don-hang-' . $order->OrderID . '.html')?>"><?=$order->Code?></a></td>
 									<td>
 										<?php
 										$datestring = '%d/%m/%Y %H:%i';
@@ -105,7 +105,7 @@
 										?>
 									</td>
 									<td class="mobile-hide">
-										<a href="<?=base_url('/don-hang.html?code=' . $order->OrderID)?>"><i class="glyphicon glyphicon-info-sign"></i></a>
+										<a href="<?=base_url('/don-hang-' . $order->OrderID . '.html')?>"><i class="glyphicon glyphicon-info-sign"></i></a>
 									</td>
 								</tr>
 								<?php
