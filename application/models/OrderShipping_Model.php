@@ -21,6 +21,18 @@ class OrderShipping_Model extends CI_Model
 		return $shipping;
 	}
 
+	public function getLatestShippingAddr($userId){
+		$query = $this->db->select('s.*')
+			->from('myorder m')
+			->join('ordershipping s', 'm.OrderID = s.OrderID', 'left')
+			->where('m.CreatedBy', $userId)
+			->limit(1)
+			->order_by('m.CreatedDate', 'DESC')
+			->get();
+
+		return $query->row();
+	}
+
 	public function update($orderId, $shipping){
 			$this->db->set('Receiver', $shipping['Receiver']);
 			$this->db->set('Phone', $shipping['Phone']);

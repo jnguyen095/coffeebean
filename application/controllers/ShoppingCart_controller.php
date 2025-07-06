@@ -24,6 +24,7 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->model('District_Model');
 		$this->load->model('Ward_Model');
 		$this->load->model('MyOrder_Model');
+		$this->load->model('OrderShipping_Model');
 	}
 
 	public function checkOut(){
@@ -44,7 +45,8 @@ class ShoppingCart_controller extends CI_Controller
 			$newOrder['UserID'] = $loginID;
 			$newOrder['Status'] = ORDER_STATUS_NEW;
 			// $newOrder['ShippingFee'] = 12000;
-			$newOrder['TotalPrice'] = $this->cart->total() + $this->cart->total_items();
+			$newOrder['TotalPrice'] = $this->cart->total();
+			$newOrder['TotalItems'] = $this->cart->total_items();
 			$newOrder['Note'] = $note;
 			$newOrder['Payment'] = $payment;
 			$newOrder['CreatedDate'] = date('Y-m-d H:i:s');
@@ -97,7 +99,7 @@ class ShoppingCart_controller extends CI_Controller
 			//return;
 			redirect('/check-out/success');
 		}
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 		$data['txt_receiver'] = $shippingAddr['txt_receiver'];
 		$data['txt_phone'] = $shippingAddr['txt_phone'];
@@ -111,13 +113,13 @@ class ShoppingCart_controller extends CI_Controller
 	public function success(){
 		$this->cart->destroy();
 		$this->session->set_userdata("shippingAddr", []);
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 		$this->load->view('cart/Cart_success', $data);
 	}
 
 	public function shippingAddress(){
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;
 		$crudaction = $this->input->post('crudaction');
 		if($crudaction == 'insert'){
@@ -155,6 +157,20 @@ class ShoppingCart_controller extends CI_Controller
 				$data['txt_district'] = $shippingAddr['txt_district'];
 				$data['txt_ward'] = $shippingAddr['txt_ward'];
 				$data['street'] = $shippingAddr['street'];
+			} else {
+				//get latest shipping address from last order
+				$loginID = $this->session->userdata('loginid');
+				if($loginID != null){
+					$shippingAddr = $this->OrderShipping_Model->getLatestShippingAddr($loginID);
+					if($shippingAddr != null){
+						$data['txt_receiver'] = $shippingAddr->Receiver;
+						$data['txt_phone'] = $shippingAddr->Phone;
+						$data['txt_city'] = $shippingAddr->CityID;
+						$data['txt_district'] = $shippingAddr->DistrictID;
+						$data['txt_ward'] = $shippingAddr->WardID;
+						$data['street'] = $shippingAddr->Street;
+					}
+				}
 			}
 
 		}

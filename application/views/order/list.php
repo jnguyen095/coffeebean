@@ -66,6 +66,7 @@
 								<th class="text-center">#</th>
 								<th class="text-center">Mã Đơn Hàng</th>
 								<th class="text-center">Ngày mua</th>
+								<th class="text-center">Số lượng</th>
 								<th class="text-center">Tổng cộng</th>
 								<th class="text-center">Tình trạng</th>
 								<th class="text-center">Chỉnh sửa</th>
@@ -94,6 +95,7 @@
 										echo mdate($datestring, strtotime($order->CreatedDate));
 										?>
 									</td>
+									<td><?=number_format($order->TotalItems)?></td>
 									<td><?=number_format($order->TotalPrice)?></td>
 									<td>
 										<?php
@@ -103,6 +105,7 @@
 										?>
 									</td>
 									<td class="mobile-hide">
+										<a href="<?=base_url('/don-hang.html?code=' . $order->OrderID)?>"><i class="glyphicon glyphicon-info-sign"></i></a>
 									</td>
 								</tr>
 								<?php
