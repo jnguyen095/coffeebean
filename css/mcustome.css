@@ -694,6 +694,11 @@ ul.nearme {
 	width: 120px;
 }
 
+.width100px{
+	width: 100px;
+	max-height: 100px;
+}
+
 .width100pc{
 	width: 100%;
 }
@@ -1638,7 +1643,7 @@ div.main-image{
 }
 
 .line{
-	width: 120px;
+	width: 150px;
 	height: 6px;
 	background: #dddddd;
 }
@@ -1653,14 +1658,14 @@ div.main-image{
 
 .line > .label1 {
 	display: block;
-	margin: 22px 10px 10px -74px;
+	margin: 22px 10px 10px -90px;
 }
 .line > .label2 {
 	display: block;
-	margin: 22px 10px 10px -74px;
+	margin: 22px 10px 10px -90px;
 }
 .last-line > .label3 {
-	display: block;margin: 22px 0px 0px -50px;
+	display: block;margin: 22px 0px 0px -54px;
 	position: absolute;
 }
 
@@ -1771,4 +1776,13 @@ input::-webkit-inner-spin-button{
 }
 input[type=number]{
 	-moz-appearance: textfield;
+}
+
+.productDetailTable td{
+	vertical-align: middle !important;
+}
+
+.no-border-radius{
+	border-radius: 0 !important;
+	padding: 10px;
 }

@@ -26,13 +26,15 @@
 	<?php $this->load->view('/common/user-menu')?>
 
 	<div class="container no-padding">
+
+
+
 		<div class="row no-margin">
 			<div class="col-lg-12 col-sm-12">
-				<div>
-					<div class="float-left h2title">Quản lý đơn hàng > chi tiết đơn hàng <?=$order->Code?></div>
-					<div class="clear-both"></div>
-				</div>
-				<hr/>
+				<ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb always">
+					<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?php echo base_url('/quan-ly-don-hang.html')?>"><span itemprop="name">Đơn hàng</span></a></li>
+					<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name">Chi tiết đơn hàng <?=$order->Code?></span></span></li>
+				</ul>
 
 				<?php if(!empty($message_response)){
 					echo '<div class="alert alert-success">';
@@ -41,90 +43,123 @@
 					echo '</div>';
 				}?>
 
-				<!-- content -->
-				<div class="col-md-8 no-margin no-padding text-center table-responsive">
-					<table class="table table-bordered table-hover table-striped">
-						<thead class="thead-table">
-							<tr class="bg-success">
-								<th class="text-center">#</th>
-								<th>Sản phẩm</th>
-								<th class="text-center">SL</th>
-								<th class="text-center">Giá</th>
-								<th class="text-center">Tiền</th>
-							</tr>
-						</thead>
-						<tbody>
-						<?php
-							$counter = 1;
-							foreach ($products as $item) {
-								?>
-								<tr>
-									<th scope="row"><?=$counter++?>.</th>
-									<td class="text-left">
-										<a href="<?=base_url().seo_url($item->ProductName).'-p'.$item->ProductID?>.html" target="_blank"><?=$item->ProductName?></a>
-										<?php
-										$ops = json_decode($item->Options);
-										foreach ($ops as $k=>$v){
-											foreach ($v as $k1=>$v1){
-												if(!empty($v1)){
-													echo "<li>".$k1.": ".$v1."</li>";
-												}
-											}
-										}
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item text-center">
+							<div class="progresses">
+								<div class="steps step in-progress">
+									<span class="font-weight-bold">1</span>
+								</div>
+
+								<span class="line"><label class="label1">Chờ xác nhận đơn hàng</label></span>
+
+								<div class="steps">
+									<span>2</span>
+								</div>
+
+								<span class="line"><label class="label2">Chờ giao hàng</label></span>
+
+								<div class="steps">
+									<span>3</span>
+								</div>
+								<span class="last-line"><label class="label3">Hoàn thành</label></span>
+
+							</div>
+						</li>
+						<li class="list-group-item no-padding">
+							<div class="card-body">
+								<table class="productDetailTable table no-margin">
+									<thead class="thead-table">
+									<tr class="bg-success">
+										<th class="text-center">#</th>
+										<th>Sản phẩm</th>
+										<th class="text-center">SL</th>
+										<th class="text-center">Giá</th>
+										<th class="text-center">Tiền</th>
+									</tr>
+									</thead>
+									<tbody>
+									<?php
+									$counter = 1;
+									foreach ($products as $item) {
 										?>
-									</td>
-									<td><?=number_format($item->Quantity)?></td>
-									<td><?=number_format($item->Price)?></td>
-									<td><?=number_format(($item->Price) * ($item->Quantity))?></td>
-								</tr>
-								<?php
-							}
-						?>
-						</tbody>
-					</table>
+										<tr>
+											<td class="text-center"><?=$counter++?>.</td>
+											<td class="text-left">
+												<a href="<?=base_url().seo_url($item->ProductName).'-p'.$item->ProductID?>.html" target="_blank">
+													<img src="<?=base_url($item->Thumb)?>" class="img-fluid width100px" alt="Phone">
+													<?=$item->ProductName?>
+												</a>
+												<?php
+												$ops = json_decode($item->Options);
+												foreach ($ops as $k=>$v){
+													foreach ($v as $k1=>$v1){
+														if(!empty($v1)){
+															echo "<li>".$k1.": ".$v1."</li>";
+														}
+													}
+												}
+												?>
+											</td>
+											<td class="text-center"><?=number_format($item->Quantity)?></td>
+											<td class="text-center"><?=number_format($item->Price)?></td>
+											<td class="text-center"><?=number_format(($item->Price) * ($item->Quantity))?></td>
+										</tr>
+										<?php
+									}
+									?>
+									<tr>
+										<td class="text-right" colspan="4">Phí giao hàng:</td>
+										<td class="text-center"><?=number_format($order->ShippingFee)?></td>
+									</tr>
+									<tr>
+										<td class="text-right" colspan="4">Tổng cộng:</td>
+										<td class="text-center"><?=number_format($order->TotalPrice)?> (VNĐ)</td>
+									</tr>
+									<tr>
+										<td class="text-right" colspan="4">Hình thức thanh toán:</td>
+										<td class="text-center"><?=$order->Payment?></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
 
-
-
+					</ul>
 				</div>
-				<div class="col-md-4">
-					<div class="row">
-						<div class="col-md-5">Tình trạng:</div>
-						<div class="col-md-7"><span class="badge badge-pill alert-success"><?=$order->Status == 'NEW' ? 'Chờ xác nhận' : $order->Status?></span> </div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Ngày mua hàng:</div>
-						<div class="col-md-7"><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Phí giao hàng:</div>
-						<div class="col-md-7"><?=number_format($order->ShippingFee)?></div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Tổng:</div>
-						<div class="col-md-7"><?=number_format($order->TotalPrice)?> (VNĐ)</div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Thanh toán:</div>
-						<div class="col-md-7"><?=$order->Payment?></div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Người nhận hàng:</div>
-						<div class="col-md-7"><?=$shippingAddr->Receiver?></div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Số ĐT:</div>
-						<div class="col-md-7"><?=$shippingAddr->Phone?></div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Địa chỉ:</div>
-						<div class="col-md-7"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">Ghi chú:</div>
-						<div class="col-md-7"><?=empty($order->Note) ? '-' : $order->Note?></div>
-					</div>
 
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item no-padding">
+							<div class="alert alert-info no-margin no-border-radius" role="alert">Thông tin người nhận hàng</div>
+						</li>
+						<li class="list-group-item">
+							<form>
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">Người nhận hàng:</label>
+									<div class="col-sm-10"><?=$shippingAddr->Receiver?></div>
+								</div>
+								<div class="form-group row">
+									<label for="inputPassword" class="col-sm-2 col-form-label">Số ĐT:</label>
+									<div class="col-sm-10"><?=$shippingAddr->Phone?></div>
+								</div>
+								<div class="form-group row">
+									<label for="inputPassword" class="col-sm-2 col-form-label">Địa chỉ:</label>
+									<div class="col-sm-10"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
+								</div>
+								<div class="form-group row">
+									<label for="inputPassword" class="col-sm-2 col-form-label">Ghi chú:</label>
+									<div class="col-sm-10"><?=empty($order->Note) ? '-' : $order->Note?></div>
+								</div>
+							</form>
+						</li>
+					</ul>
 				</div>
+
+				<div class="row col-lg-12 margin-bottom-20 text-right">
+					<a class="btn btn-primary" href="<?=base_url('quan-ly-don-hang.html')?>"><i class="glyphicon glyphicon glyphicon-chevron-left"></i> Trở lại</a>
+				</div>
+
 				<!-- end content -->
 				<div class="clear-both"></div>
 			</div>

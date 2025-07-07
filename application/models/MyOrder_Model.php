@@ -90,7 +90,7 @@ class MyOrder_Model extends CI_Model
 		$order = $query->row();
 
 		// order detail
-		$query = $this->db->select('od.*, p.Title as ProductName, concat(\'[\', group_concat(JSON_OBJECT(IFNULL(po.Pro, \'\'), IFNULL(po.Val, \'\'))), \']\') as  Options')
+		$query = $this->db->select('od.*, p.Title as ProductName, p.Thumb, concat(\'[\', group_concat(JSON_OBJECT(IFNULL(po.Pro, \'\'), IFNULL(po.Val, \'\'))), \']\') as  Options')
 			->from('orderdetail od')
 			->join('myorder o', 'od.OrderID = o.OrderID')
 			->join('product p', 'p.ProductID = od.ProductID')
