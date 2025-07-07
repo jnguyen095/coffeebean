@@ -141,7 +141,7 @@ class Login_controller extends CI_Controller
 		$this->load->driver('cache');
 		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
+			$categories = $this->Category_Model->getActiveCategories();
 			$this->cache->file->save('categories', $categories, 1440);
 		}
 

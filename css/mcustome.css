@@ -13,7 +13,7 @@ body{
 	padding-top: 50px;
 }
 
-body > .container{
+body > .container, body > .container-fluid > .container{
 	box-shadow: 0px 30px 20px rgba(0,0,0,.1);
 }
 

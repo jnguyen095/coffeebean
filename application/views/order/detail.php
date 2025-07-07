@@ -23,11 +23,9 @@
 <div class="container-fluid">
 	<?php $this->load->view('/theme/header')?>
 
-	<?php $this->load->view('/common/user-menu')?>
 
 	<div class="container no-padding">
-
-
+		<?php $this->load->view('/common/user-menu')?>
 
 		<div class="row no-margin">
 			<div class="col-lg-12 col-sm-12">
@@ -70,7 +68,7 @@
 							<div class="card-body">
 								<table class="productDetailTable table no-margin">
 									<thead class="thead-table">
-									<tr class="bg-success">
+									<tr class="bg-info">
 										<th class="text-center">#</th>
 										<th>Sản phẩm</th>
 										<th class="text-center">SL</th>

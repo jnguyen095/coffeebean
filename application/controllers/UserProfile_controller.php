@@ -59,15 +59,13 @@ class UserProfile_controller extends CI_Controller
 
 	public function changePassword(){
 		$userId = $this->session->userdata('loginid');
-		$data = $this->Category_Model->getCategories();
-		$data['footerMenus'] = $this->City_Model->findByTopProductOfCategoryGroupByCity();
+		$data = $this->Category_Model->getActiveCategories();
 		$crudaction = $this->input->post("crudaction");
 		if($crudaction == UPDATE){
 			$this->form_validation->set_rules("txt_oddpw", "Mật khẩu cũ", "trim|required");
 			$this->form_validation->set_rules("txt_newpw", "Mật khẩu mới", "trim|required");
 			$this->form_validation->set_rules("txt_newpwconfirm", "Xác nhận mật khẩu mới", "trim|required");
-			if ($this->form_validation->run() == FALSE)
-			{
+			if ($this->form_validation->run() == FALSE){
 				$this->load->view('user/changePassword', $data);
 			}else{
 				$oddPw = $this->input->post("txt_oddpw");

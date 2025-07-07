@@ -11,11 +11,11 @@
 <div class="container-fluid">
 	<?php $this->load->view('/theme/header')?>
 
-	<?php $this->load->view('/common/user-menu')?>
-
 	<div class="container no-padding">
+		<?php $this->load->view('/common/user-menu')?>
+
 		<div class="row no-margin">
-			<div class="col-lg-12 no-padding">
+			<div class="col-lg-12">
 				<div class="col-md-6 well login-panel no-background">
 					<div class=" col-xs-12">
 						<?php if(!empty($error_response)){

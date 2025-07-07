@@ -23,22 +23,13 @@
 <div class="container-fluid">
 	<?php $this->load->view('/theme/header')?>
 
-	<?php $this->load->view('/common/user-menu')?>
-
 	<div class="container no-padding">
+		<?php $this->load->view('/common/user-menu')?>
+
 		<div class="row no-margin">
 			<div class="col-lg-12 col-sm-12">
 				<div>
 					<div class="float-left h2title">Quản lý đơn hàng</div>
-					<div class="float-right">
-						<?php
-						if(count($orders) > 0) {
-							?>
-							<a href="<?=base_url('/')?>" class="btn btn-sm btn-info">Mua Hàng</a> </td>
-							<?php
-						}
-						?>
-					</div>
 					<div class="clear-both"></div>
 				</div>
 				<hr/>
@@ -105,7 +96,14 @@
 										?>
 									</td>
 									<td class="mobile-hide">
-										<a href="<?=base_url('/don-hang-' . $order->OrderID . '.html')?>"><i class="glyphicon glyphicon-info-sign"></i></a>
+										<a data-toggle="tooltip" title="Xem chi tiết đơn hàng" href="<?=base_url('/don-hang-' . $order->OrderID . '.html')?>"><i class="glyphicon glyphicon-info-sign"></i></a>
+										<?php
+										if($order->Status == ORDER_STATUS_NEW){
+											?>
+											&nbsp;|&nbsp;<a data-toggle="tooltip" title="Hủy đơn hàng" href=""><i class="glyphicon glyphicon-remove-circle"></i></a>
+										<?php
+										}
+										?>
 									</td>
 								</tr>
 								<?php
