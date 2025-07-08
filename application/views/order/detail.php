@@ -45,23 +45,39 @@
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item text-center">
 							<div class="progresses">
-								<div class="steps step in-progress">
-									<span class="font-weight-bold">1</span>
-								</div>
+								<?php
+								if($order->Status == ORDER_STATUS_CANCEL) {
+									?>
+									<div class="steps active">
+										<span><i class="glyphicon glyphicon-ok"></i></span>
+									</div>
+									<span class="line active"><label class="label1">Chờ xác nhận</label></span>
 
-								<span class="line"><label class="label1">Chờ xác nhận đơn hàng</label></span>
+									<div class="steps active">
+										<span class="font-weight-bold"><i class="glyphicon glyphicon-ok"></i></span>
+									</div>
+									<span class="last-line active"><label class="label3">Đã hủy đơn</label></span>
+									<?php
+									} else {
 
-								<div class="steps">
-									<span>2</span>
-								</div>
+									?>
+									<div class="steps step in-progress">
+										<span class="font-weight-bold">1</span>
+									</div>
+									<span class="line"><label class="label1">Chờ xác nhận đơn hàng</label></span>
 
-								<span class="line"><label class="label2">Chờ giao hàng</label></span>
+									<div class="steps">
+										<span>2</span>
+									</div>
+									<span class="line"><label class="label2">Chờ giao hàng</label></span>
 
-								<div class="steps">
-									<span>3</span>
-								</div>
-								<span class="last-line"><label class="label3">Hoàn thành</label></span>
-
+									<div class="steps">
+										<span>3</span>
+									</div>
+									<span class="last-line"><label class="label3">Hoàn thành</label></span>
+									<?php
+								}
+								?>
 							</div>
 						</li>
 						<li class="list-group-item no-padding">

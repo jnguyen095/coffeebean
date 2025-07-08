@@ -26,6 +26,7 @@ class Order_controller extends CI_Controller
 		$this->load->library('pagination');
 		$this->load->model('User_Model');
 		$this->load->model('MyOrder_Model');
+		$this->load->model('OrderTracking_Model');
 		$this->load->library('cart');
 	}
 
@@ -47,35 +48,17 @@ class Order_controller extends CI_Controller
 
 		$crudaction = $this->input->post("crudaction");
 		if($crudaction == DELETE){
-			$productId = $this->input->post("productId");
-			if($productId != null && $productId > 0) {
-				$product = $this->Product_Model->findById($productId);
-				$folder = $product->code;
-				$upath = 'attachments' . DIRECTORY_SEPARATOR .'u'. $userId . DIRECTORY_SEPARATOR. $folder;
-				// delete db first
-				$this->Product_Model->deleteById($productId);
-				if (file_exists($upath)){
-					$this->delete_directory($upath);
-				}
-				$data['message_response'] = 'Xóa tin rao thành công.';
-			}
-		}else if($crudaction == REFRESH){
-			$productId = $this->input->post("productId");
-			if($productId != null && $productId > 0) {
-				$this->Product_Model->pushPostUp($productId);
-				$data['message_response'] = 'Làm mới tin rao thành công.';
-			}
-		}else if($crudaction == INACTIVE_POST){
-			$productId = $this->input->post("productId");
-			if($productId != null && $productId > 0) {
-				$this->Product_Model->changeStatusPost($productId, INACTIVE);
-				$data['message_response'] = 'Đã tạm khóa tin rao.';
-			}
-		}else if($crudaction == ACTIVE_POST){
-			$productId = $this->input->post("productId");
-			if($productId != null && $productId > 0) {
-				$this->Product_Model->changeStatusPost($productId, ACTIVE);
-				$data['message_response'] = 'Tin rao đã mở trạng thái hoạt động.';
+			$orderId = $this->input->post("orderId");
+			if($orderId != null && $orderId > 0) {
+				$this->MyOrder_Model->updateOrderStatus($orderId, ORDER_STATUS_CANCEL, $userId);
+				$data['message_response'] = 'Hủy đơn hàng thành công.';
+				$user = $this->User_Model->getUserById($userId);
+				$orderTracking = array(
+					'OrderID' => $orderId,
+					'CreatedDate' => date('Y-m-d H:i:s'),
+					'Message' => $user->FullName. ' đã hủy hàng'
+				);
+				$this->OrderTracking_Model->insert($orderTracking);
 			}
 		}
 

@@ -13,7 +13,7 @@
 		<meta charset = "utf-8">
 		<title>Nhà Tìm Chủ | Quản Lý Đơn Hàng</title>
 		<?php $this->load->view('common_header')?>
-		<script src="<?= base_url('/js/createpost.js') ?>"></script>
+		<script src="<?= base_url('/js/homeland.js') ?>"></script>
 		<script src="<?=base_url('/js/bootbox.min.js')?>"></script>
 		<?php $this->load->view('/common/googleadsense')?>
 </head>
@@ -41,13 +41,9 @@
 					echo '</div>';
 				}?>
 
-	<!--			<div class="alert alert-danger">-->
-	<!--				Thông báo! từ ngày 01/01/2018 những tin đăng nào hết hạn sẻ tự động bị xóa khỏi hệ thống.-->
-	<!--			</div>-->
-
 				<?php
-				$attributes = array("id" => "frmPost");
-				echo form_open("quan-ly-tin-rao", $attributes);
+				$attributes = array("id" => "frmOrder");
+				echo form_open("quan-ly-don-hang", $attributes);
 				?>
 				<!-- content -->
 				<div class="col-md-12 no-margin no-padding text-center table-responsive">
@@ -91,7 +87,9 @@
 									<td>
 										<?php
 										if($order->Status == ORDER_STATUS_NEW){
-											echo '<span class="standard-color">Chờ xác nhận</span>';
+											echo '<span class="text-primary">Chờ xác nhận</span>';
+										} else if($order->Status == ORDER_STATUS_CANCEL){
+											echo '<span class="text-danger">Đã hủy</span>';
 										}
 										?>
 									</td>
@@ -100,7 +98,7 @@
 										<?php
 										if($order->Status == ORDER_STATUS_NEW){
 											?>
-											&nbsp;|&nbsp;<a data-toggle="tooltip" title="Hủy đơn hàng" href=""><i class="glyphicon glyphicon-remove-circle"></i></a>
+											&nbsp;|&nbsp;<a data-toggle="tooltip" title="Hủy đơn hàng" href="javascript:void(0);" onclick="cancelOrder('<?=$order->OrderID?>')"><i class="glyphicon glyphicon-remove-circle"></i></a>
 										<?php
 										}
 										?>

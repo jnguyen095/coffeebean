@@ -299,3 +299,13 @@ function decreaseValue(){
 	var currentVal = parseInt($("#quantity").val());
 	$("#quantity").val(currentVal < 2 ? 1 : currentVal - 1)
 }
+
+function cancelOrder(orderId){
+	bootbox.confirm("Bạn có muốn hủy đơn hàng này không?", function(r) {
+		if (r) {
+			$("#crudaction").val('delete');
+			$("#orderId").val(orderId);
+			$("#frmOrder").submit();
+		}
+	});
+}

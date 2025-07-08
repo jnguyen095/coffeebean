@@ -151,4 +151,12 @@ class MyOrder_Model extends CI_Model
 			return "O-00001";
 		}
 	}
+
+	public function updateOrderStatus($orderId, $status, $updatedBy){
+		$this->db->set('Status', $status);
+		$this->db->set('UpdatedDate', 'NOW()', false);
+		$this->db->set('UpdatedBy', $updatedBy);
+		$this->db->where('OrderID', $orderId);
+		$this->db->update('myorder');
+	}
 }
