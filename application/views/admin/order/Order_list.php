@@ -79,7 +79,7 @@
 					</div>
 
 					<div class="row no-margin top-buttons">
-						<a class="btn btn-primary" id="addNew" href="<?=base_url("/admin/product/edit.html")?>">Thêm sản phẩm</a>
+						<a class="btn btn-primary" id="addNew" href="<?=base_url("/admin/order/edit.html")?>">Thêm sản phẩm</a>
 						<a class="btn btn-danger" id="deleteMulti">Xóa Nhiều</a>
 					</div>
 
@@ -88,7 +88,8 @@
 							<thead>
 							<tr>
 								<th><input name="checkAll" value="1" type="checkbox" ></th>
-								<th data-action="sort" data-title="Title" data-direction="ASC"><span>Ngày tạo</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="Title" data-direction="ASC"><span>Khách hàng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="Title" data-direction="ASC"><span>Tạo lúc</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="Price" data-direction="ASC"><span>Giá trị</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="ModifiedDate" data-direction="ASC"><span>Người tạo</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
@@ -104,11 +105,14 @@
 								?>
 								<tr>
 									<td><input name="checkList[]" type="checkbox" value="<?=$order->OrderID?>"></td>
+									<td><?=$order->FullName?></td>
 									<td><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></td>
 									<td><?=number_format($order->TotalPrice)?></td>
 									<td><?php
-										if($order->Status == 'NEW'){
+										if($order->Status == ORDER_STATUS_NEW){
 											echo '<lable class="label label-success">Đơn mới</lable>';
+										} else if($order->Status == ORDER_STATUS_CANCEL){
+											echo '<lable class="label label-danger">Đã hủy</lable>';
 										}
 										?>
 									</td>

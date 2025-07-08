@@ -161,6 +161,8 @@ $route['google-drive'] = "GoogleDrive_controller";
 /* ADMINISTRATOR */
 $route['admin/dashboard'] = "admin/Admin_controller";
 $route['admin/user/list'] = "admin/UserManagement_controller";
+$route['admin/user/add'] = "admin/UserManagement_controller/addUser";
+$route['admin/user/add-(:num)'] = "admin/UserManagement_controller/addUser/$1";
 $route['admin/product/list'] = "admin/ProductManagement_controller";
 $route['admin/product/edit'] = "admin/ProductManagement_controller/edit";
 $route['admin/product/edit-(:num)'] = "admin/ProductManagement_controller/edit/$1";

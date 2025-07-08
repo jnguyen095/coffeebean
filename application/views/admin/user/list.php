@@ -50,6 +50,7 @@
 								<input type="text" name="searchFor" placeholder="Tìm theo tên, số điện thoại, email, địa chỉ..." class="form-control" id="searchKey" onchange="sendRequest();">
 							</div>
 						</div>
+						<div class="top-buttons text-right"><a class="btn btn-primary" href="<?=base_url('/admin/user/add.html')?>">Thêm Mới</a> </div>
 					</div>
 
 					<div class="table-responsive">
@@ -57,15 +58,12 @@
 							<thead>
 								<tr>
 									<th></th>
+									<th>Nhóm</th>
 									<th data-action="sort" data-title="FullName" data-direction="ASC"><span>Họ Tên</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="UserName" data-direction="ASC"><span>Username</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="Phone" data-direction="ASC"><span>Điện Thoại</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="Email" data-direction="ASC"><span>Email</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="AvailableMoney" data-direction="ASC"><span>Tài Khoản</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th><span>Bài Đăng</span></th>
-									<th><span>Miễn Phí</span></th>
 									<th data-action="sort" data-title="CreatedDate" data-direction="ASC"><span>Ngày Tạo</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-									<th data-action="sort" data-title="LastLogin" data-direction="ASC"><span>Đăng Nhập</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+									<th data-action="sort" data-title="LastLogin" data-direction="ASC"><span>Đăng Nhập Gần Nhất</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th></th>
 								</tr>
 							</thead>
@@ -76,19 +74,16 @@
 								?>
 								<tr>
 									<td><?=$counter++?></td>
-									<td><a data-toggle="tooltip" title="<?=$user->Address?>"><?=$user->FullName?></a></td>
-									<td><?=$user->UserName?></td>
+									<td><?=($user->UserGroupID == USER_GROUP_ADMIN ? 'Quản trị' : 'Người dùng')?></td>
+									<td><?=$user->FullName?></td>
 									<td><?=$user->Phone?></td>
 									<td><?=$user->Email?></td>
-									<td class="text-right"><?=number_format($user->AvailableMoney)?></td>
-									<td class="text-center"><?=number_format($user->TotalPost)?></td>
-									<td class="text-center"><?=$user->StandardPost?></td>
 									<td><?=date('d/m/Y H:i', strtotime($user->CreatedDate))?></td>
 									<td><?=date('d/m/Y H:i', strtotime($user->LastLogin))?></td>
 									<td>
 										<a href="<?=base_url('/admin/product/list.html?createdById='.$user->Us3rID)?>" data-toggle="tooltip" title="Xem tin rao"><i class="glyphicon glyphicon-folder-open"></i></a>&nbsp;|&nbsp;
 										<a href="<?=base_url('/admin/transfer-user-'.$user->Us3rID.'.html')?>" data-toggle="tooltip" title="Xử lý giao dịch"><i class="glyphicon glyphicon-random"></i></a>&nbsp;|&nbsp;
-										<a data-toggle="tooltip" title="Chỉnh sửa"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;|&nbsp;
+										<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url('/admin/user/add-'.$user->Us3rID.'.html')?>"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;|&nbsp;
 										<a data-toggle="tooltip" title="Xóa Người dùng"><i class="glyphicon glyphicon-remove"></i></a>
 									</td>
 								</tr>
