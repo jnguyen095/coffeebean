@@ -32,7 +32,7 @@ Features
 - Shipping fee management
 - Order management
 - User management
-- Maketing pages management
+- Marketing pages management
 - Advertising management
 - Dashboard for monitoring & quick actions
 
