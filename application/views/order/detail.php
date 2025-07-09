@@ -86,7 +86,7 @@
 									<thead class="thead-table">
 									<tr class="bg-info">
 										<th class="text-center">#</th>
-										<th>Sản phẩm</th>
+										<th colspan="2">Sản phẩm</th>
 										<th class="text-center">SL</th>
 										<th class="text-center">Giá</th>
 										<th class="text-center">Tiền</th>
@@ -102,17 +102,23 @@
 											<td class="text-left">
 												<a href="<?=base_url().seo_url($item->ProductName).'-p'.$item->ProductID?>.html" target="_blank">
 													<img src="<?=base_url($item->Thumb)?>" class="img-fluid width100px" alt="Phone">
+												</a>
+											</td>
+											<td class="text-left">
+												<a href="<?=base_url().seo_url($item->ProductName).'-p'.$item->ProductID?>.html" target="_blank">
 													<?=$item->ProductName?>
 												</a>
 												<?php
 												$ops = json_decode($item->Options);
+												echo "<ul class='no-padding'>";
 												foreach ($ops as $k=>$v){
 													foreach ($v as $k1=>$v1){
 														if(!empty($v1)){
-															echo "<li>".$k1.": ".$v1."</li>";
+															echo "<li><i>".$k1.": ".$v1."</i></li>";
 														}
 													}
 												}
+												echo "</ul>";
 												?>
 											</td>
 											<td class="text-center"><?=number_format($item->Quantity)?></td>
@@ -123,15 +129,15 @@
 									}
 									?>
 									<tr>
-										<td class="text-right" colspan="4">Phí giao hàng:</td>
+										<td class="text-right" colspan="5">Phí giao hàng:</td>
 										<td class="text-center"><?=number_format($order->ShippingFee)?></td>
 									</tr>
 									<tr>
-										<td class="text-right" colspan="4">Tổng cộng:</td>
+										<td class="text-right" colspan="5">Tổng cộng:</td>
 										<td class="text-center"><?=number_format($order->TotalPrice)?> (VNĐ)</td>
 									</tr>
 									<tr>
-										<td class="text-right" colspan="4">Hình thức thanh toán:</td>
+										<td class="text-right" colspan="5">Hình thức thanh toán:</td>
 										<td class="text-center"><?=$order->Payment?></td>
 									</tr>
 									</tbody>
