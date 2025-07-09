@@ -24,7 +24,8 @@ Technologies
 Features
 *******************
 
-*Backend side
+*Backend side:*
+
 - Category management
 - Product management
 - Product property management
@@ -35,7 +36,8 @@ Features
 - Advertising management
 - Dashboard for monitoring & quick actions
 
-*Front store
+*Front store:*
+
 - Home page
 - Product page
 - Search page
