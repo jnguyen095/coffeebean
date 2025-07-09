@@ -25,6 +25,7 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->model('Ward_Model');
 		$this->load->model('MyOrder_Model');
 		$this->load->model('OrderShipping_Model');
+		$this->load->helper('my_email');
 	}
 
 	public function checkOut(){
@@ -96,8 +97,15 @@ class ShoppingCart_controller extends CI_Controller
 			);
 
 			$data['orderId'] = $this->MyOrder_Model->createOrder($newOrder, $orderItems, $shippingInfo, $orderTracking);
+
+			// send email to inform customer
+			$customerEmail = $user->Email;
+			if($customerEmail != null && strlen($customerEmail) > 0){
+				my_send_email($customerEmail,APP_DOMAIN . " - Đặt hàng thành công", "<p>Bạn vừa đặt hàng thành công tại: " . APP_DOMAIN . ", mã đơn hàng: <b>" . $newOrder['Code'] . "</b></p><p>Theo dõi đơn hàng tại đây: " . APP_DOMAIN . "/don-hang-". $data['orderId']."html</p>" );
+			}
+
 			//return;
-			redirect('/check-out/success');
+			redirect('/check-out/success?orderId=' . $data['orderId']);
 		}
 		$categories = $this->Category_Model->getActiveCategories();
 		$data = $categories;

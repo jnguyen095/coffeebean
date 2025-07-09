@@ -96,10 +96,18 @@
 									<td class="mobile-hide">
 										<a data-toggle="tooltip" title="Xem chi tiết đơn hàng" href="<?=base_url('/don-hang-' . $order->OrderID . '.html')?>"><i class="glyphicon glyphicon-info-sign"></i></a>
 										<?php
-										if($order->Status == ORDER_STATUS_NEW){
+										if($order->Status == ORDER_STATUS_NEW) {
 											?>
-											&nbsp;|&nbsp;<a data-toggle="tooltip" title="Hủy đơn hàng" href="javascript:void(0);" onclick="cancelOrder('<?=$order->OrderID?>')"><i class="glyphicon glyphicon-remove-circle"></i></a>
-										<?php
+											&nbsp;|&nbsp;<a data-toggle="tooltip" title="Hủy đơn hàng" href="javascript:void(0);" style="text-decoration: none" onclick="cancelOrder('<?= $order->OrderID ?>')">
+												<i class="glyphicon glyphicon-remove-circle text-danger"></i>
+											</a>
+											<?php
+										}else{
+											?>
+											&nbsp;|&nbsp;<a data-toggle="tooltip" title="Không được hủy đơn hàng" style="cursor: not-allowed;text-decoration: none" disabled href="javascript:void(0);" >
+												<i disabled="true" class="glyphicon glyphicon-remove-circle text-warning "></i>
+											</a>
+											<?php
 										}
 										?>
 									</td>
