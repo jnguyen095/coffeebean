@@ -1,5 +1,5 @@
 ###################
-Coffee Bean
+Shopping Cart Web Application
 ###################
 
 *******************
@@ -19,3 +19,28 @@ Technologies
 - PHP, CodeIgniter Web Framework
 - MySql
 - Bootstrap, JQuery
+
+*******************
+Features
+*******************
+
+*Backend side
+- Category management
+- Product management
+- Product property management
+- Shipping fee management
+- Order management
+- User management
+- Maketing pages management
+- Advertising management
+- Dashboard for monitoring & quick actions
+
+*Front store
+- Home page
+- Product page
+- Search page
+- Shopping cart & check out process
+- My order management
+- Update profile
+- Change password
+- Forgot password
