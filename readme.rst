@@ -36,7 +36,7 @@ Features
 - Advertising management
 - Dashboard for monitoring & quick actions
 
-*Front store:*
+*Store front:*
 
 - Home page
 - Product page
