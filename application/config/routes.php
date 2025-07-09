@@ -56,6 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Dang nhap
 $route['dang-nhap'] = "Login_controller/index";
+// quên mật khẩu
+$route['quen-mat-khau'] = "Login_controller/forgotPassword";
 // Dang ky thanh vien
 $route['dang-ky'] = "Register_controller";
 // Dang xuat
