@@ -46,11 +46,12 @@
 				echo '</div>';
 			}?>
 			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">Quản Lý Danh Mục Sản Phẩm</h3>
-				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
+					<?php
+						$attributes = array("id" => "frmCategory", "class" => "form-horizontal");
+						echo form_open("admin/category/list", $attributes);
+					?>
 					<div class="text-left categories">
 						<div class="row no-margin">
 							<a class="btn btn-primary" href="<?=base_url('/admin/category/add.html');?>">Thêm danh mục</a>
@@ -59,11 +60,17 @@
 						foreach ($categories as $category) {
 						?>
 						<div class="category-level0" catid="<?=$category->CategoryID?>">
-							<span class="category-status-<?=$category->Active?>"> <?=$category->CatName;?></span> <a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$category->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
+							<span class="category-status-<?=$category->Active?>"> <?=$category->CatName;?></span>
+							<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$category->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
+							&nbsp;|&nbsp;<a class="remove-cat" data-toggle="tooltip" data-category="<?=$category->CategoryID?>" title="Xóa danh mục" href="#"><i class="glyphicon glyphicon-trash"></i> </a>
 							<?php
 							if(count($child[$category->CategoryID]) > 0){
 								foreach ($child[$category->CategoryID] as $k){?>
-									<div class="category-level1" catid="<?=$k->CategoryID?>"><span class="category-status-<?=$k->Active?>"><?=$k->CatName?></span> <a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$k->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a></div>
+									<div class="category-level1" catid="<?=$k->CategoryID?>">
+										<span class="category-status-<?=$k->Active?>"><?=$k->CatName?></span>
+										<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$k->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
+										&nbsp;|&nbsp;<a class="remove-cat" data-toggle="tooltip" data-category="<?=$k->CategoryID?>" title="Xóa danh mục" href="#"><i class="glyphicon glyphicon-trash"></i> </a>
+									</div>
 									<?php
 								}
 							}
@@ -80,7 +87,7 @@
 		</section>
 		<!-- /.content -->
 		<input type="hidden" id="crudaction" name="crudaction">
-		<input type="hidden" id="CooperateID" name="productId">
+		<input type="hidden" id="categoryId" name="categoryId">
 		<?php echo form_close(); ?>
 
 	</div>
@@ -176,21 +183,21 @@
 		});
 	}
 
-	function deletePostHandler(){
-		$('.remove-post').click(function(){
-			var prId = $(this).data('post');
-			bootbox.confirm("Bạn đã chắc chắn xóa tin rao này chưa?", function(result){
+	function deleteCategoryHandler(){
+		$('.remove-cat').click(function(){
+			var catId = $(this).data('category');
+			bootbox.confirm("Bạn đã chắc chắn xóa danh mục này và thư mục con liên quan chưa?", function(result){
 				if(result){
-					$("#CooperateID").val(prId);
+					$("#categoryId").val(catId);
 					$("#crudaction").val("delete");
-					$("#frmPost").submit();
+					$("#frmCategory").submit();
 				}
 			});
 		});
 	}
 	$(document).ready(function(){
-		deletePostHandler();
-		deleteMultiplePostHandler();
+		deleteCategoryHandler();
+		// deleteMultiplePostHandler();
 	});
 </script>
 </body>

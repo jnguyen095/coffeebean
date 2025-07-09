@@ -26,7 +26,16 @@ class Category_controller extends CI_Controller
 
 	public function index()
 	{
+		$msg = "";
+		if ($this->input->post('crudaction') == "delete") {
+			$categoryId = $this->input->post("categoryId");
+			if($categoryId != null){
+				$this->Category_Model->deleteCategoryAndSubCategory($categoryId);
+				$msg = "Xóa danh mục thành công.";
+			}
+		}
 		$data = $this->Category_Model->getCategories();
+		$data['message_response'] = $msg;
 		$this->load->view("admin/category/list", $data);
 	}
 

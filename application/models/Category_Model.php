@@ -141,4 +141,9 @@ class Category_Model extends CI_Model
 		return $insert_id;
 	}
 
+	public function deleteCategoryAndSubCategory($categoryId){
+		$this->db->delete('category', array('ParentID' => $categoryId));
+		$this->db->delete('category', array('CategoryID' => $categoryId));
+	}
+
 }
