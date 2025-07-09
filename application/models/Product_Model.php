@@ -724,36 +724,21 @@ class Product_Model extends CI_Model
 		return $where;
 	}
 
-	function findAndFilter($offset, $limit, $st, $fromDate, $toDate, $createdById, $hasAuthor, $code, $status, $orderField, $orderDirection){
+	function findAndFilter($offset, $limit, $st, $categoryId, $status, $orderField, $orderDirection){
 		// $this->output->enable_profiler(TRUE);
-		if($fromDate){
-			$ymd = DateTime::createFromFormat('d/m/Y', $fromDate)->format('Y-m-d');
-			$this->db->where('date(PostDate) >=', $ymd);
-		}
-		if($toDate){
-			$ymd = DateTime::createFromFormat('d/m/Y', $toDate)->format('Y-m-d');
-			$this->db->where('date(PostDate) <=', $ymd);
-		}
-		if($createdById != null && $createdById > -1){
-			$this->db->where('CreatedByID', $createdById);
-		}
-		if($code != null && $code > -1){
-			$this->db->where('ProductID', $code);
-		}
-		if($hasAuthor != null && $hasAuthor == 1){
-			$this->db->where('CreatedByID IS NOT NULL', NULL, FALSE);
-		}else if($hasAuthor != null && $hasAuthor == 0){
-			$this->db->where('CreatedByID IS NULL', NULL, FALSE);
-		}
 
 		if($status != null && $status > -1){
 			$this->db->where('p.Status', $status);
 		}
+		if($categoryId != null){
+			$this->db->where('c.CategoryID', $categoryId);
+		}
 		//$query = $this->db->like('Title', $st)->limit($limit, $offset)->order_by($orderField, $orderDirection)->get('product');
 
-		$query = $this->db->select('p.*, u.FullName')
+		$query = $this->db->select('p.*, u.FullName, c.CatName')
 			->from('product p')
 			->join('us3r u', 'u.Us3rID = p.CreatedByID', 'left')
+			->join('category c', 'c.CategoryID = p.CategoryID', 'left')
 			->like('Title', isset($st) ? $st : "")
 			->limit($limit, $offset)
 			->order_by($orderField, $orderDirection)
@@ -761,25 +746,6 @@ class Product_Model extends CI_Model
 
 		$result['items'] = $query->result();
 
-		if($fromDate){
-			$ymd = DateTime::createFromFormat('d/m/Y', $fromDate)->format('Y-m-d');
-			$this->db->where('date(PostDate) >=', $ymd);
-		}
-		if($toDate){
-			$ymd = DateTime::createFromFormat('d/m/Y', $toDate)->format('Y-m-d');
-			$this->db->where('date(PostDate) <=', $ymd);
-		}
-		if($createdById != null && $createdById > -1){
-			$this->db->where('CreatedByID', $createdById);
-		}
-		if($code != null && $code > -1){
-			$this->db->where('ProductID', $code);
-		}
-		if($hasAuthor != null && $hasAuthor == 1){
-			$this->db->where('CreatedByID IS NOT NULL', NULL, FALSE);
-		}else if($hasAuthor != null && $hasAuthor == 0){
-			$this->db->where('CreatedByID IS NULL', NULL, FALSE);
-		}
 		if($status != null && $status > -1){
 			$this->db->where('Status', $status);
 		}

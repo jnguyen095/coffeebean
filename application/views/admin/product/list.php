@@ -50,9 +50,6 @@
 				echo '</div>';
 			}?>
 			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">Danh sách sản phẩm</h3>
-				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
 					<div class="search-filter">
@@ -73,6 +70,36 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<label>Danh mục</label>
+								<div class="form-group">
+									<select class="form-control" id="sl_category" name="sl_category">
+										<option value="">Tất cả danh mục</option>
+										<?php
+
+										if($categories != null && count($categories) > 0){
+											foreach ($categories as $c){
+												?>
+												<option value="<?=$c->CategoryID?>" <?=(isset($_GET['sl_category']) && $_GET['sl_category'] == $c->CategoryID) ? ' selected="selected"' : ''?>><?=$c->CatName?></option>
+												<?php
+												if(count($child[$c->CategoryID]) > 0){
+													foreach ($child[$c->CategoryID] as $k){?>
+														<option value="<?=$k->CategoryID?>" <?=(isset($_GET['sl_category']) && $_GET['sl_category'] == $k->CategoryID) ? ' selected="selected"' : ''?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$k->CatName?></option>
+														<?php
+													}
+												}
+											}
+										}
+										?>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+
+							</div>
+						</div>
 						<div class="text-center">
 							<a class="btn btn-primary" onclick="sendRequest()">Tìm kiếm</a>
 						</div>
@@ -89,6 +116,7 @@
 								<tr>
 									<th><input name="checkAll" value="1" type="checkbox" ></th>
 									<th data-action="sort" data-title="Title" data-direction="ASC"><span>Tiêu đề</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+									<th data-action="sort" data-title="c.CatName" data-direction="ASC"><span>Danh mục</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="Price" data-direction="ASC"><span>Giá bán</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 									<th data-action="sort" data-title="ModifiedDate" data-direction="ASC"><span>Ngày cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
@@ -105,6 +133,7 @@
 								<tr>
 									<td><input name="checkList[]" type="checkbox" value="<?=$product->ProductID?>"></td>
 									<td><?=$product->Title?></td>
+									<td><?=$product->CatName?></td>
 									<td><?=number_format($product->Price)?></td>
 									<td>
 										<?php
@@ -164,13 +193,9 @@
 <script type="text/javascript">
 	var sendRequest = function(){
 		var searchKey = $('#searchKey').val()||"";
-		var fromDate = $('#fromDate').val()||"";
-		var toDate = $('#toDate').val()||"";
-		var code = $('#code').val()||"";
-		var hasAuthor = $('input[name=hasAuthor]:checked').val();
+		var catId = $('#sl_category').val()||"";
 		var status = $('input[name=status]:checked').val();
-		var phoneNumber = $('#phoneNumber').val()||"";
-		window.location.href = '<?=base_url('admin/product/list.html')?>?query='+searchKey + '&phoneNumber=' + phoneNumber + '&fromDate=' + fromDate + '&toDate=' + toDate + '&hasAuthor=' + hasAuthor + '&code=' + code + '&status=' + status + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
+		window.location.href = '<?=base_url('admin/product/list.html')?>?query='+searchKey + '&sl_category=' + catId + '&status=' + status + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
 	}
 
 	var curOrderField, curOrderDirection;

@@ -37,6 +37,7 @@ class ProductManagement_controller extends CI_Controller
 	public function index()
 	{
 		$crudaction = $this->input->post("crudaction");
+		$data = $this->Category_Model->getActiveCategories();
 		if($crudaction == DELETE){
 			$productId = $this->input->post("productId");
 			$this->deleteProductById($productId);
@@ -54,22 +55,13 @@ class ProductManagement_controller extends CI_Controller
 			$config['orderField'] = "ModifiedDate";
 			$config['orderDirection'] = "DESC";
 		}
-		$postFromDate = $this->input->get('fromDate');
-		$postToDate = $this->input->get('toDate');
-		$phoneNumber = $this->input->get('phoneNumber');
+		$categoryId = $this->input->get('sl_category');
 		$createdById = $this->input->get('createdById');
-		$hasAuthor = $this->input->get('hasAuthor');
 		$status = $this->input->get('status');
-		$code = $this->input->get('code');
-		if($phoneNumber != null && count($phoneNumber) > 0){
-			$results = $this->Product_Model->findByPhoneNumber($config['page'], $config['per_page'], $phoneNumber);
-			$data['products'] = $results['items'];
-			$config['total_rows'] = $results['total'];
-		}else {
-			$results = $this->Product_Model->findAndFilter($config['page'], $config['per_page'], $config['searchFor'], $postFromDate, $postToDate, $createdById, $hasAuthor, $code, $status, $config['orderField'], $config['orderDirection']);
-			$data['products'] = $results['items'];
-			$config['total_rows'] = $results['total'];
-		}
+		$results = $this->Product_Model->findAndFilter($config['page'], $config['per_page'], $config['searchFor'], $categoryId, $status, $config['orderField'], $config['orderDirection']);
+		$data['products'] = $results['items'];
+		$config['total_rows'] = $results['total'];
+
 		if($createdById != null){
 			$user = $this->User_Model->getUserById($createdById);
 			$data['user'] = $user;
@@ -82,7 +74,7 @@ class ProductManagement_controller extends CI_Controller
 	}
 
 	public function edit($productId = null){
-		$categories = $this->Category_Model->getCategories();
+		$categories = $this->Category_Model->getActiveCategories();
 		$property = $this->Property_Model->getProperties();
 		$product = [];
 		if($productId == null){
