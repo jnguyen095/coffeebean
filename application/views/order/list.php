@@ -87,9 +87,15 @@
 									<td>
 										<?php
 										if($order->Status == ORDER_STATUS_NEW){
-											echo '<span class="text-primary">Chờ xác nhận</span>';
+											echo '<span class="label label-primary">Chờ xác nhận</span>';
 										} else if($order->Status == ORDER_STATUS_CANCEL){
-											echo '<span class="text-danger">Đã hủy</span>';
+											echo '<span class="label label-danger">Đã hủy</span>';
+										} else if($order->Status == ORDER_STATUS_CONFIRM){
+											echo '<span class="label label-info">Chờ giao hàng</span>';
+										} else if($order->Status == ORDER_STATUS_SHIPPING){
+											echo '<span class="label label-warning">Đang giao hàng</span>';
+										} else if($order->Status == ORDER_STATUS_COMPLETED){
+											echo '<span class="label label-default">Đã giao</span>';
 										}
 										?>
 									</td>
@@ -117,7 +123,7 @@
 						?>
 						</tbody>
 					</table>
-					<div class="row text-center">
+					<div class="row text-center no-margin">
 						<?php if (isset($pagination)) echo $pagination; ?>
 					</div>
 
