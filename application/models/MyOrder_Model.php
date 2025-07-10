@@ -48,13 +48,18 @@ class MyOrder_Model extends CI_Model
 		return $orderId;
 	}
 
-	public function searchByItems($offset=null, $limit=null)
+	public function searchByItems($code, $phone, $offset, $limit)
 	{
-		$sql = 'select m.*,u.FullName from myorder m inner join us3r u on m.CreatedBy = u.Us3rID';
-		$sql .= ' order by date(m.CreatedDate) desc';
-		if($offset != null && $limit != null){
-			$sql .= ' limit '.$offset.','.$limit;
+		$sql = 'select m.*,u.FullName, u.Phone from myorder m inner join us3r u on m.CreatedBy = u.Us3rID where 1=1';
+		if($code != null && strlen($code) > 0){
+			$sql .= ' and m.Code like \'%'.$code.'%\'';
 		}
+		if($phone != null && strlen($phone) > 0){
+			$sql .= ' and u.Phone like \'%'.$phone.'%\'';
+		}
+
+		$sql .= ' order by date(m.CreatedDate) desc';
+		$sql .= ' limit '.$offset.','.$limit;
 		$orders = $this->db->query($sql);
 		$total = $this->db->count_all_results('myorder');
 

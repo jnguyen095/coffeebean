@@ -57,19 +57,17 @@
 				<div class="box-body">
 					<div class="search-filter">
 						<div class="row">
-							<div class="col-sm-6">
-								<label>Tiêu đề</label>
+							<div class="col-sm-4">
+								<label>Mã đơn hàng</label>
 								<div class="form-group">
-									<input type="text" name="searchFor" placeholder="Tìm tiêu đề" class="form-control" id="searchKey">
+									<input type="text" name="code" placeholder="Tìm mã đơn hàng" class="form-control" id="txtCode">
 								</div>
 							</div>
 
-							<div class="col-sm-4">
-								<label>Tình trạng</label>
+							<div class="col-sm-3">
+								<label>Số ĐT</label>
 								<div class="form-group">
-									<label><input id="st_0" checked="checked" type="radio" name="status" value="-1"> Tất cả</label>
-									<label><input id="st-1" type="radio" name="status" value="1"> Hoạt động</label>
-									<label><input id="st-0" type="radio" name="status" value="0"> Tạm dừng</label>
+									<input type="text" name="txtPhone" placeholder="Tìm số điện thoại" class="form-control" id="phoneNumber">
 								</div>
 							</div>
 						</div>
@@ -88,12 +86,16 @@
 							<thead>
 							<tr>
 								<th><input name="checkAll" value="1" type="checkbox" ></th>
-								<th data-action="sort" data-title="Title" data-direction="ASC"><span>Khách hàng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Title" data-direction="ASC"><span>Tạo lúc</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="Code" data-direction="ASC"><span>Mã ĐH</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="FullName" data-direction="ASC"><span>Khách hàng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="Phone" data-direction="ASC"><span>SĐT</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="CreatedDate" data-direction="ASC"><span>Tạo lúc</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="TotalItems" data-direction="ASC"><span>SL</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.ShippingFee" data-direction="ASC"><span>Phí GH</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="Price" data-direction="ASC"><span>Giá trị</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="ModifiedDate" data-direction="ASC"><span>Người tạo</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="CreatedByID" data-direction="ASC"><span>Thanh toán</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="UpdatedDate" data-direction="ASC"><span>Cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th></th>
 							</tr>
 							</thead>
@@ -105,10 +107,15 @@
 								?>
 								<tr>
 									<td><input name="checkList[]" type="checkbox" value="<?=$order->OrderID?>"></td>
+									<td><?=$order->Code?></td>
 									<td><?=$order->FullName?></td>
+									<td><?=$order->Phone?></td>
 									<td><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></td>
-									<td><?=number_format($order->TotalPrice)?></td>
-									<td><?php
+									<td class="text-right"><?=number_format($order->TotalItems)?></td>
+									<td class="text-right"><?=number_format($order->ShippingFee)?></td>
+									<td class="text-right"><?=number_format($order->TotalPrice)?></td>
+									<td class="text-center"><?=$order->Payment?></td>
+									<td class="text-center"><?php
 										if($order->Status == ORDER_STATUS_NEW){
 											echo '<lable class="label label-success">Đơn mới</lable>';
 										} else if($order->Status == ORDER_STATUS_CANCEL){
@@ -116,9 +123,9 @@
 										}
 										?>
 									</td>
-									<td><?=$order->FullName?></td>
-									<td><?=$order->Payment?></td>
-									<td>
+									<td><?=date('d/m/Y H:i', strtotime($order->UpdatedDate))?></td>
+
+									<td class="text-center">
 										<a href="<?=base_url('/admin/order/process-'.$order->OrderID.'.html')?>" data-toggle="tooltip" title="Xử lý đơn hàng"><i class="glyphicon glyphicon-shopping-cart"></i></a>
 									</td>
 								</tr>
@@ -163,14 +170,9 @@
 
 <script type="text/javascript">
 	var sendRequest = function(){
-		var searchKey = $('#searchKey').val()||"";
-		var fromDate = $('#fromDate').val()||"";
-		var toDate = $('#toDate').val()||"";
-		var code = $('#code').val()||"";
-		var hasAuthor = $('input[name=hasAuthor]:checked').val();
-		var status = $('input[name=status]:checked').val();
+		var searchKey = $('#txtCode').val()||"";
 		var phoneNumber = $('#phoneNumber').val()||"";
-		window.location.href = '<?=base_url('admin/product/list.html')?>?query='+searchKey + '&phoneNumber=' + phoneNumber + '&fromDate=' + fromDate + '&toDate=' + toDate + '&hasAuthor=' + hasAuthor + '&code=' + code + '&status=' + status + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
+		window.location.href = '<?=base_url('admin/order/list.html')?>?code='+searchKey + '&phoneNumber=' + phoneNumber + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
 	}
 
 	var curOrderField, curOrderDirection;
@@ -181,10 +183,7 @@
 	});
 
 
-	$('#searchKey').val(decodeURIComponent(getNamedParameter('query')||""));
-	$('#fromDate').val(decodeURIComponent(getNamedParameter('fromDate')||""));
-	$('#toDate').val(decodeURIComponent(getNamedParameter('toDate')||""));
-	$('#code').val(decodeURIComponent(getNamedParameter('code')||""));
+	$('#txtCode').val(decodeURIComponent(getNamedParameter('code')||""));
 	$('#phoneNumber').val(decodeURIComponent(getNamedParameter('phoneNumber')||""));
 	if(decodeURIComponent(getNamedParameter('hasAuthor')) != null){
 		$("#chb-" + (parseInt(decodeURIComponent(getNamedParameter('hasAuthor'))) + 1)).prop( "checked", true );

@@ -87,11 +87,47 @@
 
 					<!-- Right column -->
 					<div class="col-lg-9 col-sm-12">
+						<div class="col-xs-6">
+							<div class="card m-b-30 card-body bg-success">
+								<h4 class="card-title font-20 mt-0">Thông tin người mua hàng</h4>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Tên người mua</div>
+									<div class="col-sm-8"><a href="<?=base_url('admin/user/add-'.$order->UserID.'.html')?>" target="_blank"><?=$order->FullName?></a> </div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Số điện thoại </div>
+									<div class="col-sm-8"><i class="fa fa-phone"></i>&nbsp;<?=$order->Phone?></div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Ngày mua</div>
+									<div class="col-sm-8"><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></div>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="card m-b-30 card-body bg-success">
+								<h4 class="card-title font-20 mt-0">Thông tin người nhận hàng</h4>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Tên người nhận</div>
+									<div class="col-sm-8"><?=$shippingAddr->Receiver?></div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Số điện thoại </div>
+									<div class="col-sm-8"><i class="fa fa-phone"></i>&nbsp;<?=$shippingAddr->Phone?></div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Địa chỉ nhận hạng</div>
+									<div class="col-sm-8"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
+								</div>
+								<a id="updateReceiver" href="#" class="btn btn-primary waves-effect waves-light"><i class="fa fa-edit"></i> Cập nhật địa chỉ nhận hàng</a>
+							</div>
+						</div>
 						<div class="col-xs-12">
 							<h3><b>Người mua hàng:</b></h3>
 							<table class="table table-bordered">
 								<thead>
-								<tr>
+								<tr class="bg-primary">
 									<td class="text-left">Người mua</td>
 									<td class="text-left">Ngày mua</td>
 									<td class="text-left">Status</td>
@@ -123,38 +159,12 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-xs-12">
-									<h3><b>Người nhận hàng:</b> <a data-toggle="tooltip" id="updateReceiver" title="Sửa thông tin người nhận hàng"><i class="fa fa-edit"></i></a></h3>
-								</div>
-								<table class="table table-bordered">
-									<thead>
-									<tr>
-										<td class="text-left">Người nhận</td>
-										<td class="text-left">Số đt</td>
-										<td class="text-left">Địa chỉ</td>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td class="text-left"><?=$shippingAddr->Receiver?></td>
-										<td class="text-left"><?=$shippingAddr->Phone?></td>
-										<td class="text-left"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></td>
-									</tr>
-									</tbody>
-								</table>
-
-							</div>
-
-						</div>
-
-						<div class="col-lg-12">
-							<div class="row">
-								<div class="col-xs-12">
 									<h3><b>Mặt hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin mặt hàng"><i class="fa fa-edit"></i></a> 	</h3>
 								</div>
 								<div class="col-xs-12">
 									<table class="table table-bordered">
 										<thead>
-										<tr>
+										<tr class="bg-primary">
 											<td class="text-left">Mặt hàng</td>
 											<td class="text-left">Số lượng</td>
 											<td class="text-left">Thành tiền</td>
@@ -192,7 +202,7 @@
 						</div>
 
 						<div class="row no-margin top-buttons">
-							<a class="btn btn-warning" id="addBack" href="<?=base_url("/admin/order/process-{$order->OrderID}.html")?>">Trở lại</a>&nbsp;
+							<a class="btn btn-warning" id="addBack" href="<?=base_url("/admin/order/list.html")?>">Trở lại</a>&nbsp;
 							<a class="btn btn-primary" id="addNew" href="<?=base_url("/admin/order/update-{$order->OrderID}.html")?>">Cập nhật đơn hàng</a>
 						</div>
 					</div>

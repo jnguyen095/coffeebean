@@ -36,10 +36,20 @@ class OrderManagement_controller extends CI_Controller
 
 	public function index()
 	{
-		$searchOrders = $this->MyOrder_Model->searchByItems();
+		$config = pagination($this);
+		$config['base_url'] = base_url('admin/order/list.html');
+		if(!$config['orderField']){
+			$config['orderField'] = "ModifiedDate";
+			$config['orderDirection'] = "DESC";
+		}
+
+		$code = $this->input->get('code');
+		$phoneNumber = $this->input->get('phoneNumber');
+		$searchOrders = $this->MyOrder_Model->searchByItems($code, $phoneNumber, $config['page'], $config['per_page']);
 		$orders = $searchOrders['items'];
 		$total = $searchOrders['total'];
 		$data['orders'] = $orders;
+
 		$config['total_rows'] = $total;
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
