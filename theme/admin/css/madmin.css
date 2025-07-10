@@ -104,9 +104,12 @@
 }
 
 .line{
-	width: 120px;
+	width: 150px;
 	height: 6px;
-	background: #63d19e;
+	background: #dddddd;
+}
+.line.active{
+	background-color: #63d19e;
 }
 .last-line{
 	width: 0px;
@@ -116,21 +119,24 @@
 
 .line > .label1 {
 	display: block;
-	margin: 22px 10px 10px -74px;
+	margin: 22px 10px 10px -90px;
 }
 .line > .label2 {
 	display: block;
-	margin: 22px 10px 10px -74px;
+	margin: 22px 10px 10px -90px;
 }
 .last-line > .label3 {
-	display: block;margin: 22px 0px 0px -50px;
+	display: block;margin: 22px 0px 0px -54px;
 	position: absolute;
 }
 
-.steps{
+.steps.in-progress{
+	background-color: #FFA500;
+}
 
+.steps{
 	display: flex;
-	background-color: #63d19e;
+	background-color: #dddddd;
 	color: #fff;
 	font-size: 14px;
 	width: 40px;
@@ -138,6 +144,15 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 50%;
+}
+
+.steps.active{
+	background-color: #63d19e;
+}
+
+.border-bottom{
+	border-bottom: solid 1px #ccc;
+	margin-bottom: 10px;
 }
 
 .timeline {

@@ -48,7 +48,7 @@ class MyOrder_Model extends CI_Model
 		return $orderId;
 	}
 
-	public function searchByItems($code, $phone, $offset, $limit)
+	public function searchByItems($code, $phone, $status, $offset, $limit, $orderField, $orderDirection)
 	{
 		$sql = 'select m.*,u.FullName, u.Phone from myorder m inner join us3r u on m.CreatedBy = u.Us3rID where 1=1';
 		if($code != null && strlen($code) > 0){
@@ -57,8 +57,11 @@ class MyOrder_Model extends CI_Model
 		if($phone != null && strlen($phone) > 0){
 			$sql .= ' and u.Phone like \'%'.$phone.'%\'';
 		}
+		if($status != null && strlen($status) > 0){
+			$sql .= ' and m.Status = "'.$status.'"';
+		}
 
-		$sql .= ' order by date(m.CreatedDate) desc';
+		$sql .= ' order by '.$orderField.' '.$orderDirection;
 		$sql .= ' limit '.$offset.','.$limit;
 		$orders = $this->db->query($sql);
 		$total = $this->db->count_all_results('myorder');
@@ -155,6 +158,13 @@ class MyOrder_Model extends CI_Model
 		}else {
 			return "O-00001";
 		}
+	}
+
+	public function getCustomerEmailFromOrderId($orderId){
+		$sql = "select u.Email, m.Code from myorder m inner join us3r u on m.CreatedBy = u.Us3rID WHERE m.OrderID = ".$orderId." limit 1";
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		return $row;
 	}
 
 	public function updateOrderStatus($orderId, $status, $updatedBy){

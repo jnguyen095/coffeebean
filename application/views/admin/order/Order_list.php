@@ -70,6 +70,18 @@
 									<input type="text" name="txtPhone" placeholder="Tìm số điện thoại" class="form-control" id="phoneNumber">
 								</div>
 							</div>
+
+							<div class="col-sm-5">
+								<label>Tình trạng</label>
+								<div class="form-group">
+									<label><input id="st_0" checked="checked" type="radio" name="status" value="">Tất cả</label>
+									<label><input id="st-<?=ORDER_STATUS_NEW?>" type="radio" name="status" value="<?=ORDER_STATUS_NEW?>"> Đơn mới</label>
+									<label><input id="st-<?=ORDER_STATUS_CONFIRM?>" type="radio" name="status" value="<?=ORDER_STATUS_CONFIRM?>"> Chờ giao hàng</label>
+									<label><input id="st-<?=ORDER_STATUS_SHIPPING?>" type="radio" name="status" value="<?=ORDER_STATUS_SHIPPING?>"> Đang giao hàng</label>
+									<label><input id="st-<?=ORDER_STATUS_COMPLETED?>" type="radio" name="status" value="<?=ORDER_STATUS_COMPLETED?>"> Đã giao</label>
+									<label><input id="st-<?=ORDER_STATUS_CANCEL?>" type="radio" name="status" value="<?=ORDER_STATUS_CANCEL?>"> Đã hủy</label>
+								</div>
+							</div>
 						</div>
 						<div class="text-center">
 							<a class="btn btn-primary" onclick="sendRequest()">Tìm kiếm</a>
@@ -86,16 +98,16 @@
 							<thead>
 							<tr>
 								<th><input name="checkAll" value="1" type="checkbox" ></th>
-								<th data-action="sort" data-title="Code" data-direction="ASC"><span>Mã ĐH</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="FullName" data-direction="ASC"><span>Khách hàng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Phone" data-direction="ASC"><span>SĐT</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="CreatedDate" data-direction="ASC"><span>Tạo lúc</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="TotalItems" data-direction="ASC"><span>SL</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.Code" data-direction="ASC"><span>Mã ĐH</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="u.FullName" data-direction="ASC"><span>Khách hàng</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="u.Phone" data-direction="ASC"><span>SĐT</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.CreatedDate" data-direction="ASC"><span>Tạo lúc</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.TotalItems" data-direction="ASC"><span>SL</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="m.ShippingFee" data-direction="ASC"><span>Phí GH</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Price" data-direction="ASC"><span>Giá trị</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="CreatedByID" data-direction="ASC"><span>Thanh toán</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="UpdatedDate" data-direction="ASC"><span>Cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.TotalPrice" data-direction="ASC"><span>Giá trị</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.Payment" data-direction="ASC"><span>Thanh toán</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.UpdatedDate" data-direction="ASC"><span>Cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th></th>
 							</tr>
 							</thead>
@@ -120,6 +132,12 @@
 											echo '<lable class="label label-success">Đơn mới</lable>';
 										} else if($order->Status == ORDER_STATUS_CANCEL){
 											echo '<lable class="label label-danger">Đã hủy</lable>';
+										} else if($order->Status == ORDER_STATUS_CONFIRM){
+											echo '<lable class="label label-info">Chờ giao hàng</lable>';
+										} else if($order->Status == ORDER_STATUS_SHIPPING){
+											echo '<lable class="label label-warning">Đang giao hàng</lable>';
+										} else if($order->Status == ORDER_STATUS_COMPLETED){
+											echo '<lable class="label label-default">Đã giao</lable>';
 										}
 										?>
 									</td>
@@ -172,7 +190,8 @@
 	var sendRequest = function(){
 		var searchKey = $('#txtCode').val()||"";
 		var phoneNumber = $('#phoneNumber').val()||"";
-		window.location.href = '<?=base_url('admin/order/list.html')?>?code='+searchKey + '&phoneNumber=' + phoneNumber + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
+		var status = $('input[name=status]:checked').val();
+		window.location.href = '<?=base_url('admin/order/list.html')?>?code='+searchKey + '&phoneNumber=' + phoneNumber + '&status=' + status + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
 	}
 
 	var curOrderField, curOrderDirection;
@@ -185,14 +204,9 @@
 
 	$('#txtCode').val(decodeURIComponent(getNamedParameter('code')||""));
 	$('#phoneNumber').val(decodeURIComponent(getNamedParameter('phoneNumber')||""));
-	if(decodeURIComponent(getNamedParameter('hasAuthor')) != null){
-		$("#chb-" + (parseInt(decodeURIComponent(getNamedParameter('hasAuthor'))) + 1)).prop( "checked", true );
-	}else{
-		$("#chb-0").prop( "checked", true );
-	}
 
 	if(decodeURIComponent(getNamedParameter('status')) != null){
-		$("#st-" + (parseInt(decodeURIComponent(getNamedParameter('status'))))).prop( "checked", true );
+		$("#st-" + (decodeURIComponent(getNamedParameter('status')))).prop( "checked", true );
 	}else{
 		$("#st_0").prop( "checked", true );
 	}

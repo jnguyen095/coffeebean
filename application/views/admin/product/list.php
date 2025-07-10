@@ -54,7 +54,7 @@
 				<div class="box-body">
 					<div class="search-filter">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-4">
 								<label>Tiêu đề</label>
 								<div class="form-group">
 									<input type="text" name="searchFor" placeholder="Tìm tiêu đề" class="form-control" id="searchKey">
@@ -62,16 +62,6 @@
 							</div>
 
 							<div class="col-sm-4">
-								<label>Tình trạng</label>
-								<div class="form-group">
-									<label><input id="st_0" checked="checked" type="radio" name="status" value="-1"> Tất cả</label>
-									<label><input id="st-1" type="radio" name="status" value="1"> Hoạt động</label>
-									<label><input id="st-0" type="radio" name="status" value="0"> Tạm dừng</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
 								<label>Danh mục</label>
 								<div class="form-group">
 									<select class="form-control" id="sl_category" name="sl_category">
@@ -97,9 +87,15 @@
 							</div>
 
 							<div class="col-sm-4">
-
+								<label>Tình trạng</label>
+								<div class="form-group">
+									<label><input id="st_0" checked="checked" type="radio" name="status" value="-1"> Tất cả</label>
+									<label><input id="st-1" type="radio" name="status" value="1"> Hoạt động</label>
+									<label><input id="st-0" type="radio" name="status" value="0"> Tạm dừng</label>
+								</div>
 							</div>
 						</div>
+
 						<div class="text-center">
 							<a class="btn btn-primary" onclick="sendRequest()">Tìm kiếm</a>
 						</div>

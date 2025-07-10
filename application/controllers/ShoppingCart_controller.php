@@ -177,6 +177,11 @@ class ShoppingCart_controller extends CI_Controller
 						$data['txt_district'] = $shippingAddr->DistrictID;
 						$data['txt_ward'] = $shippingAddr->WardID;
 						$data['street'] = $shippingAddr->Street;
+					} else {
+						//get part of info from current user
+						$user = $this->User_Model->getUserById($loginID);
+						$data['txt_receiver'] = $user->FullName;
+						$data['txt_phone'] = $user->Phone;
 					}
 				}
 			}

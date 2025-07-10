@@ -39,13 +39,14 @@ class OrderManagement_controller extends CI_Controller
 		$config = pagination($this);
 		$config['base_url'] = base_url('admin/order/list.html');
 		if(!$config['orderField']){
-			$config['orderField'] = "ModifiedDate";
+			$config['orderField'] = "CreatedDate";
 			$config['orderDirection'] = "DESC";
 		}
 
 		$code = $this->input->get('code');
 		$phoneNumber = $this->input->get('phoneNumber');
-		$searchOrders = $this->MyOrder_Model->searchByItems($code, $phoneNumber, $config['page'], $config['per_page']);
+		$status = $this->input->get('status');
+		$searchOrders = $this->MyOrder_Model->searchByItems($code, $phoneNumber, $status, $config['page'], $config['per_page'], $config['orderField'], $config['orderDirection']);
 		$orders = $searchOrders['items'];
 		$total = $searchOrders['total'];
 		$data['orders'] = $orders;
@@ -59,6 +60,68 @@ class OrderManagement_controller extends CI_Controller
 
 	public function process($orderId)
 	{
+
+		$crudaction = $this->input->post("crudaction");
+		$loginID = $this->session->userdata('loginid');
+		if($crudaction == ORDER_STATUS_CONFIRM){
+			$this->MyOrder_Model->updateOrderStatus($orderId, ORDER_STATUS_CONFIRM, $loginID);
+			$data['message_response'] = 'Cập nhật tình trạng đơn hàng thành công.';
+			$user = $this->User_Model->getUserById($loginID);
+			$orderTracking = array(
+				'OrderID' => $orderId,
+				'CreatedDate' => date('Y-m-d H:i:s'),
+				'Message' => $user->FullName. ' đã tiếp nhận đơn hàng'
+			);
+			$this->OrderTracking_Model->insert($orderTracking);
+
+			// send email to inform customer
+			$emailNCode = $this->MyOrder_Model->getCustomerEmailFromOrderId($orderId);
+			$customerEmail = $emailNCode->Email;
+			$orderCode = $emailNCode->Code;
+
+			if($customerEmail != null && strlen($customerEmail) > 0){
+				my_send_email($customerEmail,APP_DOMAIN . " - Tiếp nhận đơn hàng ".$orderCode, "<p>Đơn hàng: ".$orderCode." đã tiếp nhận từ: " . APP_DOMAIN . "</p><p>Theo dõi đơn hàng tại đây: " . APP_DOMAIN . "/don-hang-". $orderId."html</p>" );
+			}
+		} else if($crudaction == ORDER_STATUS_SHIPPING){
+			$this->MyOrder_Model->updateOrderStatus($orderId, ORDER_STATUS_SHIPPING, $loginID);
+			$data['message_response'] = 'Cập nhật tình trạng đơn hàng thành công.';
+			$user = $this->User_Model->getUserById($loginID);
+			$orderTracking = array(
+				'OrderID' => $orderId,
+				'CreatedDate' => date('Y-m-d H:i:s'),
+				'Message' => $user->FullName. ' đã cập nhật đơn hàng, đơn hàng đang trên dường giao'
+			);
+			$this->OrderTracking_Model->insert($orderTracking);
+
+			// send email to inform customer
+			$emailNCode = $this->MyOrder_Model->getCustomerEmailFromOrderId($orderId);
+			$customerEmail = $emailNCode->Email;
+			$orderCode = $emailNCode->Code;
+
+			if($customerEmail != null && strlen($customerEmail) > 0){
+				my_send_email($customerEmail,APP_DOMAIN . " - Đơn hàng ".$orderCode. " đang được giao", "<p>Đơn hàng: ".$orderCode." đang được giao đến khách hàng</p><p>Theo dõi đơn hàng tại đây: " . APP_DOMAIN . "/don-hang-". $orderId."html</p>" );
+			}
+		} else if($crudaction == ORDER_STATUS_COMPLETED){
+			$this->MyOrder_Model->updateOrderStatus($orderId, ORDER_STATUS_COMPLETED, $loginID);
+			$data['message_response'] = 'Cập nhật tình trạng đơn hàng thành công.';
+			$user = $this->User_Model->getUserById($loginID);
+			$orderTracking = array(
+				'OrderID' => $orderId,
+				'CreatedDate' => date('Y-m-d H:i:s'),
+				'Message' => $user->FullName. ' đã cập nhật đơn hàng, đơn hàng đã giao xong'
+			);
+			$this->OrderTracking_Model->insert($orderTracking);
+
+			// send email to inform customer
+			$emailNCode = $this->MyOrder_Model->getCustomerEmailFromOrderId($orderId);
+			$customerEmail = $emailNCode->Email;
+			$orderCode = $emailNCode->Code;
+
+			if($customerEmail != null && strlen($customerEmail) > 0){
+				my_send_email($customerEmail,APP_DOMAIN . " - Đơn hàng ".$orderCode. " được giao thành công", "<p>Đơn hàng: ".$orderCode." đã giao đến khách hàng thành công</p><p>Theo dõi đơn hàng tại đây: " . APP_DOMAIN . "/don-hang-". $orderId."html</p>" );
+			}
+		}
+
 		$order = $this->MyOrder_Model->findByOrderId($orderId);
 		$this->load->view('admin/order/Order_detail', $order);
 	}

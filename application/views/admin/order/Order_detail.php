@@ -42,7 +42,7 @@
 		<!-- Main content -->
 		<?php
 		$attributes = array("id" => "frmOrder");
-		echo form_open("admin/order/process", $attributes);
+		echo form_open("admin/order/process-".$order->OrderID, $attributes);
 		?>
 		<section class="content container-fluid">
 			<?php if(!empty($message_response)){
@@ -52,38 +52,32 @@
 				echo '</div>';
 			}?>
 			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">Xử lý đơn hàng</h3>
+				<div class="box-header card-header">
+					<div class="row no-margin">
+						<div class="container-fluid text-center border-bottom ">
+							<div class="progresses">
+								<div class="steps step <?=$order->Status == ORDER_STATUS_NEW ? 'in-progress' : 'active'?>">
+									<span><?=$order->Status == ORDER_STATUS_NEW ? '1' : '<i class="glyphicon glyphicon-ok"></i>'?></span>
+								</div>
+								<span class="line <?=$order->Status == ORDER_STATUS_NEW ? '' : 'active'?>" ><label class="label1">Tiếp nhận đơn hàng</label></span>
+
+								<div class="steps <?=$order->Status == ORDER_STATUS_SHIPPING ? 'in-progress' : ($order->Status == ORDER_STATUS_COMPLETED ? 'active' : '')?>">
+									<span class="font-weight-bold"><?=($order->Status == ORDER_STATUS_NEW || $order->Status == ORDER_STATUS_SHIPPING) ? '2' : '<i class="glyphicon glyphicon-ok"></i>'?></span>
+								</div>
+								<span class="line <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>" "><label class="label2">Đang giao hàng</label></span>
+
+								<div class="steps <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>">
+									<span><?=$order->Status == ORDER_STATUS_COMPLETED ? '<i class="glyphicon glyphicon-ok"></i>' : '3'?></span>
+								</div>
+								<span class="last-line"><label class="label3">Hoàn thành</label></span>
+							</div>
+						</div>
+					</div>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
 
-					<div class="search-filter">
-						<div class="row">
-							<div class="container-fluid text-center border-bottom">
-								<div class="progresses">
-									<div class="steps">
-										<span><i class="glyphicon glyphicon-ok"></i></span>
-									</div>
 
-									<span class="line"><label class="label1">Xem đơn hàng</label></span>
-
-									<div class="steps">
-										<span class="font-weight-bold"><i class="glyphicon glyphicon-ok"></i></span>
-									</div>
-
-									<span class="line"><label class="label2">Địa chỉ giao hàng</label></span>
-
-									<div class="steps">
-										<span >3</span>
-									</div>
-									<span class="last-line"><label class="label3">Hoàn thành</label></span>
-
-								</div>
-
-							</div>
-						</div>
-					</div>
 
 					<!-- Right column -->
 					<div class="col-lg-9 col-sm-12">
@@ -99,9 +93,32 @@
 									<div class="col-sm-8"><i class="fa fa-phone"></i>&nbsp;<?=$order->Phone?></div>
 								</div>
 								<div class="form-group row">
+									<div class="col-sm-4 card-text">Mã đơn hàng</div>
+									<div class="col-sm-8"><?=$order->Code?></div>
+								</div>
+								<div class="form-group row">
 									<div class="col-sm-4 card-text">Ngày mua</div>
 									<div class="col-sm-8"><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></div>
 								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Tình trạng</div>
+									<div class="col-sm-8">
+										<?php
+										if($order->Status == ORDER_STATUS_NEW){
+											echo '<lable class="label label-success">Đơn mới</lable>';
+										} else if($order->Status == ORDER_STATUS_CANCEL){
+											echo '<lable class="label label-danger">Đã hủy</lable>';
+										} else if($order->Status == ORDER_STATUS_CONFIRM){
+											echo '<lable class="label label-info">Chờ giao hàng</lable>';
+										} else if($order->Status == ORDER_STATUS_SHIPPING){
+											echo '<lable class="label label-warning">Đang giao hàng</lable>';
+										} else if($order->Status == ORDER_STATUS_COMPLETED){
+											echo '<lable class="label label-default">Hoàn thành</lable>';
+										}
+										?>
+									</div>
+								</div>
+
 
 							</div>
 						</div>
@@ -120,41 +137,21 @@
 									<div class="col-sm-4 card-text">Địa chỉ nhận hạng</div>
 									<div class="col-sm-8"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
 								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Tổng GTĐH</div>
+									<div class="col-sm-8"><?=number_format($order->TotalPrice)?> VNĐ</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Phương thức TT</div>
+									<div class="col-sm-8"><?=$order->Payment?></div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4 card-text">Ghi chú</div>
+									<div class="col-sm-8"><?=empty($order->Note) ? 'Không' : $order->Note?></div>
+								</div>
 								<a id="updateReceiver" href="#" class="btn btn-primary waves-effect waves-light"><i class="fa fa-edit"></i> Cập nhật địa chỉ nhận hàng</a>
 							</div>
 						</div>
-						<div class="col-xs-12">
-							<h3><b>Người mua hàng:</b></h3>
-							<table class="table table-bordered">
-								<thead>
-								<tr class="bg-primary">
-									<td class="text-left">Người mua</td>
-									<td class="text-left">Ngày mua</td>
-									<td class="text-left">Status</td>
-									<td class="text-right">Phí giao hàng</td>
-									<td class="text-right">Tổng cộng</td>
-									<td class="text-left">Ghi chú</td>
-								</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td class="text-left"><?=$order->FullName?><br/><i class="fa fa-phone"></i> <?=$order->Phone?></td>
-									<td class="text-left"><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></td>
-									<td class="text-left">
-										<?php
-										if($order->Status == 'NEW'){
-											echo '<lable class="label label-success">Đơn mới</lable>';
-										}
-										?>
-									</td>
-									<td class="text-right"><?=number_format($order->ShippingFee)?></td>
-									<td class="text-right"><?=number_format($order->TotalPrice)?></td>
-									<td class="text-left"><?=$order->Note?></td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-
 
 						<div class="col-lg-12">
 							<div class="row">
@@ -201,10 +198,28 @@
 
 						</div>
 
-						<div class="row no-margin top-buttons">
-							<a class="btn btn-warning" id="addBack" href="<?=base_url("/admin/order/list.html")?>">Trở lại</a>&nbsp;
-							<a class="btn btn-primary" id="addNew" href="<?=base_url("/admin/order/update-{$order->OrderID}.html")?>">Cập nhật đơn hàng</a>
+						<div class="col-lg-12">
+							<div class="row no-margin top-buttons">
+								<a class="btn btn-warning" id="addBack" href="<?=base_url("/admin/order/list.html")?>">Trở lại</a>&nbsp;
+								<?php
+								if($order->Status == ORDER_STATUS_NEW){
+									?>
+									<a class="btn btn-primary" data-new_action="<?=ORDER_STATUS_CONFIRM?>" id="changeStatus">Tiếp nhận đơn hàng</a>
+									<?php
+								} else if($order->Status == ORDER_STATUS_CONFIRM){
+									?>
+									<a class="btn btn-info" data-new_action="<?=ORDER_STATUS_SHIPPING?>" id="changeStatus">Đang giao hàng</a>
+									<?php
+								} else if($order->Status == ORDER_STATUS_SHIPPING){
+									?>
+									<a class="btn btn-success" data-new_action="<?=ORDER_STATUS_COMPLETED?>" id="changeStatus">Hoàn thành</a>
+									<?php
+								}
+								?>
+
+							</div>
 						</div>
+
 					</div>
 
 					<!-- Left column -->
@@ -234,7 +249,6 @@
 		</section>
 		<!-- /.content -->
 		<input type="hidden" id="crudaction" name="crudaction">
-		<input type="hidden" id="productId" name="productId">
 		<?php echo form_close(); ?>
 
 		<!-- popups -->
@@ -401,10 +415,25 @@
 		});
 	}
 
+	function updateStatusHandler(){
+		$('#changeStatus').click(function(){
+			var nextAction = $(this).data('new_action');
+			bootbox.confirm("Bạn đã chắc chắn thay đổi tình trạng đơn hàng?", function(result){
+				if(result){
+					$("#crudaction").val(nextAction);
+					$("#frmOrder").submit();
+				}
+			});
+		});
+	}
+
 	$(document).ready(function(){
 		contactFormHandler();
+		updateStatusHandler();
 		//deletePostHandler();
 		//deleteMultiplePostHandler();
+
+
 	});
 </script>
 </body>
