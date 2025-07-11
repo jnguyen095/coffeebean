@@ -17,7 +17,7 @@ class Order_controller extends CI_Controller
 		$this->load->model('Product_Model');
 		$this->load->model('Category_Model');
 		$this->load->model('City_Model');
-		$this->load->model('Transfer_Model');
+
 		$this->load->model('CallMeBack_Model');
 		$this->load->helper("seo_url");
 		$this->load->helper('date');
@@ -86,48 +86,30 @@ class Order_controller extends CI_Controller
 		}
 		$data = $categories;
 
+		$userId = $this->session->userdata('loginid');
+		$crudaction = $this->input->post("crudaction");
+		if($crudaction == DELETE){
+			if($orderId != null && $orderId > 0) {
+				$this->MyOrder_Model->updateOrderStatus($orderId, ORDER_STATUS_CANCEL, $userId);
+				$data['message_response'] = 'Hủy đơn hàng thành công.';
+				$user = $this->User_Model->getUserById($userId);
+				$orderTracking = array(
+					'OrderID' => $orderId,
+					'CreatedDate' => date('Y-m-d H:i:s'),
+					'Message' => $user->FullName. ' đã hủy hàng'
+				);
+				$this->OrderTracking_Model->insert($orderTracking);
+			}
+		}
+
+
+
 		$order = $this->MyOrder_Model->findByOrderId($orderId);
 		$data['order'] = $order['order'];
 		$data['products'] = $order['products'];
 		$data['shippingAddr'] = $order['shippingAddr'];
 
 		$this->load->view('order/detail', $data);
-	}
-
-	public function transfer(){
-		// begin file cached
-		$this->load->driver('cache');
-		$categories = $this->cache->file->get('categories');
-		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('categories', $categories, 1440);
-		}
-		$data = $categories;
-		// end file cached
-
-		$userId = $this->session->userdata('loginid');
-
-		$crudaction = $this->input->post("crudaction");
-		if($crudaction == UPDATE){
-			$processId = $this->input->post("processId");
-			if($processId != null && $processId > 0){
-				$process = $this->Transfer_Model->findById($processId);
-				$loginUser = $this->User_Model->getUserById($userId);
-				if($loginUser->AvailableMoney >= $process->Money){
-					$this->Product_Model->changeStatusPost($process->ProductID, ACTIVE);
-					$this->Transfer_Model->changeStatusProcess($processId, ACTIVE);
-					$this->Transfer_Model->updateMeny4User($userId, PAYMENT_WITHDRAW, $process->Money);
-
-					$data['message_response'] = 'Thanh toán thành công, tin rao đang hiển thị.';
-				}else{
-					$data['error_message'] = 'Số tiền không đủ thanh toán, vui lòng nạp thêm tiền, <a href="'.base_url('/bao-gia-dich-vu.html').'">hướng dẫn nạp tiền</a>.';
-				}
-			}
-		}
-
-		$userId = $this->session->userdata('loginid');
-		$data['histories'] = $this->Transfer_Model->findByUserId($userId);
-		$this->load->view('post/transfer', $data);
 	}
 
 	public function callMeBack($page = 0){
@@ -174,23 +156,5 @@ class Order_controller extends CI_Controller
 		$data['pagination'] = $this->pagination->create_links();
 
 		$this->load->view('post/callmeback', $data);
-	}
-
-	private function delete_directory($dirname) {
-		if (is_dir($dirname))
-			$dir_handle = opendir($dirname);
-		if (!$dir_handle)
-			return false;
-		while($file = readdir($dir_handle)) {
-			if ($file != "." && $file != "..") {
-				if (!is_dir($dirname."/".$file))
-					unlink($dirname."/".$file);
-				else
-					delete_directory($dirname.'/'.$file);
-			}
-		}
-		closedir($dir_handle);
-		rmdir($dirname);
-		return true;
 	}
 }

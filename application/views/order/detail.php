@@ -28,6 +28,10 @@
 		<?php $this->load->view('/common/user-menu')?>
 
 		<div class="row no-margin">
+			<?php
+			$attributes = array("id" => "frmOrder", "class" => "custom-input");
+			echo form_open("don-hang-".$order->OrderID, $attributes);
+			?>
 			<div class="col-lg-12 col-sm-12">
 				<ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb always">
 					<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?php echo base_url('/quan-ly-don-hang.html')?>"><span itemprop="name">Đơn hàng</span></a></li>
@@ -144,7 +148,6 @@
 								</table>
 							</div>
 						</li>
-
 					</ul>
 				</div>
 
@@ -178,16 +181,32 @@
 
 				<div class="row col-lg-12 margin-bottom-20 text-right">
 					<a class="btn btn-primary" href="<?=base_url('quan-ly-don-hang.html')?>"><i class="glyphicon glyphicon glyphicon-chevron-left"></i> Trở lại</a>
+					<?php
+					if($order->Status == ORDER_STATUS_NEW){
+						?>
+						<a class="btn btn-danger" href="#" onclick="cancelOrder(<?=$order->OrderID?>)">Hủy đơn hàng</a>
+						<?php
+					}
+					?>
 				</div>
 
 				<!-- end content -->
 				<div class="clear-both"></div>
+
+				<input type="hidden" id="crudaction" name="crudaction">
+				<input type="hidden" id="orderId" name="orderId">
+				<?php echo form_close(); ?>
 			</div>
 		</div>
+
+
 	</div>
 
 	<?php $this->load->view('/theme/footer')?>
 </div>
+<script type="text/javascript">
+
+</script>
 
 </body>
 </html>
