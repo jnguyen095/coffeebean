@@ -60,7 +60,6 @@ class OrderManagement_controller extends CI_Controller
 
 	public function process($orderId)
 	{
-
 		$crudaction = $this->input->post("crudaction");
 		$loginID = $this->session->userdata('loginid');
 		if($crudaction == ORDER_STATUS_CONFIRM){
@@ -126,9 +125,10 @@ class OrderManagement_controller extends CI_Controller
 		$this->load->view('admin/order/Order_detail', $order);
 	}
 
-	public function update($orderId)
+	public function update()
 	{
 		$crudaction = $this->input->post("crudaction");
+		$orderId = $this->input->post('orderId');
 		if($crudaction == "insert-update"){
 			echo 'success';
 		}

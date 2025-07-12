@@ -65,18 +65,18 @@
 									} else {
 
 									?>
-									<div class="steps step in-progress">
-										<span class="font-weight-bold">1</span>
+									<div class="steps step <?=$order->Status == ORDER_STATUS_NEW ? 'in-progress' : 'active'?>">
+										<span class="font-weight-bold"><?=$order->Status == ORDER_STATUS_NEW ? '1' : '<i class="glyphicon glyphicon-ok"></i>'?></span>
 									</div>
-									<span class="line"><label class="label1">Chờ xác nhận đơn hàng</label></span>
+									<span class="line <?=$order->Status == ORDER_STATUS_NEW ? '' : 'active'?>"><label class="label1">Chờ xác nhận đơn hàng</label></span>
 
-									<div class="steps">
-										<span>2</span>
+									<div class="steps <?=$order->Status == ORDER_STATUS_SHIPPING ? 'in-progress' : ($order->Status == ORDER_STATUS_COMPLETED ? 'active' : '')?>">
+										<span><?=($order->Status == ORDER_STATUS_NEW || $order->Status == ORDER_STATUS_SHIPPING) ? '2' : '<i class="glyphicon glyphicon-ok"></i>'?></span>
 									</div>
-									<span class="line"><label class="label2">Chờ giao hàng</label></span>
+									<span class="line <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>"><label class="label2">Chờ giao hàng</label></span>
 
-									<div class="steps">
-										<span>3</span>
+									<div class="steps <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>">
+										<span><?=$order->Status == ORDER_STATUS_COMPLETED ? '<i class="glyphicon glyphicon-ok"></i>' : '3'?></span>
 									</div>
 									<span class="last-line"><label class="label3">Hoàn thành</label></span>
 									<?php

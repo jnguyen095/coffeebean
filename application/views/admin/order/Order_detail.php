@@ -64,7 +64,7 @@
 								<div class="steps <?=$order->Status == ORDER_STATUS_SHIPPING ? 'in-progress' : ($order->Status == ORDER_STATUS_COMPLETED ? 'active' : '')?>">
 									<span class="font-weight-bold"><?=($order->Status == ORDER_STATUS_NEW || $order->Status == ORDER_STATUS_SHIPPING) ? '2' : '<i class="glyphicon glyphicon-ok"></i>'?></span>
 								</div>
-								<span class="line <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>" "><label class="label2">Đang giao hàng</label></span>
+								<span class="line <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>"><label class="label2">Đang giao hàng</label></span>
 
 								<div class="steps <?=$order->Status == ORDER_STATUS_COMPLETED ? 'active' : ''?>">
 									<span><?=$order->Status == ORDER_STATUS_COMPLETED ? '<i class="glyphicon glyphicon-ok"></i>' : '3'?></span>
@@ -204,6 +204,7 @@
 								<?php
 								if($order->Status == ORDER_STATUS_NEW){
 									?>
+									<a class="btn btn-info" id="changeOrderItems">Thay đổi đơn hàng</a>
 									<a class="btn btn-primary" data-new_action="<?=ORDER_STATUS_CONFIRM?>" id="changeStatus">Tiếp nhận đơn hàng</a>
 									<?php
 								} else if($order->Status == ORDER_STATUS_CONFIRM){
@@ -258,8 +259,6 @@
 
 			</div>
 		</form>
-		<!-- end popup -->
-
 
 	</div>
 	<!-- /.content-wrapper -->
@@ -328,83 +327,26 @@
 		currentSort.attr('data-direction', "ASC").find('i.glyphicon').removeClass('glyphicon-triangle-top').addClass('glyphicon-triangle-bottom active');
 	}
 
-	function updateView(productId, val){
-		$("#pr-" + productId).addClass("process");
-		jQuery.ajax({
-			type: "POST",
-			url: '<?=base_url("/Ajax_controller/updateViewForProductIdManual")?>',
-			dataType: 'json',
-			data: {productId: productId, view: val},
-			success: function(res){
-				if(res == 'success'){
-					/*bootbox.alert("Cập nhật thành công");*/
-					$("#pr-" + productId).addClass("success");
-				}
-			}
-		});
-	}
-	function updateVip(productId, val){
-		jQuery.ajax({
-			type: "POST",
-			url: '<?=base_url("/Ajax_controller/updateVipPackageForProductId")?>',
-			dataType: 'json',
-			data: {productId: productId, vip: val},
-			success: function(res){
-				if(res == 'success'){
-					bootbox.alert("Cập nhật thành công");
-				}
-			}
-		});
-	}
-
-	function pushPostUp(productId){
-		jQuery.ajax({
-			type: "POST",
-			url: '<?=base_url("/admin/ProductManagement_controller/pushPostUp")?>',
-			dataType: 'json',
-			data: {productId: productId},
-			success: function(res){
-				if(res == 'success'){
-					bootbox.alert("Cập nhật thành công");
-				}
-			}
-		});
-	}
-
-	function deleteMultiplePostHandler(){
-		$("#deleteMulti").click(function(){
-			var selectedItems = $("input[name='checkList[]']:checked").length;
-			if(selectedItems > 0) {
-				bootbox.confirm("Bạn đã chắc chắn xóa những tin rao này chưa?", function (result) {
-					if (result) {
-						$("#crudaction").val("delete-multiple");
-						$("#frmPost").submit();
-					}
-				});
-			}else{
-				bootbox.alert("Bạn chưa check chọn tin cần xóa!");
-			}
-		});
-	}
-
-	function deletePostHandler(){
-		$('.remove-post').click(function(){
-			var prId = $(this).data('post');
-			bootbox.confirm("Bạn đã chắc chắn xóa tin rao này chưa?", function(result){
-				if(result){
-					$("#productId").val(prId);
-					$("#crudaction").val("delete");
-					$("#frmPost").submit();
-				}
-			});
-		});
-	}
-
 	function contactFormHandler(){
 		$("#updateReceiver").click(function(){
 			$.ajax({
 				type:'POST',
 				url: '<?=base_url("admin/OrderManagement_controller/updateShippingInfo")?>',
+				data: {'orderId': <?=$order->OrderID?>},
+				success:function(msg) {
+					$("#modalOrderFormDialog").html(msg);
+					var $modal = $('#modalOrderFormDialog');
+					$modal.modal('show');
+				}
+			});
+		});
+	}
+
+	function updateOrderItemsHandler(){
+		$("#changeOrderItems").click(function(){
+			$.ajax({
+				type:'POST',
+				url: '<?=base_url("admin/OrderManagement_controller/update")?>',
 				data: {'orderId': <?=$order->OrderID?>},
 				success:function(msg) {
 					$("#modalOrderFormDialog").html(msg);
@@ -430,10 +372,7 @@
 	$(document).ready(function(){
 		contactFormHandler();
 		updateStatusHandler();
-		//deletePostHandler();
-		//deleteMultiplePostHandler();
-
-
+		updateOrderItemsHandler();
 	});
 </script>
 </body>
