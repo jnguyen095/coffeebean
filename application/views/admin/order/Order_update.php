@@ -56,6 +56,7 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 			success:function(msg) {
 				$("#tbItems").html(msg);
 				btnRemovePrItemHandling();
+				handlingTxtChange();
 				$(".overlay").hide();
 			}
 		});
@@ -64,9 +65,23 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 	function btnRemovePrItemHandling(){
 		$(".btnRemovePrItem").unbind('click');
 		$(".btnRemovePrItem").click(function(){
+			$(".overlay").show();
 			var pdId = $(this).data('prid');
-			$("#row-"+pdId).addClass('bg-danger');
-			$(this).html("<i class=\"glyphicon glyphicon-refresh\"></i>");
+			$.ajax({
+				type:'POST',
+				url: '<?=base_url("admin/OrderManagement_controller/loadOrderItems")?>',
+				data: {'orderId': <?=$order->OrderID?>, 'productId': pdId, 'crudaction': 'delete'},
+				success:function(msg) {
+					$("#tbItems").html(msg);
+					btnRemovePrItemHandling();
+					handlingTxtChange();
+					$(".overlay").hide();
+				}
+			});
+
+
+			//$("#row-"+pdId).addClass('bg-danger');
+			//$(this).html("<i class=\"glyphicon glyphicon-refresh\"></i>");
 		});
 	}
 
@@ -101,6 +116,8 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 				data: {'orderId': <?=$order->OrderID?>, 'productId': item['ProductID'], 'crudaction': 'add-product'},
 				success:function(msg) {
 					$("#tbItems").html(msg);
+					btnRemovePrItemHandling();
+					handlingTxtChange();
 				}
 			});
 		})
@@ -115,21 +132,44 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 	}
 
 	function submitUpdateOrderForm(){
-		var dataString = $("#frmUpdateOrderItems").serialize();
-		console.log(dataString);
-		$.ajax({
-			type:'POST',
-			url: '<?=base_url('admin/OrderManagement_controller/updateOrderItems')?>',
-			data: dataString,
-			beforeSend: function () {
-				//$('.submitBtn').attr("disabled","disabled");
-				//$('.modal-body').css('opacity', '.5');
-			},
-			success:function(msg){
-				if(msg == "success"){
-					bootbox.alert("Cập nhật thành công");
-				}
+		bootbox.confirm("Đơn hàng sẻ bị thay đổi, bạn có chắc chắn cập nhật không?", function (result) {
+			if (result) {
+				$(".overlay").show();
+				$.ajax({
+					type:'POST',
+					url: '<?=base_url("admin/OrderManagement_controller/updateOrderItems")?>',
+					data: {'orderId': <?=$order->OrderID?>},
+					success:function(msg) {
+						$(".overlay").hide();
+						if(msg == "success"){
+							bootbox.alert("Cập nhật đơn hàng thành công");
+							window.location.href = '<?=base_url('/admin/order/process-'.$order->OrderID.'.html')?>';
+						} else {
+							bootbox.alert("Cập nhật đơn hàng thành công thất bại, có lỗi xảy ra!!!");
+						}
+					}
+				});
 			}
+		});
+	}
+
+	function handlingTxtChange(){
+		$('.onblurEventHandling').change(function() {
+			$(".overlay").show();
+			var newValue = $(this).val();
+			var productId = $(this).data('productid');
+			var field = $(this).attr('name');
+			$.ajax({
+				type:'POST',
+				url: '<?=base_url("admin/OrderManagement_controller/loadOrderItems")?>',
+				data: {'orderId': <?=$order->OrderID?>, 'crudaction': 'field-change', 'field' : field, 'value' : newValue, 'productId': productId},
+				success:function(msg) {
+					$("#tbItems").html(msg);
+					btnRemovePrItemHandling();
+					handlingTxtChange();
+					$(".overlay").hide();
+				}
+			});
 		});
 	}
 

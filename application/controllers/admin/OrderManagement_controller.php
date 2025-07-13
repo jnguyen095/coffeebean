@@ -156,13 +156,15 @@ class OrderManagement_controller extends CI_Controller
 						'Quantity' => 	$orderProduct->Quantity,
 						'Price' => 	$orderProduct->Price,
 						'Subtotal' =>  ($orderProduct->Price * $orderProduct->Quantity),
-						'Remove' => 'NO'
+						'Remove' => 'NO',
+						'OrderDetailID' => $orderProduct->OrderDetailID
 					];
 				array_push($items, $item);
 			}
 			$myOrderSessionTemp = [
 				'Order-'.$order->OrderID => [
 					'ShippingFee' => $order->ShippingFee,
+					'Discount' => $order->Discount,
 					'TotalPrice' => $order->TotalPrice,
 					'OrderItems' => $items
 				]
@@ -178,10 +180,11 @@ class OrderManagement_controller extends CI_Controller
 			$item = ['ProductID' => 	$proudctId,
 				'ProductCode' => $product-> Code,
 				'ProductName' => 	$product->Title,
-				'Quantity' => 	1,
+				'Quantity' => 1,
 				'Price' => 	$product->Price,
 				'Subtotal' =>  $product->Price,
-				'Remove' => 'NO'
+				'Remove' => 'NO',
+				'OrderDetailID' => null
 			];
 			$updatedPrice = $myOrderSessionTemp['TotalPrice'] + $product->Price;
 			array_push($myOrderSessionTemp['OrderItems'], $item);
@@ -189,6 +192,65 @@ class OrderManagement_controller extends CI_Controller
 
 			$this->session->unset_userdata('Order-'.$orderId);
 			$this->session->set_userdata('Order-'.$orderId, $myOrderSessionTemp);
+		} else if($crudaction == 'delete'){
+			$proudctId = $this->input->post('productId');
+			$orderItems = $myOrderSessionTemp['OrderItems'];
+			foreach ($orderItems as &$item){
+				if($item['ProductID'] == $proudctId){
+					if($item['Remove'] == 'NO'){
+						$item['Remove'] = 'YES';
+						$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] - $item['Subtotal'];
+						$item['Subtotal'] = 0;
+					} else if($item['Remove'] == 'YES'){
+						$item['Remove'] = 'NO';
+						$item['Subtotal'] = $item['Quantity'] * $item['Price'];
+						$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] + $item['Subtotal'];
+					}
+
+					break;
+				}
+			}
+			unset($item);
+			$myOrderSessionTemp['OrderItems'] = $orderItems;
+
+			$this->session->unset_userdata('Order-'.$orderId);
+			$this->session->set_userdata('Order-'.$orderId, $myOrderSessionTemp);
+		} else if($crudaction == 'field-change'){
+			$field = $this->input->post('field');
+			$value = $this->input->post('value');
+			$productId = $this->input->post('productId');
+
+			if($field == 'ShippingFee'){
+				$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] - $myOrderSessionTemp['ShippingFee'];
+				$myOrderSessionTemp['ShippingFee'] = $value;
+				$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] + $value;
+
+				$this->session->unset_userdata('Order-'.$orderId);
+				$this->session->set_userdata('Order-'.$orderId, $myOrderSessionTemp);
+			} else if($field == 'Discount'){
+				$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] + $myOrderSessionTemp['Discount'];
+				$myOrderSessionTemp['Discount'] = $value;
+				$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] - $value;
+
+				$this->session->unset_userdata('Order-'.$orderId);
+				$this->session->set_userdata('Order-'.$orderId, $myOrderSessionTemp);
+			} else if($field == 'Quantity' && $productId != null){
+				$orderItems = $myOrderSessionTemp['OrderItems'];
+				foreach ($orderItems as &$item){
+					if($item['ProductID'] == $productId){
+						$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] - $item['Subtotal'];
+						$item['Quantity'] = $value;
+						$item['Subtotal'] = $value * $item['Price'];
+						$myOrderSessionTemp['TotalPrice'] = $myOrderSessionTemp['TotalPrice'] + $item['Subtotal'];
+
+						break;
+					}
+				}
+				unset($item);
+				$myOrderSessionTemp['OrderItems'] = $orderItems;
+				$this->session->unset_userdata('Order-'.$orderId);
+				$this->session->set_userdata('Order-'.$orderId, $myOrderSessionTemp);
+			}
 		}
 
 		$myOrderSessionTemp['OrderID'] = $orderId;
@@ -198,9 +260,15 @@ class OrderManagement_controller extends CI_Controller
 
 	public function updateOrderItems(){
 		$orderId = $this->input->post('orderId');
-		$OrderItems = $this->input->post('OrderItems');
-		//print_r($OrderItems[135197]);
-		echo 'success';
+		$myOrderSessionTemp = $this->session->userdata('Order-'.$orderId);
+		if($myOrderSessionTemp != null){
+			$this->MyOrder_Model->updateOrder($orderId, $myOrderSessionTemp);
+			$this->session->unset_userdata('Order-'.$orderId);
+			echo 'success';
+		} else {
+			echo 'fail';
+		}
+
 	}
 
 	public function updateShippingInfo(){

@@ -173,4 +173,45 @@ class MyOrder_Model extends CI_Model
 		$this->db->where('OrderID', $orderId);
 		$this->db->update('myorder');
 	}
+
+	public function updateOrder($orderId, $myOrderSessionTemp){
+		$shippingFee = $myOrderSessionTemp['ShippingFee'];
+		$discount = $myOrderSessionTemp['Discount'];
+		$totalPrice = $myOrderSessionTemp['TotalPrice'];
+		$orderItems = $myOrderSessionTemp['OrderItems'];
+
+		// Update order detail
+		$totalItems = 0;
+		foreach ($orderItems as $item){
+			if($item['OrderDetailID'] != null){
+				if($item['Remove'] == 'NO'){
+					$this->db->set('Quantity', $item['Quantity']);
+					$this->db->where('OrderDetailID', $item['OrderDetailID']);
+					$this->db->update('orderdetail');
+					$totalItems += $item['Quantity'];
+				} else if($item['Remove'] == 'YES'){
+					$this->db->delete('orderdetail', array('OrderDetailID' => $item['OrderDetailID']));
+				}
+			} else {
+				if($item['Remove'] == 'NO'){
+					$orderDetail = array(
+						'OrderID' => $orderId,
+						'ProductID' => $item['ProductID'],
+						'Price' => $item['Price'],
+						'Quantity' => $item['Quantity']
+					);
+					$this->db->insert('orderdetail', $orderDetail);
+					$totalItems += $item['Quantity'];
+				}
+			}
+		}
+
+		// Update order
+		$this->db->set('ShippingFee', $shippingFee);
+		$this->db->set('TotalItems', $totalItems);
+		$this->db->set('Discount', $discount);
+		$this->db->set('TotalPrice', $totalPrice);
+		$this->db->where('OrderID', $orderId);
+		$this->db->update('myorder');
+	}
 }
