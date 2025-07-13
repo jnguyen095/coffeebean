@@ -55,8 +55,18 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 			data: {'orderId': <?=$order->OrderID?>, 'crudaction': isReload},
 			success:function(msg) {
 				$("#tbItems").html(msg);
+				btnRemovePrItemHandling();
 				$(".overlay").hide();
 			}
+		});
+	}
+
+	function btnRemovePrItemHandling(){
+		$(".btnRemovePrItem").unbind('click');
+		$(".btnRemovePrItem").click(function(){
+			var pdId = $(this).data('prid');
+			$("#row-"+pdId).addClass('bg-danger');
+			$(this).html("<i class=\"glyphicon glyphicon-refresh\"></i>");
 		});
 	}
 
@@ -85,21 +95,23 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 		$('.typeahead').on('typeahead:selected', function(evt, item) {
 			// do what you want with the item here
 			// console.log(item);
-			console.log(item['ProductID']);
 			$.ajax({
 				type:'POST',
 				url: '<?=base_url("admin/OrderManagement_controller/loadOrderItems")?>',
 				data: {'orderId': <?=$order->OrderID?>, 'productId': item['ProductID'], 'crudaction': 'add-product'},
 				success:function(msg) {
 					$("#tbItems").html(msg);
-					$(".overlay").hide();
 				}
 			});
 		})
 	}
 
 	function reloadOriginOrder() {
-		loadOrderItemsHandler('reload');
+		bootbox.confirm("Toàn bộ thay đổi mà chưa được cập nhật sẻ bị mất, bạn có muốn tải lại đơn hàng không?", function (result) {
+			if (result) {
+				loadOrderItemsHandler('reload');
+			}
+		});
 	}
 
 	function submitUpdateOrderForm(){

@@ -156,7 +156,7 @@ class OrderManagement_controller extends CI_Controller
 						'Quantity' => 	$orderProduct->Quantity,
 						'Price' => 	$orderProduct->Price,
 						'Subtotal' =>  ($orderProduct->Price * $orderProduct->Quantity),
-						'Remove' => false
+						'Remove' => 'NO'
 					];
 				array_push($items, $item);
 			}
@@ -181,7 +181,7 @@ class OrderManagement_controller extends CI_Controller
 				'Quantity' => 	1,
 				'Price' => 	$product->Price,
 				'Subtotal' =>  $product->Price,
-				'Remove' => false
+				'Remove' => 'NO'
 			];
 			$updatedPrice = $myOrderSessionTemp['TotalPrice'] + $product->Price;
 			array_push($myOrderSessionTemp['OrderItems'], $item);

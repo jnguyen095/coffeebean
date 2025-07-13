@@ -25,7 +25,7 @@ echo form_open("admin/order/update-".$data['OrderID'], $attributes);
 	<tbody>
 <?php foreach ($data['OrderItems'] as $item){
 	?>
-	<tr>
+	<tr id="row-<?=$item['ProductID']?>" class="<?=$item['Remove'] == 'YES' ? 'bg-danger' : ''?>">
 		<td><?=$item['ProductCode']?></td>
 		<td><a href="<?=base_url().seo_url($item['ProductName']).'-p'.$item['ProductID']?>.html" target="_blank"><?=$item['ProductName']?></a></td>
 		<td><input type="number" name="OrderItems[<?=$item['ProductID']?>][Quantity]" class="form-control" value="<?=$item['Quantity']?>"/></td>
@@ -36,7 +36,19 @@ echo form_open("admin/order/update-".$data['OrderID'], $attributes);
 			<input type="hidden" name="OrderItems[<?=$item['ProductID']?>][ProductCode]" value="<?=$item['ProductCode']?>"/>
 			<input type="hidden" name="OrderItems[<?=$item['ProductID']?>][ProductID]" value="<?=$item['ProductID']?>"/>
 			<input type="hidden" name="OrderItems[<?=$item['ProductID']?>][Remove]" value="NO"/>
-			<a title="Xóa sản phẩm này" data-toggle="title"><i class="glyphicon glyphicon-trash"></i></a>
+			<a class="btnRemovePrItem" title="Xóa sản phẩm này" data-toggle="title" data-prid="<?=$item['ProductID']?>">
+				<?php
+				if($item['Remove'] == 'NO') {
+					?>
+					<i class="glyphicon glyphicon-trash"></i>
+					<?php
+				} else {
+				?>
+					<i class="glyphicon glyphicon-refresh"></i>
+					<?php
+				}
+				?>
+			</a>
 		</td>
 	</tr>
 <?php
