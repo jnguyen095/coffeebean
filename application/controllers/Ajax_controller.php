@@ -38,6 +38,12 @@ class Ajax_controller extends CI_Controller
 		echo json_encode($districts);
 	}
 
+	public function findProductByCodeOrTitle(){
+		$query = $this->input->get('query');
+		$products = $this->Product_Model->findProductByCodeOrTitle($query);
+		echo json_encode($products);
+	}
+
 	public function findWardByDistrictId(){
 		$districtId = $this->input->post('districtId');
 		$wards = $this->Ward_Model->findByDistrictId($districtId);

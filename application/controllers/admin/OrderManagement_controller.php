@@ -14,6 +14,7 @@ class OrderManagement_controller extends CI_Controller
 		if (!$this->session->userdata('loginid')){
 			redirect('dang-nhap');
 		}
+		$this->load->library('session');
 		$this->load->helper('form');
 		$this->load->helper('url');
 		$this->load->helper('html');
@@ -121,7 +122,7 @@ class OrderManagement_controller extends CI_Controller
 			}
 		}
 
-		$order = $this->MyOrder_Model->findByOrderId($orderId);
+		$order = $this->MyOrder_Model->findByOrderIdAndFetchAll($orderId);
 		$this->load->view('admin/order/Order_detail', $order);
 	}
 
@@ -132,8 +133,74 @@ class OrderManagement_controller extends CI_Controller
 		if($crudaction == "insert-update"){
 			echo 'success';
 		}
-		$order = $this->MyOrder_Model->findByOrderId($orderId);
+		$order = $this->MyOrder_Model->findByOrderIdAndFetchAll($orderId);
 		$this->load->view('admin/order/Order_update', $order);
+	}
+
+	public function loadOrderItems(){
+		$orderId = $this->input->post('orderId');
+		$crudaction = $this->input->post('crudaction');
+		$myOrderSessionTemp = $this->session->userdata('Order-'.$orderId);
+		if($crudaction == 'reload' || $myOrderSessionTemp == null){
+			$orderInfo = $this->MyOrder_Model->findByOrderIdAndFetchAll($orderId);
+			$order = $orderInfo['order'];
+			$orderProducts = $orderInfo['products'];
+
+			// Put data into session
+			$this->session->unset_userdata('Order-'.$order->OrderID);
+			$items = array();
+			foreach ($orderProducts as $orderProduct){
+				$item = ['ProductID' => 	$orderProduct->ProductID,
+						'ProductCode' => $orderProduct-> ProductCode,
+						'ProductName' => 	$orderProduct->ProductName,
+						'Quantity' => 	$orderProduct->Quantity,
+						'Price' => 	$orderProduct->Price,
+						'Subtotal' =>  ($orderProduct->Price * $orderProduct->Quantity),
+						'Remove' => false
+					];
+				array_push($items, $item);
+			}
+			$myOrderSessionTemp = [
+				'Order-'.$order->OrderID => [
+					'ShippingFee' => $order->ShippingFee,
+					'TotalPrice' => $order->TotalPrice,
+					'OrderItems' => $items
+				]
+			];
+
+			$this->session->set_userdata($myOrderSessionTemp);
+			$myOrderSessionTemp = $myOrderSessionTemp['Order-'.$orderId];
+		}
+
+		if($crudaction == 'add-product'){
+			$proudctId = $this->input->post('productId');
+			$product = $this->Product_Model->findById($proudctId);
+			$item = ['ProductID' => 	$proudctId,
+				'ProductCode' => $product-> Code,
+				'ProductName' => 	$product->Title,
+				'Quantity' => 	1,
+				'Price' => 	$product->Price,
+				'Subtotal' =>  $product->Price,
+				'Remove' => false
+			];
+			$updatedPrice = $myOrderSessionTemp['TotalPrice'] + $product->Price;
+			array_push($myOrderSessionTemp['OrderItems'], $item);
+			$myOrderSessionTemp['TotalPrice'] = $updatedPrice;
+
+			$this->session->unset_userdata('Order-'.$orderId);
+			$this->session->set_userdata('Order-'.$orderId, $myOrderSessionTemp);
+		}
+
+		$myOrderSessionTemp['OrderID'] = $orderId;
+		$data['data'] = $myOrderSessionTemp;
+		$this->load->view('admin/order/Order_update_items', $data);
+	}
+
+	public function updateOrderItems(){
+		$orderId = $this->input->post('orderId');
+		$OrderItems = $this->input->post('OrderItems');
+		//print_r($OrderItems[135197]);
+		echo 'success';
 	}
 
 	public function updateShippingInfo(){
@@ -172,7 +239,7 @@ class OrderManagement_controller extends CI_Controller
 			echo "success";
 		}else{
 			$orderId = $this->input->post('orderId');
-			$shipping = $this->OrderShipping_Model->findByOrderId($orderId);
+			$shipping = $this->OrderShipping_Model->findByOrderIdAndFetchAll($orderId);
 			$cities = $this->City_Model->getAllActive();
 			$districts = $this->District_Model->findByCityId($shipping->CityID);
 			$wards = $this->Ward_Model->findByDistrictId($shipping->DistrictID);
@@ -185,6 +252,7 @@ class OrderManagement_controller extends CI_Controller
 
 			return $this->load->view('admin/order/shipping_update', $data);
 		}
-
 	}
+
+
 }

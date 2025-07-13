@@ -7,6 +7,7 @@
  */
 ?>
 <footer class="main-footer">
+	<div class="overlay" style="display: none"><img src="<?=base_url('/img/spinner.gif')?>"/></div>
 	<!-- To the right -->
 	<div class="pull-right hidden-xs">
 	Developed by <a href="mailto:nguyennhukhangvn@gmail.com">Khang Nguyen</a>

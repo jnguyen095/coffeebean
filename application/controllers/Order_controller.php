@@ -104,7 +104,7 @@ class Order_controller extends CI_Controller
 
 
 
-		$order = $this->MyOrder_Model->findByOrderId($orderId);
+		$order = $this->MyOrder_Model->findByOrderIdAndFetchAll($orderId);
 		$data['order'] = $order['order'];
 		$data['products'] = $order['products'];
 		$data['shippingAddr'] = $order['shippingAddr'];

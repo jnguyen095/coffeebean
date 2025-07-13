@@ -88,7 +88,7 @@ class MyOrder_Model extends CI_Model
 		return $data;
 	}
 
-	public function findByOrderId($orderId)
+	public function findByOrderIdAndFetchAll($orderId)
 	{
 		$data = [];
 		$sql = 'select m.*,u.FullName, u.Phone from myorder m inner join us3r u on m.CreatedBy = u.Us3rID';
@@ -97,7 +97,7 @@ class MyOrder_Model extends CI_Model
 		$order = $query->row();
 
 		// order detail
-		$query = $this->db->select('od.*, p.Title as ProductName, p.Thumb, concat(\'[\', group_concat(JSON_OBJECT(IFNULL(po.Pro, \'\'), IFNULL(po.Val, \'\'))), \']\') as  Options')
+		$query = $this->db->select('od.*, p.Title as ProductName, p.Thumb, p.Code as ProductCode, concat(\'[\', group_concat(JSON_OBJECT(IFNULL(po.Pro, \'\'), IFNULL(po.Val, \'\'))), \']\') as  Options')
 			->from('orderdetail od')
 			->join('myorder o', 'od.OrderID = o.OrderID')
 			->join('product p', 'p.ProductID = od.ProductID')

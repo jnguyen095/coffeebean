@@ -15,6 +15,12 @@
 	<?php $this->load->view('/admin/common/header-js') ?>
 	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap-datepicker.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/madmin.css')?>">
+
+	<style type="text/css">
+		span.twitter-typeahead{
+			width: 100%
+		}
+	</style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -164,6 +170,7 @@
 										<tr class="bg-primary">
 											<td class="text-left">Mặt hàng</td>
 											<td class="text-left">Số lượng</td>
+											<td class="text-left">Đơn giá</td>
 											<td class="text-left">Thành tiền</td>
 											<td class="text-left">Lựa chọn</td>
 										</tr>
@@ -175,6 +182,7 @@
 												<td class="text-left"><a href="<?=base_url().seo_url($item->ProductName).'-p'.$item->ProductID?>.html" target="_blank"><?=$item->ProductName?></a></td>
 												<td class="text-center"><?=$item->Quantity?></td>
 												<td class="text-right"><?=number_format($item->Price)?></td>
+												<td class="text-right"><?=number_format($item->Price * $item->Quantity)?></td>
 												<td class="text-left">
 													<?php
 														$ops = json_decode($item->Options);
@@ -280,53 +288,8 @@
 <script src="<?=base_url('/js/bootbox.min.js')?>"></script>
 <script src="<?=base_url('/theme/admin/js/bootstrap-datepicker.min.js')?>"></script>
 <script src="<?=base_url('/theme/admin/js/tindatdai_admin.js')?>"></script>
-
+<script src="<?=base_url('/js/typeahead.bundle.min.js')?>"></script>
 <script type="text/javascript">
-	var sendRequest = function(){
-		var searchKey = $('#searchKey').val()||"";
-		var fromDate = $('#fromDate').val()||"";
-		var toDate = $('#toDate').val()||"";
-		var code = $('#code').val()||"";
-		var hasAuthor = $('input[name=hasAuthor]:checked').val();
-		var status = $('input[name=status]:checked').val();
-		var phoneNumber = $('#phoneNumber').val()||"";
-		window.location.href = '<?=base_url('admin/product/list.html')?>?query='+searchKey + '&phoneNumber=' + phoneNumber + '&fromDate=' + fromDate + '&toDate=' + toDate + '&hasAuthor=' + hasAuthor + '&code=' + code + '&status=' + status + '&orderField='+curOrderField+'&orderDirection='+curOrderDirection;
-	}
-
-	var curOrderField, curOrderDirection;
-	$('[data-action="sort"]').on('click', function(e){
-		curOrderField = $(this).data('title');
-		curOrderDirection = $(this).data('direction');
-		sendRequest();
-	});
-
-
-	$('#searchKey').val(decodeURIComponent(getNamedParameter('query')||""));
-	$('#fromDate').val(decodeURIComponent(getNamedParameter('fromDate')||""));
-	$('#toDate').val(decodeURIComponent(getNamedParameter('toDate')||""));
-	$('#code').val(decodeURIComponent(getNamedParameter('code')||""));
-	$('#phoneNumber').val(decodeURIComponent(getNamedParameter('phoneNumber')||""));
-	if(decodeURIComponent(getNamedParameter('hasAuthor')) != null){
-		$("#chb-" + (parseInt(decodeURIComponent(getNamedParameter('hasAuthor'))) + 1)).prop( "checked", true );
-	}else{
-		$("#chb-0").prop( "checked", true );
-	}
-
-	if(decodeURIComponent(getNamedParameter('status')) != null){
-		$("#st-" + (parseInt(decodeURIComponent(getNamedParameter('status'))))).prop( "checked", true );
-	}else{
-		$("#st_0").prop( "checked", true );
-	}
-
-	var curOrderField = getNamedParameter('orderField')||"";
-	var curOrderDirection = getNamedParameter('orderDirection')||"";
-	var currentSort = $('[data-action="sort"][data-title="'+getNamedParameter('orderField')+'"]');
-	if(curOrderDirection=="ASC"){
-		currentSort.attr('data-direction', "DESC").find('i.glyphicon').removeClass('glyphicon-triangle-bottom').addClass('glyphicon-triangle-top active');
-	}else{
-		currentSort.attr('data-direction', "ASC").find('i.glyphicon').removeClass('glyphicon-triangle-top').addClass('glyphicon-triangle-bottom active');
-	}
-
 	function contactFormHandler(){
 		$("#updateReceiver").click(function(){
 			$.ajax({
@@ -368,6 +331,8 @@
 			});
 		});
 	}
+
+
 
 	$(document).ready(function(){
 		contactFormHandler();

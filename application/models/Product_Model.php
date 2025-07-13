@@ -906,5 +906,19 @@ class Product_Model extends CI_Model
 		}
 	}
 
+	public function findProductByCodeOrTitle($query){
+		$query = $this->db->select('p.*')
+			->from('product p')
+			->where('p.Status', ACTIVE)
+			->group_start()
+			->like('p.Code', $query)
+			->or_like('p.Title', $query)
+			->group_end()
+			->limit(10, 0)
+			->order_by('Title', 'ASC')
+			->get();
+		return $query->result();
+	}
+
 
 }

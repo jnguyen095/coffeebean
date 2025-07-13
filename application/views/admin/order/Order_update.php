@@ -14,100 +14,116 @@ echo form_open("admin/OrderManagement_controller/update", $attributes);
 <div class="modal-dialog modal-lg">
 	<div class="modal-content">
 		<!-- Modal Header -->
-		<div class="modal-header">
+		<div class="modal-header bg-info">
 			<button type="button" class="close" data-dismiss="modal">
 				<span aria-hidden="true">&times;</span>
 				<span class="sr-only">Đóng</span>
 			</button>
-			<h4 class="modal-title h4" id="myModalLabel">Thay đổi đơn hàng</h4>
+			<h4 class="modal-title h4" id="myModalLabel">Thay đổi thông tin đơn hàng</h4>
 		</div>
 		<!-- Modal Body -->
 		<div class="modal-body">
 			<p class="statusMsg"></p>
+			<div class="form-group row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">Thêm mặt hàng</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control typeahead" id="staticSearch" placeholder="Nhập mã sản phẩm hoặc tên">
+				</div>
+			</div>
+			<div id="tbItems" class="row no-margin">
 
+			</div>
 		</div>
 
 		<!-- Modal Footer -->
 		<div class="modal-footer">
 			<input type="hidden" name="crudaction" value="insert"/>
 			<input type="hidden" name="orderId" value="<?=$order->OrderID?>"/>
-			<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-			<button id="btnUpdateShipping" type="button" class="btn btn-primary submitBtn" onclick="submitUpdateShipping()">Cập nhật</button>
+			<button id="btnReset" type="button" class="btn btn-info submitBtn" onclick="reloadOriginOrder()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Tải lại</button>
+			<button id="btnUpdateOrder" type="button" class="btn btn-primary submitBtn" onclick="submitUpdateOrderForm()">Cập nhật</button>
 		</div>
 	</div>
 </div>
 <?php echo form_close(); ?>
 
 <script type="text/javascript">
-	function submitUpdateShipping(){
-		var dataString = $("#frmShipping").serialize();
-		console.log(dataString);
+	function loadOrderItemsHandler(isReload){
+		$(".overlay").show();
 		$.ajax({
 			type:'POST',
-			url: '<?=base_url('admin/OrderManagement_controller/updateShippingInfo')?>',
-			data: dataString,
-			beforeSend: function () {
-				$('.submitBtn').attr("disabled","disabled");
-				$('.modal-body').css('opacity', '.5');
-			},
-			success:function(msg){
-				if(msg == "success"){
-					bootbox.alert("Cập nhật thành công", function(){
-						window.location.href = '<?=base_url("admin/order/process-{$shipping->OrderID}.html")?>';
-					});
-
-				}else{
-					$('.statusMsg').html('<span style="color:red;">'+msg+'</span>');
-				}
-				$('.submitBtn').removeAttr("disabled");
-				$('.modal-body').css('opacity', '');
+			url: '<?=base_url("admin/OrderManagement_controller/loadOrderItems")?>',
+			data: {'orderId': <?=$order->OrderID?>, 'crudaction': isReload},
+			success:function(msg) {
+				$("#tbItems").html(msg);
+				$(".overlay").hide();
 			}
 		});
 	}
 
-	function loadWardByDistrictId(){
-		$("#txtDistrict").change(function(){
-			var districtId = $(this).val();
-			$(".overlay").show();
-			jQuery.ajax({
-				type: "POST",
-				url: '<?=base_url('/ajax_controller/findWardByDistrictId')?>',
-				dataType: 'json',
-				data: {districtId: districtId},
-				success: function(res){
-					document.getElementById("txtWard").options.length = 1;
-					for(key in res){
-						$("#txtWard").append("<option value='"+res[key].WardID+"'>"+res[key].WardName+"</option>");
+	function autocompleteProductNameHandle(){
+		$('.typeahead').typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 2
+		}, {
+			name: 'ProductID',
+			async: true,
+			displayKey: 'Title',
+			source: function (query, process) {
+				return $.get('<?=base_url("Ajax_controller/findProductByCodeOrTitle")?>', {query: query}, function (data) {
+					if (data != null && data.length > 0) {
+						var json = $.parseJSON(data);
+						return process(json);
 					}
-					$(".overlay").hide();
-				}
-			});
+
+				});
+
+			}
 		});
 	}
-
-	function loadDistrictByCityId(){
-		$("#txtCity").change(function(){
-			$(".overlay").show();
-			var cityId = $(this).val();
-			document.getElementById("txtWard").options.length = 1;
-			jQuery.ajax({
-				type: "POST",
-				url: '<?=base_url('/ajax_controller/findDistrictByCityId')?>',
-				dataType: 'json',
-				data: {cityId: cityId},
-				success: function(res){
-					document.getElementById("txtDistrict").options.length = 1;
-					for(key in res){
-						$("#txtDistrict").append("<option value='"+res[key].DistrictID+"'>"+res[key].DistrictName+"</option>");
-					}
+	function autocompletValueSelected(){
+		$('.typeahead').on('typeahead:selected', function(evt, item) {
+			// do what you want with the item here
+			// console.log(item);
+			console.log(item['ProductID']);
+			$.ajax({
+				type:'POST',
+				url: '<?=base_url("admin/OrderManagement_controller/loadOrderItems")?>',
+				data: {'orderId': <?=$order->OrderID?>, 'productId': item['ProductID'], 'crudaction': 'add-product'},
+				success:function(msg) {
+					$("#tbItems").html(msg);
 					$(".overlay").hide();
 				}
 			});
+		})
+	}
+
+	function reloadOriginOrder() {
+		loadOrderItemsHandler('reload');
+	}
+
+	function submitUpdateOrderForm(){
+		var dataString = $("#frmUpdateOrderItems").serialize();
+		console.log(dataString);
+		$.ajax({
+			type:'POST',
+			url: '<?=base_url('admin/OrderManagement_controller/updateOrderItems')?>',
+			data: dataString,
+			beforeSend: function () {
+				//$('.submitBtn').attr("disabled","disabled");
+				//$('.modal-body').css('opacity', '.5');
+			},
+			success:function(msg){
+				if(msg == "success"){
+					bootbox.alert("Cập nhật thành công");
+				}
+			}
 		});
 	}
 
 	$(document).ready(function() {
-		loadDistrictByCityId();
-		loadWardByDistrictId();
+		loadOrderItemsHandler('NO');
+		autocompleteProductNameHandle();
+		autocompletValueSelected();
 	});
 </script>
