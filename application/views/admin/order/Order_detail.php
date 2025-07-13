@@ -124,10 +124,9 @@
 										?>
 									</div>
 								</div>
-
-
 							</div>
 						</div>
+
 						<div class="col-xs-6">
 							<div class="card m-b-30 card-body bg-success">
 								<h4 class="card-title font-20 mt-0">Thông tin người nhận hàng</h4>
@@ -142,10 +141,6 @@
 								<div class="form-group row">
 									<div class="col-sm-4 card-text">Địa chỉ nhận hạng</div>
 									<div class="col-sm-8"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
-								</div>
-								<div class="form-group row">
-									<div class="col-sm-4 card-text">Tổng GTĐH</div>
-									<div class="col-sm-8"><?=number_format($order->TotalPrice)?> VNĐ</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-4 card-text">Phương thức TT</div>
@@ -198,6 +193,21 @@
 											</tr>
 											<?php
 										} ?>
+										<tr>
+											<td colspan="3" class="text-right">Phí giao hàng</td>
+											<td class="text-right"><?=number_format($order->ShippingFee)?></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td colspan="3" class="text-right">Giảm giá</td>
+											<td class="text-right"><?=number_format($order->Discount)?></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td colspan="3" class="text-right">Tổng cộng</td>
+											<td class="text-right"><b><?=number_format($order->TotalPrice)?> VNĐ</b></td>
+											<td></td>
+										</tr>
 										</tbody>
 									</table>
 								</div>
