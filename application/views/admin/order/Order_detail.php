@@ -157,7 +157,7 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-xs-12">
-									<h3><b>Mặt hàng:</b> <a data-toggle="tooltip" title="Sửa thông tin mặt hàng"><i class="fa fa-edit"></i></a> 	</h3>
+									<h4 class="card-title"><b>Mặt hàng:</b></h4>
 								</div>
 								<div class="col-xs-12">
 									<table class="table table-bordered">

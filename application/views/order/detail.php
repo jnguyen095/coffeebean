@@ -92,8 +92,8 @@
 										<th class="text-center">#</th>
 										<th colspan="2">Sản phẩm</th>
 										<th class="text-center">SL</th>
-										<th class="text-center">Giá</th>
-										<th class="text-center">Tiền</th>
+										<th class="text-center">Đơn giá</th>
+										<th class="text-right">Thành tiền</th>
 									</tr>
 									</thead>
 									<tbody>
@@ -127,22 +127,26 @@
 											</td>
 											<td class="text-center"><?=number_format($item->Quantity)?></td>
 											<td class="text-center"><?=number_format($item->Price)?></td>
-											<td class="text-center"><?=number_format(($item->Price) * ($item->Quantity))?></td>
+											<td class="text-right"><?=number_format(($item->Price) * ($item->Quantity))?></td>
 										</tr>
 										<?php
 									}
 									?>
 									<tr>
 										<td class="text-right" colspan="5">Phí giao hàng:</td>
-										<td class="text-center"><?=number_format($order->ShippingFee)?></td>
+										<td class="text-right"><?=number_format($order->ShippingFee)?></td>
+									</tr>
+									<tr>
+										<td class="text-right" colspan="5">Giảm giá:</td>
+										<td class="text-right"><?=number_format($order->Discount)?></td>
 									</tr>
 									<tr>
 										<td class="text-right" colspan="5">Tổng cộng:</td>
-										<td class="text-center"><?=number_format($order->TotalPrice)?> (VNĐ)</td>
+										<td class="text-right"><?=number_format($order->TotalPrice)?> (VNĐ)</td>
 									</tr>
 									<tr>
 										<td class="text-right" colspan="5">Hình thức thanh toán:</td>
-										<td class="text-center"><?=$order->Payment?></td>
+										<td class="text-right"><?=$order->Payment?></td>
 									</tr>
 									</tbody>
 								</table>

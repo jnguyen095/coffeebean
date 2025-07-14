@@ -264,6 +264,25 @@ class OrderManagement_controller extends CI_Controller
 		if($myOrderSessionTemp != null){
 			$this->MyOrder_Model->updateOrder($orderId, $myOrderSessionTemp);
 			$this->session->unset_userdata('Order-'.$orderId);
+
+			// tracking
+			$loginID = $this->session->userdata('loginid');
+			$user = $this->User_Model->getUserById($loginID);
+			$orderTracking = array(
+				'OrderID' => $orderId,
+				'CreatedDate' => date('Y-m-d H:i:s'),
+				'Message' => $user->FullName. ' cập nhật thông tin của đơn hàng'
+			);
+			$this->OrderTracking_Model->insert($orderTracking);
+
+			// send email to inform customer
+			$emailNCode = $this->MyOrder_Model->getCustomerEmailFromOrderId($orderId);
+			$customerEmail = $emailNCode->Email;
+			$orderCode = $emailNCode->Code;
+
+			if($customerEmail != null && strlen($customerEmail) > 0){
+				my_send_email($customerEmail,APP_DOMAIN . " - Đơn hàng ".$orderCode. " đã bị được thay đổi", "<p>Đơn hàng: ".$orderCode." đã được thay đổi bởi nhân viên <b>".$user->FullName."</b></p><p>Theo dõi đơn hàng tại đây: " . APP_DOMAIN . "/don-hang-". $orderId."html</p>" );
+			}
 			echo 'success';
 		} else {
 			echo 'fail';
@@ -307,7 +326,7 @@ class OrderManagement_controller extends CI_Controller
 			echo "success";
 		}else{
 			$orderId = $this->input->post('orderId');
-			$shipping = $this->OrderShipping_Model->findByOrderIdAndFetchAll($orderId);
+			$shipping = $this->OrderShipping_Model->findByOrderId($orderId);
 			$cities = $this->City_Model->getAllActive();
 			$districts = $this->District_Model->findByCityId($shipping->CityID);
 			$wards = $this->Ward_Model->findByDistrictId($shipping->DistrictID);

@@ -104,6 +104,7 @@
 								<th data-action="sort" data-title="m.CreatedDate" data-direction="ASC"><span>Tạo lúc</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="m.TotalItems" data-direction="ASC"><span>SL</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="m.ShippingFee" data-direction="ASC"><span>Phí GH</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="m.Discount" data-direction="ASC"><span>Giảm giá</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="m.TotalPrice" data-direction="ASC"><span>Giá trị</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="m.Payment" data-direction="ASC"><span>Thanh toán</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="m.Status" data-direction="ASC"><span>Status</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
@@ -125,6 +126,7 @@
 									<td><?=date('d/m/Y H:i', strtotime($order->CreatedDate))?></td>
 									<td class="text-right"><?=number_format($order->TotalItems)?></td>
 									<td class="text-right"><?=number_format($order->ShippingFee)?></td>
+									<td class="text-right"><?=number_format($order->Discount)?></td>
 									<td class="text-right"><?=number_format($order->TotalPrice)?></td>
 									<td class="text-center"><?=$order->Payment?></td>
 									<td class="text-center"><?php
