@@ -121,6 +121,23 @@
 						</div>
 					</div>
 
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Banner</label>
+						</div>
+						<div class="col-md-10">
+							<input type="file" id="txt_banner" name="txt_banner">
+							<span class="text-danger"><?php echo form_error('txt_banner'); ?></span>
+							<?php
+							if(isset($txt_banner) && strlen($txt_banner) > 0){
+								?>
+								<img style="max-height: 200px" src="<?=base_url('/img/category/'.$txt_banner)?>"/>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+
 
 					<div class="form-group">
 						<div class="row colbox no-margin">

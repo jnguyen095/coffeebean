@@ -56,6 +56,11 @@ class Category_controller extends CI_Controller
 				$img = $preImg;
 			}
 			$data['txt_image'] = $img;
+
+			$banner = $this->uploadBanner();
+			$data['txt_banner'] = $banner;
+
+
 			//set validations
 			$this->form_validation->set_rules("txt_catname", "Tên danh mục", "trim|required");
 			$validateResult = $this->form_validation->run();
@@ -75,6 +80,7 @@ class Category_controller extends CI_Controller
 			$data['txt_parent'] = $category->ParentID;
 			$data['ch_status'] = $category->Active;
 			$data['txt_image'] = $category->Image;
+			$data['txt_banner'] = $category->Banner;
 			$data['index'] = $category->DisplayIndex;
 		}
 
@@ -98,6 +104,30 @@ class Category_controller extends CI_Controller
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
 			if (!$this->upload->do_upload('txt_image')) {
+				log_message('error', 'Image Upload Error: ' . $this->upload->display_errors());
+			}
+			$img = $this->upload->data();
+			return $img['file_name'];
+		}
+	}
+
+	private function uploadBanner(){
+		if(!empty($this->input->post("txt_banner"))){
+			return $this->input->post("txt_banner");
+		}else{
+			$this->allowed_img_types = $this->config->item('allowed_img_types');
+			$upath = 'img' . DIRECTORY_SEPARATOR .'category'. DIRECTORY_SEPARATOR;
+
+			if (!file_exists($upath)) {
+				mkdir($upath, 0777, true);
+			}
+
+			$config['upload_path'] = $upath;
+			$config['allowed_types'] = $this->allowed_img_types;
+			$config['remove_spaces'] = true;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('txt_banner')) {
 				log_message('error', 'Image Upload Error: ' . $this->upload->display_errors());
 			}
 			$img = $this->upload->data();
