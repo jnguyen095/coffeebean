@@ -50,7 +50,7 @@
 	<div class="col-lg-12">
 		<table class="table table-bordered">
 			<thead class="thead-default">
-				<tr class="bg-light-blue">
+				<tr class="bg-success">
 					<td class="text-center">Hình ảnh</td>
 					<td class="text-left">Tên sản phẩm</td>
 					<td class="text-left">Số lượng</td>

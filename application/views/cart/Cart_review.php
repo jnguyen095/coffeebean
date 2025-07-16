@@ -57,7 +57,7 @@
 		<div class="col-lg-7">
 			<table class="table table-bordered">
 				<thead>
-				<tr>
+				<tr class="bg-success">
 					<td class="text-left">Sản phẩm</td>
 					<td class="text-left">SL</td>
 					<td class="text-right">Tổng cộng</td>
