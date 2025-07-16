@@ -29,8 +29,7 @@ class ShoppingCart_controller extends CI_Controller
 	}
 
 	public function checkOut(){
-		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$this->load->view('cart/Cart_detail', $data);
 	}
 
@@ -107,8 +106,7 @@ class ShoppingCart_controller extends CI_Controller
 			//return;
 			redirect('/check-out/success?orderId=' . $data['orderId']);
 		}
-		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$data['txt_receiver'] = $shippingAddr['txt_receiver'];
 		$data['txt_phone'] = $shippingAddr['txt_phone'];
 		$data['city'] = $this->City_Model->findById($shippingAddr['txt_city']);
@@ -121,14 +119,12 @@ class ShoppingCart_controller extends CI_Controller
 	public function success(){
 		$this->cart->destroy();
 		$this->session->set_userdata("shippingAddr", []);
-		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$this->load->view('cart/Cart_success', $data);
 	}
 
 	public function shippingAddress(){
-		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$crudaction = $this->input->post('crudaction');
 		if($crudaction == 'insert'){
 			$data['txt_receiver'] = $this->input->post("txt_receiver");

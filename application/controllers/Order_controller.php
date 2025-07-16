@@ -40,7 +40,7 @@ class Order_controller extends CI_Controller
 			$categories = $this->Category_Model->getActiveCategories();
 			$this->cache->file->save('categories', $categories, 1440);
 		}
-		$data = $categories;
+		$data['categories'] = $categories;
 
 		// end file cached
 
@@ -84,7 +84,7 @@ class Order_controller extends CI_Controller
 			$categories = $this->Category_Model->getActiveCategories();
 			$this->cache->file->save('categories', $categories, 1440);
 		}
-		$data = $categories;
+		$data['categories'] = $categories;
 
 		$userId = $this->session->userdata('loginid');
 		$crudaction = $this->input->post("crudaction");

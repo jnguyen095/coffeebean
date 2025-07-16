@@ -24,7 +24,7 @@ class Home_controller extends CI_Controller
 
 	public function index() {
 		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $categories;
 		$newProducts = $this->Product_Model->topBestSellerProducts(12);
 		$data['products'] = $newProducts;
 		$data['topBanners'] = $this->Banner_Model->loadListByCode('BANNER_HOME_0');

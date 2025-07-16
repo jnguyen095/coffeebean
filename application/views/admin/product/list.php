@@ -71,11 +71,11 @@
 										if($categories != null && count($categories) > 0){
 											foreach ($categories as $c){
 												?>
-												<option value="<?=$c->CategoryID?>" <?=(isset($_GET['sl_category']) && $_GET['sl_category'] == $c->CategoryID) ? ' selected="selected"' : ''?>><?=$c->CatName?></option>
+												<option value="<?=$c['CategoryID']?>" <?=(isset($_GET['sl_category']) && $_GET['sl_category'] == $c['CategoryID']) ? ' selected="selected"' : ''?>><?=$c['CatName']?></option>
 												<?php
-												if(count($child[$c->CategoryID]) > 0){
-													foreach ($child[$c->CategoryID] as $k){?>
-														<option value="<?=$k->CategoryID?>" <?=(isset($_GET['sl_category']) && $_GET['sl_category'] == $k->CategoryID) ? ' selected="selected"' : ''?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$k->CatName?></option>
+												if(count($c['nodes']) > 0){
+													foreach ($c['nodes'] as $k){?>
+														<option value="<?=$k['CategoryID']?>" <?=(isset($_GET['sl_category']) && $_GET['sl_category'] == $k['CategoryID']) ? ' selected="selected"' : ''?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$k['CatName']?></option>
 														<?php
 													}
 												}

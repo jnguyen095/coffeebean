@@ -16,44 +16,68 @@ class Category_Model extends CI_Model
 		$this->db->where("ParentID IS NULL");
 		$this->db->order_by("DisplayIndex", "ASC");
 		$query = $this->db->get("category");
+		$roots = $query->result();
 
-		$data['categories'] = $query->result();
-		$child = [];
-		foreach ($data as $key=>$value){
-			foreach ($data[$key] as $k=>$v){
-				$categoryId = $v->CategoryID;
-				if($categoryId != null){
-					$this->db->where("ParentID = ". $categoryId);
-					$query = $this->db->get("category");
-					$child[$categoryId] = $query->result();
+		$json_response = array();
+		foreach ($roots as $parent){
+			$row_array = array();
+			$row_array['CategoryID'] = $parent->CategoryID;
+			$row_array['CatName'] = $parent->CatName;
+			$row_array['Active'] = $parent->Active;
+			$row_array['nodes'] = array();
+			$newlevel = $parent->CategoryID;
+
+			$childs = $this->db
+				->select('CategoryID, CatName, Active')
+				->where('ParentID = '.$newlevel)
+				->get('category')
+				->result();
+			if(count($childs) > 0){
+				foreach ($childs as $row) {
+					$row_array['nodes'][] = array(
+						'CategoryID' => $row->CategoryID,
+						'CatName' => $row->CatName,
+						'Active' => $row->Active
+					);
 				}
 			}
+			array_push($json_response, $row_array);
 		}
-		$data['child'] = $child;
 
-		return $data;
+		return $json_response;
 	}
 
 	public function getActiveCategories() {
 		$this->db->where("ParentID IS NULL AND Active = 1");
 		$this->db->order_by("DisplayIndex", "ASC");
 		$query = $this->db->get("category");
+		$roots = $query->result();
 
-		$data['categories'] = $query->result();
-		$child = [];
-		foreach ($data as $key=>$value){
-			foreach ($data[$key] as $k=>$v){
-				$categoryId = $v->CategoryID;
-				if($categoryId != null){
-					$this->db->where("ParentID = ". $categoryId);
-					$query = $this->db->get("category");
-					$child[$categoryId] = $query->result();
+		$json_response = array();
+		foreach ($roots as $parent){
+			$row_array = array();
+			$row_array['CategoryID'] = $parent->CategoryID;
+			$row_array['CatName'] = $parent->CatName;
+			$row_array['nodes'] = array();
+			$newlevel = $parent->CategoryID;
+
+			$childs = $this->db
+				->select('CategoryID, CatName')
+				->where('ParentID = '.$newlevel . ' AND Active = 1')
+				->get('category')
+				->result();
+			if(count($childs) > 0){
+				foreach ($childs as $row) {
+					$row_array['nodes'][] = array(
+						'CategoryID' => $row->CategoryID,
+						'CatName' => $row->CatName
+					);
 				}
 			}
+			array_push($json_response, $row_array);
 		}
-		$data['child'] = $child;
 
-		return $data;
+		return $json_response;
 	}
 
 	public function getCategoryTree() {

@@ -72,7 +72,7 @@ class Login_controller extends CI_Controller
 			$categories = $this->Category_Model->getActiveCategories();
 			$this->cache->file->save('categories', $categories, 1440);
 		}
-		$data = $categories;
+		$data['categories'] = $categories;
 		// end file cached
 
 		//get the posted values
@@ -145,7 +145,7 @@ class Login_controller extends CI_Controller
 			$this->cache->file->save('categories', $categories, 1440);
 		}
 
-		$data = $categories;
+		$data['categories'] = $categories;
 		// end file cached
 
 		$crudaction = $this->input->post("crudaction");

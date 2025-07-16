@@ -37,7 +37,7 @@ class ProductManagement_controller extends CI_Controller
 	public function index()
 	{
 		$crudaction = $this->input->post("crudaction");
-		$data = $this->Category_Model->getActiveCategories();
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		if($crudaction == DELETE){
 			$productId = $this->input->post("productId");
 			$this->deleteProductById($productId);
@@ -83,7 +83,7 @@ class ProductManagement_controller extends CI_Controller
 		$product['ProductID'] = $productId;
 		$product['Code'] = $this->Product_Model->getNewProductCode(); // uniqid('P-');
 
-		$data = $categories;
+		$data['categories'] = $categories;
 		$data['properties'] = $property;
 		if($this->input->post('crudaction') == "insert"){
 			$this->form_validation->set_rules("sl_category", "Danh mục", "trim|required");

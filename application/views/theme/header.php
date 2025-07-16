@@ -25,20 +25,20 @@
 			<div id="navbar4" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<?php
-					foreach($categories as $r) {
-						if(count($child[$r->CategoryID]) > 0){
+					foreach($categories as $parent) {
+						if(count($parent['nodes']) > 0){
 							echo '<li role="presentation" class="dropdown">
-								<a  href="'.base_url().seo_url($r->CatName).'-c'.$r->CategoryID. '.html" role="button" aria-haspopup="true" aria-expanded="false">
-											'.$r->CatName.' <span class="caret"></span>
+								<a  href="'.base_url().seo_url($parent['CatName']).'-c'.$parent['CategoryID']. '.html" role="button" aria-haspopup="true" aria-expanded="false">
+											'.$parent['CatName'].' <span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">';
-							foreach ($child[$r->CategoryID] as $k){
-								echo '<li><a href="'.base_url().seo_url($k->CatName).'-c'.$k->CategoryID. '.html">'.$k->CatName.'</a></li>';
+							foreach ($parent['nodes'] as $child){
+								echo '<li><a href="'.base_url().seo_url($child['CatName']).'-c'.$child['CategoryID']. '.html">'.$child['CatName'].'</a></li>';
 							}
 
 							echo '</ul></li>';
 						}else{
-							echo ' <li><a href="'.seo_url($r->CatName).'-c'.$r->CategoryID. '.html">'.$r->CatName.'</a></li>';
+							echo ' <li><a href="'.seo_url($parent['CatName']).'-c'.$parent['CategoryID']. '.html">'.$parent['CatName'].'</a></li>';
 						}
 					}
 					?>

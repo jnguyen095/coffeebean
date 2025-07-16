@@ -27,8 +27,7 @@ class Product_controller extends CI_Controller
 	}
 
 	public function listItem($catId, $offset=0) {
-		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$search_data = $this->Product_Model->findByCatIdFetchChildren($catId, $offset, MAX_PAGE_ITEM);
 		$data = array_merge($data, $search_data);
 
@@ -50,8 +49,7 @@ class Product_controller extends CI_Controller
 
 	public function detailItem($productId) {
 		// $categories = $this->Category_Model->getCategories();
-		$categories = $this->Category_Model->getActiveCategories();
-		$data = $categories;
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$product = $this->Product_Model->findByDetailId($productId);
 		$data['product'] = $product;
 		// print_r($product);
@@ -78,7 +76,7 @@ class Product_controller extends CI_Controller
 			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
 			$this->cache->file->save('footer', $footerMenus, 1440);
 		}
-		$data = $categories;
+		$data['categories'] = $categories;
 		$data['footerMenus'] = $footerMenus;
 		// end file cached
 
@@ -115,7 +113,7 @@ class Product_controller extends CI_Controller
 			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
 			$this->cache->file->save('footer', $footerMenus, 1440);
 		}
-		$data = $categories;
+		$data['categories'] = $categories;
 		$data['footerMenus'] = $footerMenus;
 		// end file cached
 

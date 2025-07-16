@@ -34,7 +34,7 @@ class Category_controller extends CI_Controller
 				$msg = "Xóa danh mục thành công.";
 			}
 		}
-		$data = $this->Category_Model->getCategories();
+		$data['categories'] = $this->Category_Model->getCategories();
 		$data['message_response'] = $msg;
 		$this->load->view("admin/category/list", $data);
 	}

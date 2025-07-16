@@ -57,19 +57,19 @@
 							<a class="btn btn-primary" href="<?=base_url('/admin/category/add.html');?>">Thêm danh mục</a>
 						</div>
 						<?php
-						foreach ($categories as $category) {
+						foreach ($categories as $parent) {
 						?>
-						<div class="category-level0" catid="<?=$category->CategoryID?>">
-							<span class="category-status-<?=$category->Active?>"> <?=$category->CatName;?></span>
-							<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$category->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
-							&nbsp;|&nbsp;<a class="remove-cat" data-toggle="tooltip" data-category="<?=$category->CategoryID?>" title="Xóa danh mục" href="#"><i class="glyphicon glyphicon-trash"></i> </a>
+						<div class="category-level0" catid="<?=$parent['CategoryID']?>">
+							<span class="category-status-<?=$parent['Active']?>"> <?=$parent['CatName'];?></span>
+							<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$parent['CategoryID']).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
+							&nbsp;|&nbsp;<a class="remove-cat" data-toggle="tooltip" data-category="<?=$parent['CategoryID']?>" title="Xóa danh mục" href="#"><i class="glyphicon glyphicon-trash"></i> </a>
 							<?php
-							if(count($child[$category->CategoryID]) > 0){
-								foreach ($child[$category->CategoryID] as $k){?>
-									<div class="category-level1" catid="<?=$k->CategoryID?>">
-										<span class="category-status-<?=$k->Active?>"><?=$k->CatName?></span>
-										<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$k->CategoryID).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
-										&nbsp;|&nbsp;<a class="remove-cat" data-toggle="tooltip" data-category="<?=$k->CategoryID?>" title="Xóa danh mục" href="#"><i class="glyphicon glyphicon-trash"></i> </a>
+							if(count($parent['nodes']) > 0){
+								foreach ($parent['nodes'] as $child){?>
+									<div class="category-level1" catid="<?=$child['CategoryID']?>">
+										<span class="category-status-<?=$child['Active']?>"><?=$child['CatName']?></span>
+										<a data-toggle="tooltip" title="Chỉnh sửa" href="<?=base_url("/admin/category/add-".$child['CategoryID']).".html"?>"><i class="glyphicon glyphicon-edit"></i> </a>
+										&nbsp;|&nbsp;<a class="remove-cat" data-toggle="tooltip" data-category="<?=$child['CategoryID']?>" title="Xóa danh mục" href="#"><i class="glyphicon glyphicon-trash"></i> </a>
 									</div>
 									<?php
 								}

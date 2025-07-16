@@ -33,7 +33,7 @@ class UserProfile_controller extends CI_Controller
 	public function index()
 	{
 		$userId = $this->session->userdata('loginid');
-		$data = $this->Category_Model->getActiveCategories();
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$data['UserId'] = $userId;
 		$user = $this->User_Model->getUserById($userId);
 		$data['txt_phone'] = $user->Phone;
@@ -59,7 +59,7 @@ class UserProfile_controller extends CI_Controller
 
 	public function changePassword(){
 		$userId = $this->session->userdata('loginid');
-		$data = $this->Category_Model->getActiveCategories();
+		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$crudaction = $this->input->post("crudaction");
 		if($crudaction == UPDATE){
 			$this->form_validation->set_rules("txt_oddpw", "Mật khẩu cũ", "trim|required");
