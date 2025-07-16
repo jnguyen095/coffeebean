@@ -28,6 +28,7 @@ class Home_controller extends CI_Controller
 		$newProducts = $this->Product_Model->topNewProducts(20);
 		$data['products'] = $newProducts;
 		$data['topBanners'] = $this->Banner_Model->loadListByCode('BANNER_HOME_0');
+		$data['categoryTree'] = $this->Category_Model->getCategoryTree();
 		$this->load->helper('url');
 		$this->load->view('Home_view', $data);
 	}

@@ -56,6 +56,40 @@ class Category_Model extends CI_Model
 		return $data;
 	}
 
+	public function getCategoryTree() {
+		$this->db->where("ParentID IS NULL AND Active = 1");
+		$this->db->order_by("DisplayIndex", "ASC");
+		$query = $this->db->get("category");
+		$rows = $query->result();
+
+		$json_response = array();
+		foreach ($rows as $row){
+			$row_array = array();
+			$row_array['CategoryID'] = $row->CategoryID;
+			$row_array['CatName'] = $row->CatName;
+			$row_array['nodes'] = array();
+			$newlevel = $row->CategoryID;
+
+			$childs = $this->db
+				->select('CategoryID, CatName, Image')
+				->where('ParentID = '.$newlevel.' AND Image IS NOT NULL')
+				->get('category')
+				->result();
+			if(count($childs) > 0){
+				foreach ($childs as $row) {
+					$row_array['nodes'][] = array(
+						'CategoryID' => $row->CategoryID,
+						'CatName' => $row->CatName,
+						'Image' => $row->Image,
+					);
+				}
+			}
+			array_push($json_response, $row_array);
+		}
+
+		return $json_response;
+	}
+
 	public function getRootCategories() {
 		$this->db->where("ParentID IS NULL and Active = 1");
 		$this->db->order_by("DisplayIndex", "ASC");
