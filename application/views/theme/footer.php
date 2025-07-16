@@ -49,6 +49,7 @@
 				<a href="http://zalo.me/0778763790"><i class="fa fa-zalo"></i>
 				<a href="https://www.facebook.com/%C4%90%E1%BB%93-l%C3%B3t-gi%C3%A1-s%E1%BB%89-V%C3%A2n-Anh-103836747787793/"><i class="fa fa-face"></i></a>
 			</div>
+			<div>Mua sỹ liên hệ zalo hoặc vào đây <a class="bg-primary" href="<?=base_url('/bao-gia.html')?>">BÁO GIÁ</a> để chọn sản phẩm gửi báo giá</div>
 		</div>
 	</div>
 </nav>

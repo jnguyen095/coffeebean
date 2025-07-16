@@ -884,6 +884,18 @@ class Product_Model extends CI_Model
 		return $query->result();
 	}
 
+	public function topBestSellerProducts($totalNum){
+		$query = $this->db->select('od.ProductID, p.Brief, p.Price, p.Title, p.Thumb, count(*) as NumOfSell')
+			->from('orderdetail od')
+			->join('product p', 'p.ProductID = od.ProductID', 'inner')
+			->where('p.Status', ACTIVE)
+			->limit($totalNum, 0)
+			->group_by('p.ProductID')
+			->order_by('NumOfSell', 'DESC')
+			->get();
+		return $query->result();
+	}
+
 	public function getNewProductCode(){
 		$sql = 'select p.Code from product p';
 		$sql .= ' order by p.PostDate desc';

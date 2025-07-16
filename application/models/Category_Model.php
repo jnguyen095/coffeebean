@@ -72,7 +72,7 @@ class Category_Model extends CI_Model
 
 			$childs = $this->db
 				->select('CategoryID, CatName, Image')
-				->where('ParentID = '.$newlevel.' AND Image IS NOT NULL')
+				->where('ParentID = '.$newlevel.' AND Image <> \'\'')
 				->get('category')
 				->result();
 			if(count($childs) > 0){

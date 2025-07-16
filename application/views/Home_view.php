@@ -53,7 +53,7 @@
 				foreach ($categoryTree as $catImg){
 					// print_r($catImg);
 					?>
-					<div class="container section-title-container">
+					<div class="section-title-container">
 						<h4 class="section-title section-title-center">
 							<b></b>
 								<span class="section-category-main">
@@ -109,14 +109,24 @@
 
 							</div>
 
-							<a class="carousel-control-prev" href="#carousel-category-<?=$catImg['CategoryID']?>" role="button" data-slide="prev">
-								<span class="carousel-control-prev-icon glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control-next" href="#carousel-category-<?=$catImg['CategoryID']?>" role="button" data-slide="next">
-								<span class="carousel-control-next-icon glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
+							<?php
+							if(count($catImg['nodes']) > 4) {
+								?>
+								<a class="carousel-control-prev" href="#carousel-category-<?= $catImg['CategoryID'] ?>"
+								   role="button" data-slide="prev">
+									<span class="carousel-control-prev-icon glyphicon glyphicon-chevron-left"
+										  aria-hidden="true"></span>
+									<span class="sr-only">Previous</span>
+								</a>
+								<a class="carousel-control-next" href="#carousel-category-<?= $catImg['CategoryID'] ?>"
+								   role="button" data-slide="next">
+									<span class="carousel-control-next-icon glyphicon glyphicon-chevron-right"
+										  aria-hidden="true"></span>
+									<span class="sr-only">Next</span>
+								</a>
+								<?php
+							}
+							?>
 						</div>
 					</div>
 				<?php
@@ -128,6 +138,16 @@
 		</div>
 
 		<div class="row margin-top-20">
+			<div class="section-title-container">
+				<h4 class="section-title section-title-center">
+					<b></b>
+					<span class="section-category-main">
+						Top sản phẩm bán chạy
+					</span>
+					<b></b>
+				</h4>
+			</div>
+
 			<?php
 			foreach ($products as $product){?>
 				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

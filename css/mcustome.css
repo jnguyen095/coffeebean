@@ -1547,10 +1547,13 @@ ul.user-menu{
 }
 .product-thumb .image {
 	text-align: center;
+	height: 167px;
+	overflow: hidden;
 }
 .product-thumb .caption {
 	padding: 0 10px;
-	min-height: 90px;
+	height: 94px;
+	overflow: hidden;
 }
 .product-thumb .button-group {
 	background-color: #eee;
