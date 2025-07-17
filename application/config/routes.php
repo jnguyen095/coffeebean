@@ -148,7 +148,7 @@ $route['nha-dat-duoi-mot-ty.html/(:num)'] = "Product_controller/underOneBillion/
 // Static Pages
 $route['dieu-khoan-su-dung'] = "StaticPage_controller/term";
 $route['quy-che-hoat-dong'] = "StaticPage_controller/used";
-$route['bao-gia-quang-cao'] = "StaticPage_controller/adv";
+$route['bao-gia-si'] = "StaticPage_controller/quote";
 $route['tuyen-dung'] = "StaticPage_controller/carer";
 $route['cau-hoi-thuong-gap'] = "StaticPage_controller/qna";
 $route['bao-gia-dich-vu'] = "StaticPage_controller/payment";

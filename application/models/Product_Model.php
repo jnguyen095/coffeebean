@@ -824,10 +824,14 @@ class Product_Model extends CI_Model
 		}
 	}
 
-	public function findProductByCodeOrTitle($query){
+	public function findProductByCodeOrTitle($query, $catId = null){
+		$where = "p.Status = ".ACTIVE;
+		if($catId != null && $catId > 0){
+			$where .= " AND p.CategoryID = ". $catId;
+		}
 		$query = $this->db->select('p.*')
 			->from('product p')
-			->where('p.Status', ACTIVE)
+			->where($where)
 			->group_start()
 			->like('p.Code', $query)
 			->or_like('p.Title', $query)

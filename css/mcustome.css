@@ -17,8 +17,9 @@ body > .container, body > .container-fluid > .container{
 	box-shadow: 0px 30px 20px rgba(0,0,0,.1);
 }
 
-.container, .container-fluid{
-
+img.img-sm {
+	width: 80px;
+	max-height: 80px;
 }
 
 

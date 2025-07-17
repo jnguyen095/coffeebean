@@ -40,7 +40,8 @@ class Ajax_controller extends CI_Controller
 
 	public function findProductByCodeOrTitle(){
 		$query = $this->input->get('query');
-		$products = $this->Product_Model->findProductByCodeOrTitle($query);
+		$catId = $this->input->get('categoryId');
+		$products = $this->Product_Model->findProductByCodeOrTitle($query, $catId);
 		echo json_encode($products);
 	}
 
