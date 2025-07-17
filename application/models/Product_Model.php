@@ -599,50 +599,26 @@ class Product_Model extends CI_Model
 		}
 	}
 
-	public function searchByProperties($keyword, $catId, $cityId, $districtId, $area, $price, $offset, $limit){
+	public function searchByProperties($keyword, $catId, $offset, $limit){
 		//$this->output->enable_profiler(TRUE);
-		$sql = 'select p.* from product p';
+		$sql = 'select p.* from product p inner join category c on p.CategoryID = c.CategoryID';
 		$sql .= ' where p.status = '.ACTIVE;
 		if(isset($keyword)){
 			$sql .= ' and p.Title like \'%' . $keyword .'%\'';
 		}
 		if(isset($catId) && $catId > -1) {
-			$sql .= ' and p.CategoryID = ' . $catId;
-		}
-		if(isset($cityId) && $cityId > -1) {
-			$sql .= ' and p.CityID = ' . $cityId;
-		}
-		if(isset($districtId) && $districtId > -1) {
-			$sql .= ' and p.DistrictID = ' . $districtId;
-		}
-		if(isset($price) && $price > -1){
-			$sql .= $this->buildPriceWhere($price);
-		}
-		if(isset($area) && $area > -1){
-			$sql .= $this->buildAreaWhere($area);
+			$sql .= ' and (p.CategoryID = ' . $catId . ' OR c.ParentID = ' . $catId . ')';
 		}
 
 		$sql .= ' order by date(p.modifieddate) desc';
 		$sql .= ' limit '.$offset.','.$limit;
 
-		$countsql = 'select count(*) as total from product p where p.Status = '.ACTIVE;
+		$countsql = 'select count(*) as total from product p inner join category c on p.CategoryID = c.CategoryID where p.Status = '.ACTIVE;
 		if(isset($keyword)){
 			$countsql .= ' and p.Title like \'%' . $keyword .'%\'';
 		}
 		if(isset($catId) && $catId > -1) {
-			$countsql .= ' and p.CategoryID = ' . $catId;
-		}
-		if(isset($cityId) && $cityId > -1) {
-			$countsql .= ' and p.CityID = ' . $cityId;
-		}
-		if(isset($districtId) && $districtId > -1) {
-			$countsql .= ' and p.DistrictID = ' . $districtId;
-		}
-		if(isset($price) && $price > -1){
-			$countsql .= $this->buildPriceWhere($price);
-		}
-		if(isset($area) && $area > -1){
-			$countsql .= $this->buildAreaWhere($area);
+			$countsql .= ' and (p.CategoryID = ' . $catId . ' OR c.ParentID = ' . $catId . ')';
 		}
 
 		$products = $this->db->query($sql);
@@ -652,76 +628,6 @@ class Product_Model extends CI_Model
 		$total = $total->row();
 		$data['total'] = $total->total;
 		return $data;
-	}
-
-	private function buildPriceWhere($price){
-		$where = '';
-
-		if($price == 0){
-			// thoa thuan
-			$where = ' and p.Price = -1';
-		}else if($price == 1){
-			// < 500tr
-			$where = ' and p.Price > 0 and p.Price < 500 and p.UnitID IN(select UnitID from unit where Code = "MILI")';
-		}else if($price == 2){
-			// < 1ty
-			$where = ' and ((p.Price > 0 and p.Price < 1000 and p.UnitID IN(select UnitID from unit where Code = "MILI")) OR (p.Price <= 1 and p.UnitID IN(select UnitID from unit where Code = "BILI")))';
-		}else if($price == 3){
-			// 1 - 2ty
-			$where = ' and p.Price >= 1 and p.Price < 2 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}else if($price == 4){
-			// 2 - 3ty
-			$where = ' and p.Price >= 2 and p.Price < 3 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}else if($price == 5){
-			// 3 - 5ty
-			$where = ' and p.Price >= 3 and p.Price < 5 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}else if($price == 6){
-			// 5 - 7ty
-			$where = ' and p.Price >= 5 and p.Price < 7 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}else if($price == 7){
-			// 7 - 10ty
-			$where = ' and p.Price >= 7 and p.Price < 10 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}else if($price == 8){
-			// 10 - 20ty
-			$where = ' and p.Price >= 10 and p.Price < 20 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}else if($price == 9){
-			// > 20ty
-			$where = ' and p.Price >= 20 and p.UnitID IN(select UnitID from unit where Code = "BILI")';
-		}
-
-		return $where;
-	}
-
-	private function buildAreaWhere($area){
-		$where = '';
-
-		if($area == 0){
-			// CXD
-			$where = ' and p.Area NOT REGEXP \'^[0-9].+$\'';
-		}else if($area == 1){
-			// < 30m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) > 0 and cast(p.Area AS DECIMAL(10,2)) <= 30';
-		}else if($area == 2){
-			// 30 - 50m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) > 30 and cast(p.Area AS DECIMAL(10,2)) < 50';
-		}else if($area == 3){
-			// 50 - 80m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) >= 50 and cast(p.Area AS DECIMAL(10,2)) < 80';
-		}else if($area == 4){
-			// 80 - 100m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) >= 80 and cast(p.Area AS DECIMAL(10,2)) < 100';
-		}else if($area == 5){
-			// 100 - 150m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) >= 100 and cast(p.Area AS DECIMAL(10,2)) < 150';
-		}else if($area == 6){
-			// 150 - 200m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) >= 150 and cast(p.Area AS DECIMAL(10,2)) < 200';
-		}else if($area == 7){
-			// >200m2
-			$where = ' and cast(p.Area AS DECIMAL(10,2)) >= 200';
-		}
-
-		return $where;
 	}
 
 	function findAndFilter($offset, $limit, $st, $categoryId, $status, $orderField, $orderDirection){

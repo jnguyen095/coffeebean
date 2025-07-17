@@ -16,24 +16,19 @@ class StaticPage_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->helper("seo_url");
 		$this->load->helper('form');
+		$this->load->library('cart');
 	}
 
 	// Dieu khoan su dung
 	public function term(){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+		$data['categories'] = $categories;
 		$cities = $this->cache->file->get('cities');
 		if(!$cities){
 			$cities = $this->City_Model->getAllActive();
@@ -52,18 +47,12 @@ class StaticPage_controller extends CI_Controller
 	public function used(){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+		$data['categories'] = $categories;
 		$cities = $this->cache->file->get('cities');
 		if(!$cities){
 			$cities = $this->City_Model->getAllActive();
@@ -82,18 +71,12 @@ class StaticPage_controller extends CI_Controller
 	public function adv(){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+		$data['categories'] = $categories;
 		$cities = $this->cache->file->get('cities');
 		if(!$cities){
 			$cities = $this->City_Model->getAllActive();
@@ -112,18 +95,13 @@ class StaticPage_controller extends CI_Controller
 	public function carer(){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+
+		$data['categories'] = $categories;
 		$cities = $this->cache->file->get('cities');
 		if(!$cities){
 			$cities = $this->City_Model->getAllActive();
@@ -142,18 +120,13 @@ class StaticPage_controller extends CI_Controller
 	public function payment(){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+		$data['categories'] = $categories;
+
 		$cities = $this->cache->file->get('cities');
 		if(!$cities){
 			$cities = $this->City_Model->getAllActive();
@@ -172,18 +145,13 @@ class StaticPage_controller extends CI_Controller
 	public function qna(){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+
+		$data['categories'] = $categories;
 		$cities = $this->cache->file->get('cities');
 		if(!$cities){
 			$cities = $this->City_Model->getAllActive();

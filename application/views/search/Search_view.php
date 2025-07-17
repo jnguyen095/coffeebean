@@ -4,21 +4,7 @@
 	$searchBy = "";
 	if(isset($category) && !isset($cat_city) && !isset($cat_city_dic)){
 		$searchBy = $category->CatName;
-	} else if(isset($city)){
-		if(isset($district)){
-			$searchBy = 'Nhà đất tại quận '.$district->DistrictName.', '. $city->CityName;
-		}else{
-			$searchBy = 'Nhà đất tại '.$city->CityName;
-		}
-	}else if(isset($cat_city)){
-		$searchBy = $cat_city;
-	}else if(isset($cat_city_dic)){
-		$searchBy = $cat_city_dic;
-	}else if(isset($branch)){
-		$searchBy = $branch->BrandName;
-	}else if(isset($userAuthor)){
-		$searchBy = "Bất động sản của ".$userAuthor->FullName;
-	}else{
+	} else{
 		$searchBy = "Tìm kiếm";
 	}
 	?>

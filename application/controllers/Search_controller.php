@@ -40,41 +40,20 @@ class Search_controller extends CI_Controller
 
 		if($offset == 0){
 			$catId = $this->input->post("cmCatId");
-			$cityId = $this->input->post("cmCityId");
-			$districtId = $this->input->post("cmDistrictId");
-			$area = $this->input->post("cmArea");
-			$price = $this->input->post("cmPrice");
-			if($type == "sale"){
-				$catId = 257;
-			}else if($type == "rent"){
-				$catId = 267;
-			}
 
 			$searchFilters = array(
 				'cmCatId' => $catId,
-				'cmCityId' => $cityId,
-				'cmDistrictId' => $districtId,
-				'cmArea' => $area,
-				'cmPrice' => $price
 			);
 			$this->session->set_userdata($searchFilters);
 		}else{
 			$catId = $this->session->userdata("cmCatId");
-			$cityId = $this->session->userdata("cmCityId");
-			$districtId = $this->session->userdata("cmDistrictId");
-			$price = $this->session->userdata("cmPrice");
-			$area = $this->session->userdata("cmArea");
 		}
 
 
 		$data['keyword'] = $keyword;
 		$data['cmCatId'] = $catId;
-		$data['cmCityId'] = $cityId;
-		$data['cmDistrictId'] = $districtId;
-		$data['cmArea'] = $area;
-		$data['cmPrice'] = $price;
 
-		$search_data = $this->Product_Model->searchByProperties($keyword, $catId, $cityId, $districtId, $area, $price, $offset, MAX_PAGE_ITEM);
+		$search_data = $this->Product_Model->searchByProperties($keyword, $catId, $offset, MAX_PAGE_ITEM);
 		$data = array_merge($data, $search_data);
 		$config = pagination();
 		$config['base_url'] = base_url('tim-kiem.html');
@@ -85,31 +64,11 @@ class Search_controller extends CI_Controller
 			$category = $this->Category_Model->findByNotChildId($catId);
 			$data['category'] = $category;
 		}
-		if($cityId != null && $cityId > 0){
-			$city = $this->City_Model->findById($cityId);
-			$data['scity'] = $city;
-			if($districtId == null || $districtId < 1){
-				$data['sdistricts'] = $this->District_Model->findByCityId($cityId);
-			}
 
-		}
-		if($districtId != null && $districtId > 0){
-			$district = $this->District_Model->findById($districtId);
-			$data['sdistrict'] = $district;
-		}
 
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
 		$this->load->helper('url');
-
-		if($cityId != null && $cityId > -1) {
-			if($catId != null && $catId > 0){
-				$data['districtWithCategory'] = $this->District_Model->findByCatIdCityIdHasProduct($catId, $cityId);
-			}else{
-				$data['districts'] = $this->District_Model->findByCityId($cityId);
-				$data['topdistricthasproduct'] = $data['districts'];
-			}
-		}
 
 		$this->load->view('/search/Search_view', $data);
 	}
