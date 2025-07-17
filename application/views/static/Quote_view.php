@@ -92,6 +92,9 @@
 				</tr>
 				</thead>
 				<tbody>
+				<tr id="toberemove" class="text-center">
+					<td colspan="4"><i>Hãy tìm sản phẩm để thêm vào danh sách yêu cầu!</i></td>
+				</tr>
 				</tbody>
 			</table>
 		</div>
@@ -104,34 +107,34 @@
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label text-left">Họ Tên <span class="required">*</span></label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" placeholder="Tên người mua hàng" name="name" value="<?php echo set_value('name'); ?>"/>
+						<input id="txtName" class="form-control" type="text" placeholder="Tên người mua hàng" name="name" value="<?php echo set_value('name'); ?>"/>
 						<span class="text-danger text-left"><?php echo form_error('name'); ?></span>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="example-text-input" class="text-left col-sm-4 col-form-label">Số ĐT/Zalo <span class="required">*</span></label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" placeholder="Số điện thoại" name="phone" value="<?php echo set_value('phone'); ?>"/>
+						<input id="txtPhone" class="form-control" type="text" placeholder="Số điện thoại" name="phone" value="<?php echo set_value('phone'); ?>"/>
 						<span class="text-danger text-left"><?php echo form_error('phone'); ?></span>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="example-text-input" class="text-left col-sm-4 col-form-label">Email <span class="required">*</span></label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" placeholder="Email nhận báo giá" name="email" value="<?php echo set_value('email'); ?>"/>
+						<input id="txtEmail" class="form-control" type="text" placeholder="Email nhận báo giá" name="email" value="<?php echo set_value('email'); ?>"/>
 						<span class="text-danger text-left"><?php echo form_error('email'); ?></span>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="example-text-input" class="col-sm-4 text-left col-form-label">Địa chỉ</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" placeholder="Address" name="address" value="<?php echo set_value('address'); ?>"/>
+						<input id="txtAddress" class="form-control" type="text" placeholder="Address" name="address" value="<?php echo set_value('address'); ?>"/>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="example-text-input" class="col-sm-4 text-left col-form-label">Ghi chú</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" placeholder="Ghi chú" name="note" value="<?php echo set_value('note'); ?>"/>
+						<input id="txtNote" class="form-control" type="text" placeholder="Ghi chú" name="note" value="<?php echo set_value('note'); ?>"/>
 					</div>
 				</div>
 
@@ -155,6 +158,7 @@
 
 <?php $this->load->view('/theme/footer')?>
 <script src="<?=base_url('/js/typeahead.bundle.min.js')?>"></script>
+<script src="<?=base_url('/js/bootbox.min.js')?>"></script>
 <script type="text/javascript">
 
 	function autocompleteProductNameHandle(){
@@ -182,11 +186,15 @@
 	function autocompletValueSelected(){
 		$('.typeahead').on('typeahead:selected', function(evt, item) {
 			// do what you want with the item here
-			console.log(item);
+			if($("#toberemove").length > 0){
+				$("#toberemove").remove();
+			}
+			// console.log(item);
+			$(this).val('');
 			var productId = item['ProductID'];
 			if($("#tr-" + productId).length < 1){
 				var index = $("#tbProducts tr").length;
-				var html = '<tr id="tr-' + productId + '">';
+				var html = '<tr id="tr-' + productId + '" class="prodItem">';
 				html += '<td>' + index + '</td>';
 				html += '<td><img class="img-sm" src="<?=base_url()?>' + item['Thumb'] + '"/></td>';
 				html += '<td>'+item['Title']+'</td>';
