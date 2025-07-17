@@ -92,9 +92,27 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr id="toberemove" class="text-center">
-					<td colspan="4"><i>Hãy tìm sản phẩm để thêm vào danh sách yêu cầu!</i></td>
-				</tr>
+				<?php
+				if(isset($products) && count($products) > 0){
+					$counter = 1;
+					foreach ($products as $product){
+						?>
+						<tr id="tr-<?=$product['ProductID']?>" class="prodItem">
+							<td><?=$counter++?></td>
+							<td><img class="img-sm" src="<?=base_url($product['Thumb'])?>"></td>
+							<td><?=$product['Title']?></td>
+							<td><input id="qty-<?=$product['ProductID']?>" name="products[<?=$product['ProductID']?>]qty" type="number" value="<?=$product['Quantity']?>" class="form-control"/></td>
+						</tr>
+						<?php
+					}
+				} else {
+					?>
+					<tr id="toberemove" class="text-center">
+						<td colspan="4"><i>Hãy tìm sản phẩm để thêm vào danh sách yêu cầu!</i></td>
+					</tr>
+					<?php
+				}
+				?>
 				</tbody>
 			</table>
 		</div>

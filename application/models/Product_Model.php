@@ -842,4 +842,18 @@ class Product_Model extends CI_Model
 		return $query->result();
 	}
 
+	public function findMoreProductByMapID($productMap){
+		$result = array();
+		foreach ($productMap as $proID => $qty){
+			$this->db->select('Title, Thumb');
+			$this->db->where('ProductID', $qty['ProductID']);
+			$query = $this->db->get("product");
+			$r =  $query->row();
+			$item = array("ProductID"=>$qty['ProductID'], "Quantity"=>$qty["Quantity"], "Title"=>$r->Title, "Thumb"=>$r->Thumb);
+
+			array_push($result, $item);
+		}
+		return $result;
+	}
+
 }
