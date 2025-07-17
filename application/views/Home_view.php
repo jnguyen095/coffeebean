@@ -2,7 +2,7 @@
 <html lang = "en">
 
 <head>
-	<title>Vân Anh Shop - Đồ Lót Giá Tốt</title>
+	<title>Làm Vườn Vui - Sức Khỏe Tốt</title>
 	<link rel="icon" sizes="48x48" href="<?=base_url('/img/favicon.ico')?>">
 
 	<?php $this->load->view('common_header')?>
