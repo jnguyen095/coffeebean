@@ -12,13 +12,13 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="audience" content="general" />
 	<meta name="resource-type" content="document" />
-	<meta name="abstract" content="Thông tin nhà đất Việt Nam" />
-	<meta name="classification" content="Bất động sản Việt Nam" />
-	<meta name="area" content="Nhà đất và bất động sản" />
+	<meta name="abstract" content="Hạt giống hoa, cây trồng, dụng cụ làm vườn" />
+	<meta name="classification" content="Hạt giống hoa, cây trồng, dụng cụ làm vườn" />
+	<meta name="area" content="Hạt giống hoa, cây trồng, dụng cụ làm vườn" />
 	<meta name="placename" content="Việt Nam" />
-	<meta name="author" content="nhatimchu.com" />
-	<meta name="copyright" content="©2017 nhatimchu.com" />
-	<meta name="owner" content="nhatimchu.com" />
+	<meta name="author" content="lamvuonvui.com" />
+	<meta name="copyright" content="©2025 lamvuonvui.com" />
+	<meta name="owner" content="lamvuonvui.com" />
 	<meta name="distribution" content="Global" />
 	<meta name="description" content="<?=$searchBy?>">
 	<meta name="keywords" content="<?=keyword_maker($searchBy)?>">

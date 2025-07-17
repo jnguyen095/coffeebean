@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset = "utf-8">
-	<title>Nhà Tìm Chủ | Thông Tin Cá Nhân</title>
+	<title>Làm Nông Vui | Thông Tin Cá Nhân</title>
 	<?php $this->load->view('common_header')?>
 	<?php $this->load->view('/common/googleadsense')?>
 </head>

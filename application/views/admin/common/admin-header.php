@@ -11,9 +11,9 @@
 	<!-- Logo -->
 	<a href="<?=base_url('/')?>" class="logo">
 		<!-- mini logo for sidebar mini 50x50 pixels -->
-		<span class="logo-mini"><b>VAShop</b></span>
+		<span class="logo-mini"><b>LNVui</b></span>
 		<!-- logo for regular state and mobile devices -->
-		<span class="logo-lg">Vân Anh Shop</span>
+		<span class="logo-lg">Làm Nông Vui</span>
 	</a>
 
 	<!-- Header Navbar -->

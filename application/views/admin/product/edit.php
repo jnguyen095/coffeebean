@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Nhà Tìm Chủ | Chỉnh sửa bài đăng</title>
+	<title>Làm Nông Vui | Chỉnh sửa bài đăng</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap-datepicker.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">

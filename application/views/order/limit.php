@@ -13,7 +13,7 @@
 		<meta charset = "utf-8">
 		<meta name="description" content="Tin Bất động sản, Rao tin miễn phí, tin bất động sản miễn phí">
 		<meta name="keywords" content="Tin Bất động sản, Rao tin miễn phí, tin bất động sản miễn phí">
-		<title>Nhà Tìm Chủ | Đăng Tin Rao Miễn Phí | Tạo Tin Bất Động Sản</title>
+		<title>Làm Nông Vui | Đăng Tin Rao Miễn Phí | Tạo Tin Bất Động Sản</title>
 		<link rel="stylesheet" href="<?=base_url('/css/stepbar.css')?>">
 		<script src="<?= base_url('/ckeditor/ckeditor.js') ?>"></script>
 		<?php $this->load->view('common_header')?>

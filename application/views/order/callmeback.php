@@ -11,7 +11,7 @@
 <head>
 	<head>
 		<meta charset = "utf-8">
-		<title>Nhà Tìm Chủ | Quản yêu cầu gọi lại</title>
+		<title>Làm Nông Vui | Quản yêu cầu gọi lại</title>
 		<?php $this->load->view('common_header')?>
 		<script src="<?= base_url('/js/createpost.js') ?>"></script>
 		<script src="<?=base_url('/js/bootbox.min.js')?>"></script>

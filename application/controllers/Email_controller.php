@@ -26,7 +26,7 @@ class Email_controller extends CI_Controller
 
 
 		$mail->CharSet = 'UTF-8';
-		$mail->SetFrom('nhatimchuinfo@gmail.com','Nhà Tìm Chủ');
+		$mail->SetFrom('nhatimchuinfo@gmail.com','Làm Nông Vui');
 
 		//You could either add recepient name or just the email address.
 		$mail->AddAddress($email,"Khang");

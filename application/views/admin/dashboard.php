@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Nhà Tìm Chủ | Dashboard</title>
+	<title>Làm Nông Vui | Dashboard</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 </head>
 
@@ -29,7 +29,7 @@
 		<section class="content-header">
 			<h1>
 				Dashboard
-				<small>Tổng quan Nhà Tìm Chủ</small>
+				<small>Tổng quan Làm Nông Vui</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>

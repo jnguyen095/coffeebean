@@ -8,9 +8,9 @@
 	<meta name="classification" content="Bất động sản Việt Nam" />
 	<meta name="area" content="Nhà đất và bất động sản" />
 	<meta name="placename" content="Việt Nam" />
-	<meta name="author" content="nhatimchu.com" />
-	<meta name="copyright" content="©2017 nhatimchu.com" />
-	<meta name="owner" content="nhatimchu.com" />
+	<meta name="author" content="lamvuonvui.com" />
+	<meta name="copyright" content="©2025 lamvuonvui.com" />
+	<meta name="owner" content="lamvuonvui.com" />
 	<meta name="distribution" content="Global" />
 	<meta name="description" content="<?=$page->Title?>">
 	<meta name="keywords" content="<?=keyword_maker($page->Title)?>">

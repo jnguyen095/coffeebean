@@ -14,7 +14,7 @@
 
 	<meta charset="utf-8" />
 
-	<title>Nhà Tìm Chủ - Tạo Bài Đăng Thành Công!</title>
+	<title>Làm Nông Vui - Tạo Bài Đăng Thành Công!</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

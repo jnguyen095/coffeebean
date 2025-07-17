@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Nhà Tìm Chủ | Quản lý trang tĩnh</title>
+	<title>Làm Nông Vui | Quản lý trang tĩnh</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 </head>
 

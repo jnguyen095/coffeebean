@@ -11,7 +11,7 @@
 <head>
 	<head>
 		<meta charset = "utf-8">
-		<title>Nhà Tìm Chủ | Quản Lý Đơn Hàng</title>
+		<title>Làm Nông Vui | Quản Lý Đơn Hàng</title>
 		<?php $this->load->view('common_header')?>
 		<script src="<?= base_url('/js/homeland.js') ?>"></script>
 		<script src="<?=base_url('/js/bootbox.min.js')?>"></script>
