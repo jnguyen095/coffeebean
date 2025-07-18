@@ -70,4 +70,39 @@ class Quotation_Model extends CI_Model
 		}
 	}
 
+	function findAndFilter($offset, $limit, $status, $orderField, $orderDirection){
+		// $this->output->enable_profiler(TRUE);
+
+		if($status != null && $status > -1){
+			$this->db->where('q.Status', $status);
+		}
+
+		$query = $this->db->select('q.*')
+			->from('quotation q')
+			->limit($limit, $offset)
+			->order_by($orderField, $orderDirection)
+			->get();
+
+		$result['items'] = $query->result();
+
+		if($status != null && $status > -1){
+			$this->db->where('Status', $status);
+		}
+		$query = $this->db->get('quotation');
+		$result['total'] = $query->num_rows();
+		return $result;
+	}
+
+	function findById($quoteId){
+		$this->db->where(array("QuotationID" => $quoteId));
+		$query = $this->db->get("quotation");
+		$quote = $query->row();
+
+		$this->db->where(array("QuotationID" => $quoteId));
+		$query = $this->db->get("quotationdetail");
+		$quoteDetail = $query->row();
+
+		return ["quote"=>$quote, "detail" => $quoteDetail];
+	}
+
 }

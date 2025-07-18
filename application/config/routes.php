@@ -212,6 +212,9 @@ $route['admin/shipping-fee/list'] = "admin/ShippingFee_controller";
 $route['admin/order/list'] = "admin/OrderManagement_controller";
 $route['admin/order/process-(:num)'] = "admin/OrderManagement_controller/process/$1";
 $route['admin/order/update-(:num)'] = "admin/OrderManagement_controller/update/$1";
+// Quotation
+$route['admin/quote/list'] = "admin/QuotationManagement_controller";
+$route['admin/quote/view-(:num)'] = "admin/QuotationManagement_controller/view/$1";
 
 
 // POS

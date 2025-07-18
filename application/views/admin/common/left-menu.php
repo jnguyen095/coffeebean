@@ -54,6 +54,7 @@
 				</ul>
 			</li>
 			<li><a href="<?=base_url('/admin/order/list.html')?>"><i class="fa fa-shopping-cart"></i> <span>Quản lý đơn hàng</span></a></li>
+			<li><a href="<?=base_url('/admin/quote/list.html')?>"><i class="fa fa-list"></i> <span>Báo giá sỉ</span></a></li>
 
 			<!-- Optionally, you can add icons to the links -->
 			<li class="active"><a href="<?=base_url('/admin/dashboard.html')?>"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
