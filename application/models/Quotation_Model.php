@@ -98,11 +98,41 @@ class Quotation_Model extends CI_Model
 		$query = $this->db->get("quotation");
 		$quote = $query->row();
 
-		$this->db->where(array("QuotationID" => $quoteId));
-		$query = $this->db->get("quotationdetail");
-		$quoteDetail = $query->row();
+		$query = $this->db->select('qd.QuotationDetailID, qd.Quantity, qd.OfferPrice, qd.ProductID, qd.Note, p.Title as ProductName, p.Code as ProductCode, p.Price as ReferencePrice')
+			->from('quotationdetail qd')
+			->join('quotation q', 'q.QuotationID = qd.QuotationID', 'inner')
+			->join('product p', 'p.ProductID = qd.ProductID', 'inner')
+			->where('qd.QuotationID', $quoteId)
+			->get();
+		$quoteDetail = $query->result();
 
-		return ["quote"=>$quote, "detail" => $quoteDetail];
+
+		return ["quote" => $quote, "details" => $quoteDetail];
+	}
+
+	function updateQuote($quoteId, $loginId, $shippingFee, $discount, $validDate, $quoteItems){
+		$totalPrice = 0;
+		foreach ($quoteItems as $quotationDetailID => $item){
+			$totalPrice += ($item['Quantity'] * $item['OfferPrice']);
+			$newdata = array(
+				'OfferPrice' => $item['OfferPrice'],
+				'Note' => $item['Note']
+			);
+			$this->db->where('QuotationDetailID', $quotationDetailID );
+			$this->db->update('quotationdetail', $newdata);
+		}
+
+		$validDate = DateTime::createFromFormat("d/m/Y", $validDate);
+		$newdata = array(
+			'TotalPrice' => ($totalPrice + $shippingFee - $discount),
+			'ShippingFee' => $shippingFee,
+			'Discount' => $discount,
+			'UpdatedDate' => date('Y-m-d H:i:s'),
+			'UpdatedBy' => $loginId,
+			'ValidDate' => $validDate->format('Y-m-d')
+		);
+		$this->db->where('QuotationID', $quoteId );
+		$this->db->update('quotation', $newdata);
 	}
 
 }

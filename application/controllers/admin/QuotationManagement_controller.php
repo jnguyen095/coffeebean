@@ -45,8 +45,18 @@ class QuotationManagement_controller extends CI_Controller
 
 	public function view($quoteId)
 	{
+		$crucation = $this->input->post("crudaction");
+		if($crucation != null && $crucation == 'update'){
+			$quotes = $this->input->post("quotes");
+			$shippingFee = $this->input->post("ShippingFee");
+			$discount = $this->input->post("Discount");
+			$loginId = $this->session->userdata('loginid');
+			$validDate = $this->input->post("valid_date");
+			$this->Quotation_Model->updateQuote($quoteId, $loginId, $shippingFee, $discount, $validDate, $quotes);
+		}
+
 		$results = $this->Quotation_Model->findById($quoteId);
-		// print_r($results['quote']->Code);
+		$results['quotationId'] = $quoteId;
 		$this->load->view("admin/quote/view", $results);
 	}
 }

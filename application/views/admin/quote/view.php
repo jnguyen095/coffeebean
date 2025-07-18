@@ -51,12 +51,114 @@
 				<div class="box-body">
 					<?php
 					$attributes = array("id" => "frmQuotation", "class" => "form-horizontal");
-					echo form_open("admin/quotation/view", $attributes);
+					echo form_open("admin/quote/view-".$quotationId, $attributes);
 					?>
 					<div class="row">
-						<div class="col-lg-8"></div>
-						<div class="col-lg-4"></div>
+						<div class="col-lg-8">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title">Đơn hàng cần báo giá:</h6>
+									<div id="content">
+										<table class="table">
+											<thead>
+											<tr>
+												<th>#</th>
+												<th scope="col" class="col-lg-1">Mã hàng</th>
+												<th scope="col">Sản phẩm</th>
+												<th scope="col" class="col-lg-1">Giá tham chiếu</th>
+												<th scope="col" class="col-lg-2">Giá báo</th>
+												<th scope="col" class="col-lg-1">SL</th>
+												<th scope="col" class="col-lg-1">Thành tiền</th>
+												<th scope="col" class="col-lg-2">Ghi chú</th>
+											</tr>
+											</thead>
+											<tbody>
+											<?php
+											$counter = 1;
+											$totalPrice = 0;
+											foreach ($details as $item){
+												$totalPrice += ($item->Quantity * $item->ReferencePrice);
+												?>
+												<tr>
+													<td><?=$counter++?></td>
+													<td><?=$item->ProductCode?></td>
+													<td><?=$item->ProductName?></td>
+													<td><?=number_format($item->ReferencePrice)?></td>
+													<td><input class="form-control" type="number" name="quotes[<?=$item->QuotationDetailID?>][OfferPrice]" value="<?=$item->OfferPrice?>"></td>
+													<td><input type="hidden" name="quotes[<?=$item->QuotationDetailID?>][Quantity]" value="<?=$item->Quantity?>"/><?=$item->Quantity?></td>
+													<td> <?=number_format($item->Quantity * $item->OfferPrice)?></td>
+													<td><input class="form-control" name="quotes[<?=$item->QuotationDetailID?>][Note]" value="<?=$item->Note?>" type="text"></td>
+												</tr>
+											<?php
+											}
+											?>
+											<tr>
+												<td colspan="6" class="text-right">Giá vận chuyển</td>
+												<td colspan="2"><input type="text" name="ShippingFee" value="<?=$quote->ShippingFee?>" class="form-control"></td>
+											</tr>
+											<tr>
+												<td colspan="6" class="text-right">Giảm giá</td>
+												<td colspan="2"><input type="text" value="<?=$quote->Discount?>" name="Discount" class="form-control"></td>
+											</tr>
+											<tr>
+												<td colspan="6" class="text-right">Tổng cộng</td>
+												<td colspan="2"><b><?=number_format($quote->TotalPrice)?> VNĐ</b></td>
+											</tr>
+											<tr>
+												<td colspan="6" class="text-right">Báo giá hiệu lực đến ngày</td>
+												<td colspan="2"><input type="text" id="txt_validate" name="valid_date" data-fromdate="" value="<?=isset($quote->ValidDate) ? date('d/m/Y',strtotime($quote->ValidDate)) : ''?>" class="form-control valid_date"></td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class="row no-margin text-right">
+										<a class="btn btn-default" href="<?=base_url('/admin/quote/list.html')?>">Trở lại</a>&nbsp;
+										<a class="btn btn-info" href="javascript:void(0);" id="btnUpdate">Tính & Cập nhật</a>&nbsp;
+										<a class="btn btn-warning">Gửi khách</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="card bg-info">
+								<div class="card-body">
+									<h6 class="card-title">Thông tin người yêu cầu</h6>
+									<div id="content">
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Mã báo giá</div>
+											<div class="col-sm-8"><?=$quote->Code?></div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Ngày gửi</div>
+											<div class="col-sm-8"><?=date('d/m/Y H:i', strtotime($quote->RequestedDate))?></div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Tên người gửi</div>
+											<div class="col-sm-8"><?=$quote->Name?></div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Số điện thoại </div>
+											<div class="col-sm-8"><i class="fa fa-phone"></i>&nbsp;<?=$quote->Phone?></div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Email</div>
+											<div class="col-sm-8"><i class="fa fa-mail-bulk"></i>&nbsp;<?=$quote->Email?></div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Địa chỉ</div>
+											<div class="col-sm-8"><?=$quote->Address?></div>
+										</div>
+										<div class="form-group row">
+											<div class="col-sm-4 card-text">Ghi chú yêu cầu</div>
+											<div class="col-sm-8"><?=$quote->Note?></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+					<input type="hidden" name="crudaction" value="update">
 					<?php echo form_close(); ?>
 				</div>
 			</div>
@@ -86,12 +188,21 @@
 <script src="<?=base_url('/theme/admin/js/bootstrap.min.js')?>"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url('/theme/admin/js/adminlte.min.js')?>"></script>
-
 <script src="<?=base_url('/theme/admin/js/adminlte.min.js')?>"></script>
-
-<script src="<?=base_url('/ckeditor/ckeditor.js')?>"></script>
-
 <script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
+<script src="<?=base_url('/theme/admin/js/bootstrap-datepicker.min.js')?>"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#btnUpdate").click(function(){
+			$("#frmQuotation").submit();
+		});
+		$('.valid_date').datepicker({
+			format: 'dd/mm/yyyy',
+			autoclose: true,
+			startDate: '<?=date("d/m/Y")?>'
+		})
+	});
+</script>
 
 </body>
 </html>
