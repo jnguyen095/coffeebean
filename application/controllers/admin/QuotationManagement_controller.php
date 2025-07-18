@@ -46,6 +46,7 @@ class QuotationManagement_controller extends CI_Controller
 	public function view($quoteId)
 	{
 		$crucation = $this->input->post("crudaction");
+		$msg = '';
 		if($crucation != null && $crucation == 'update'){
 			$quotes = $this->input->post("quotes");
 			$shippingFee = $this->input->post("ShippingFee");
@@ -53,10 +54,12 @@ class QuotationManagement_controller extends CI_Controller
 			$loginId = $this->session->userdata('loginid');
 			$validDate = $this->input->post("valid_date");
 			$this->Quotation_Model->updateQuote($quoteId, $loginId, $shippingFee, $discount, $validDate, $quotes);
+			$msg = "Đã cập nhật báo giá thành công";
 		}
 
 		$results = $this->Quotation_Model->findById($quoteId);
 		$results['quotationId'] = $quoteId;
+		$results['message_response'] = $msg;
 		$this->load->view("admin/quote/view", $results);
 	}
 }

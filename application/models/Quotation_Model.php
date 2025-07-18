@@ -22,7 +22,7 @@ class Quotation_Model extends CI_Model
 			"Email" => $data['email'],
 			"Address" => $data['address'],
 			"Note" => $data['note'],
-			"Status" => ACTIVE,
+			"Status" => QUOTE_STATUS_NEW,
 			"RequestedDate" => date('Y-m-d H:i:s'),
 			"ShippingFee" => 0,
 			"Discount" => 0,
@@ -129,7 +129,8 @@ class Quotation_Model extends CI_Model
 			'Discount' => $discount,
 			'UpdatedDate' => date('Y-m-d H:i:s'),
 			'UpdatedBy' => $loginId,
-			'ValidDate' => $validDate->format('Y-m-d')
+			'ValidDate' => $validDate->format('Y-m-d'),
+			'Status' => QUOTE_STATUS_UPDATE
 		);
 		$this->db->where('QuotationID', $quoteId );
 		$this->db->update('quotation', $newdata);

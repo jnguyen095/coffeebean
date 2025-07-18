@@ -41,6 +41,13 @@
 
 		<!-- Main content -->
 		<section class="content container-fluid">
+			<?php if(!empty($message_response)){
+				echo '<div class="alert alert-success">';
+				echo '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>';
+				echo $message_response;
+				echo '</div>';
+			}?>
+
 			<?php if(!empty($error_message)){
 				echo '<div class="alert alert-danger">';
 				echo $error_message;

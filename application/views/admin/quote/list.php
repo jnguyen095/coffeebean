@@ -100,10 +100,12 @@
 									<td><?=$quote->Email?></td>
 									<td>
 										<?php
-											if($quote->Status == ACTIVE){
-												echo '<span class="label label-success">Mới</span>';
-											} else{
-												echo '<span class="label label-warning">Tạm ngưng</span>';
+											if($quote->Status == QUOTE_STATUS_NEW){
+												echo '<span class="label label-info">Mới</span>';
+											} else if($quote->Status == QUOTE_STATUS_UPDATE){
+												echo '<span class="label label-warning">Đang cập nhật</span>';
+											} else if($quote->Status == QUOTE_STATUS_SENT){
+												echo '<span class="label label-success">Đã gửi</span>';
 											}
 										?>
 									</td>
