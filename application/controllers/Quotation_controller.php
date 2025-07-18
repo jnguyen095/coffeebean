@@ -51,22 +51,35 @@ class Quotation_controller extends CI_Controller
 			$data['email'] = $email;
 			$data['address'] = $address;
 			$data['note'] = $note;
+			$data['totalProducts'] = 0;
+			$data['totalItems'] = 0;
 			$products = $this->input->post('products');
 			//print_r($products);
 			$productMap = [];
 			if($products != null && count($products) > 0) {
 				$index = 0;
+				$totalItems = 0;
+				$data['totalProducts'] = count($products);
 				foreach ($products as $productID => $qty) {
 					$item = array("ProductID" => $productID, "Quantity" => $qty);
 					$productIDs[$index++] = $productID;
+					$totalItems += $qty;
 					array_push($productMap, $item);
 				}
+				$data['totalItems'] = $totalItems;
 
 			}
 			if ($this->form_validation->run()) {
 				if($productMap != null && count($productMap) > 0){
 					$data['products'] = $productMap;
-					$id = $this->Quotation_Model->save($data);
+					$this->Quotation_Model->save($data);
+					$data = array();
+					$data['name'] = '';
+					$data['phone'] = '';
+					$data['email'] = '';
+					$data['address'] = '';
+					$data['note'] = '';
+					$data['categories'] = $categories;
 					$data['message_response'] = "Đã gửi báo giá thành công, bạn vui lòng đợi chúng tôi sẻ phản hồi qua Đt/Zalo hoặc email";
 				} else {
 					$data['error_response'] = "Chưa có sản phẩm nào, bạn vui lòng sản phẩm";

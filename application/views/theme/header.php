@@ -42,6 +42,7 @@
 						}
 					}
 					?>
+					<li role="presentation"><a href="<?=base_url('bao-gia-si.html')?>">Mua Sỉ</a> </li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

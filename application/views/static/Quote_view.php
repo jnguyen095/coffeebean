@@ -30,7 +30,7 @@
 
 <ul class="breadcrumb">
 	<li><a href="<?=base_url().'trang-chu.html'?>">Trang Chủ</a></li>
-	<li class="active">Báo Giá Sĩ</li>
+	<li class="active">Báo Giá Sỉ</li>
 </ul>
 <div class="row no-margin">
 	<div class="search-result col-md-9 no-margin no-padding">
@@ -56,7 +56,7 @@
 	}?>
 
 	<div class="col-md-8 no-margin no-padding">
-		<div class="search-result-panel col-md-12">Báo Giá Sĩ</div>
+		<div class="search-result-panel col-md-12">Báo Giá Sỉ</div>
 		<div class="product-panel col-md-5 no-padding-left margin-bottom-20">
 			<select id="cmCatId" class="form-control" name="CatId">
 				<option value="-1">Tất cả danh mục</option>

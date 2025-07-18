@@ -13,6 +13,8 @@ class Quotation_Model extends CI_Model
 	}
 
 	public function save($data){
+		$quoteDetail = $data['products'];
+
 		$quote = array(
 			"Code" => $this->getNewQuotationCode(),
 			"Name" => $data['name'],
@@ -24,12 +26,14 @@ class Quotation_Model extends CI_Model
 			"RequestedDate" => date('Y-m-d H:i:s'),
 			"ShippingFee" => 0,
 			"Discount" => 0,
-			"TotalPrice" => 0
+			"TotalPrice" => 0,
+			"TotalProduct" => $data['totalProducts'],
+			"TotalItems" => $data['totalItems']
 		);
 		$this->db->insert('quotation', $quote);
 		$quotation_id = $this->db->insert_id();
 		// insert quotation detail
-		$quoteDetail = $data['products'];
+
 		foreach ($quoteDetail as $item){
 			$detail = array(
 				"QuotationID" => $quotation_id,
