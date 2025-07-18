@@ -15,6 +15,7 @@ class Quotation_controller extends CI_Controller
 		$this->load->model('Category_Model');
 		$this->load->model('Product_Model');
 		$this->load->model('City_Model');
+		$this->load->model('Quotation_Model');
 		$this->load->helper("seo_url");
 		$this->load->helper('form');
 		$this->load->library('cart');
@@ -60,10 +61,12 @@ class Quotation_controller extends CI_Controller
 					$productIDs[$index++] = $productID;
 					array_push($productMap, $item);
 				}
+
 			}
 			if ($this->form_validation->run()) {
 				if($productMap != null && count($productMap) > 0){
-
+					$data['products'] = $productMap;
+					$id = $this->Quotation_Model->save($data);
 					$data['message_response'] = "Đã gửi báo giá thành công, bạn vui lòng đợi chúng tôi sẻ phản hồi qua Đt/Zalo hoặc email";
 				} else {
 					$data['error_response'] = "Chưa có sản phẩm nào, bạn vui lòng sản phẩm";
