@@ -12,7 +12,7 @@
 	<div class="container-fluid">
 		<div class="container">
 			<a class="navbar-brand brandName ipad-mini-hide hidden-md" href="<?=base_url('/')?>">
-				<img src="<?=base_url('/img/vananh.png')?>" atl="Van Anh Shop Logo"/>
+				<img src="<?=base_url('/img/lnv.png')?>" atl="Làm Nông Vui Logo"/>
 			</a>
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar4">
