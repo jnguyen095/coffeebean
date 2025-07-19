@@ -4,6 +4,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 require_once 'dompdf/autoload.inc.php';
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Pdf extends Dompdf
 {
@@ -16,6 +17,7 @@ class Pdf extends Dompdf
 		$html = $this->ci()->load->view($view, $data, TRUE);
 		$this->loadHtml($html, 'UTF-8');
 		$this->setPaper('A4', 'portrait');
+		$this->getOptions()->setIsRemoteEnabled(TRUE);
 		$this->render();
 	}
 

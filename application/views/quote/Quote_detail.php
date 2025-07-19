@@ -3,13 +3,50 @@
 <meta charset="UTF-8">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Báo giá sản phẩm</title>
+	<title>Báo giá cho yêu cầu: <?=$quote->Code?></title>
+	<link rel="stylesheet" href="<?php echo base_url('/css/bootstrap.min.css')?>">
+	<style rel="stylesheet">
+		body,h4{
+			font-family: firefly, DejaVu Sans, sans-serif;
+			font-size: 12px
+		}
+		@media print {
+			.btn {
+				display: none;
+			}
+		}
+	</style>
 </head>
 <body>
 	<div style="margin-top:10px" >
-		<table style="width: 100%;border: solid 1px #dddddd">
+		<table style="width: 100%;margin-bottom: 10px">
+			<tr>
+				<td><a href="<?=base_url('/')?>"><img style="width: 80px" src="<?=base_url('/img/logo_tree_only.png')?>"></a></td>
+				<td style="font-size: 20px;text-align: left">Làm Nông Vui - Báo Giá</td>
+			</tr>
+		</table>
+
+		<table style="width: 100%;margin-top: 12px">
+			<tr>
+				<td style="width: 120px">Mã báo giá</td>
+				<td><?=$quote->Code?></td>
+			</tr>
+			<tr>
+				<td style="width: 120px">Tên người yêu cầu</td>
+				<td><?=$quote->Name?></td>
+			</tr>
+			<tr>
+				<td style="width: 120px">Số điện thoại</td>
+				<td><?=$quote->Phone?></td>
+			</tr>
+			<tr>
+				<td style="width: 120px">Ngày yêu cầu</td>
+				<td><?=date('d/m/Y', strtotime($quote->RequestedDate))?></td>
+			</tr>
+		</table>
+		<table class="table table-bordered table-responsive">
 			<thead>
-			<tr style="background-color: green">
+			<tr style="background-color: #00c0ef ">
 				<td>#</td>
 				<td>Mã SP</td>
 				<td>Tên sản phẩm</td>
@@ -24,14 +61,14 @@
 			$index = 1;
 			foreach ($details as $item){
 				?>
-				<tr>
-					<td><?=$index++?></td>
-					<td><?=$item->ProductCode?></td>
-					<td><?=$item->ProductName?></td>
-					<td style="text-align: right"><?=number_format($item->OfferPrice)?></td>
-					<td style="text-align: right"><?=$item->Quantity?></td>
-					<td style="text-align: right"><?=number_format($item->OfferPrice * $item->Quantity)?></td>
-					<td><i><?=$item->Note?></i></td>
+				<tr >
+					<td style="border-bottom: solid 1px #dddddd"><?=$index++?></td>
+					<td style="border-bottom: solid 1px #dddddd"><?=$item->ProductCode?></td>
+					<td style="border-bottom: solid 1px #dddddd"><?=$item->ProductName?></td>
+					<td style="text-align: right;border-bottom: solid 1px #dddddd"><?=number_format($item->OfferPrice)?></td>
+					<td style="text-align: right;border-bottom: solid 1px #dddddd"><?=$item->Quantity?></td>
+					<td style="text-align: right;border-bottom: solid 1px #dddddd"><?=number_format($item->OfferPrice * $item->Quantity)?></td>
+					<td style="max-width: 100px;border-bottom: solid 1px #dddddd"><i><?=$item->Note?></i></td>
 				</tr>
 			<?php
 			}
@@ -53,6 +90,15 @@
 			</tr>
 			</tbody>
 
+		</table>
+
+		<table style="width: 100%;">
+			<tr>
+				<td class="text-right"><i>Lưu ý: Báo giá này chỉ có hiệu lực đến ngày <?=date('d/m/Y', strtotime($quote->ValidDate))?></i></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-primary" href="<?=base_url('/bao-gia/dat-hang-'.$quote->Code.'.html')?>">Đặt Hàng</a></td>
+			</tr>
 		</table>
 	</div>
 
