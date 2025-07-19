@@ -21,43 +21,26 @@ class News_controller extends CI_Controller
 		$this->load->helper("bootstrap_pagination");
 		$this->load->library('pagination');
 		$this->load->helper('form');
+		$this->load->library('cart');
 	}
 
 	public function index($offset=0){
 		// begin file cached
 		$this->load->driver('cache');
-		$categories = $this->cache->file->get('category');
-		$footerMenus = $this->cache->file->get('footer');
+		$categories = $this->cache->file->get('categories');
 		if(!$categories){
-			$categories = $this->Category_Model->getCategories();
-			$this->cache->file->save('category', $categories, 1440);
+			$categories = $this->Category_Model->getActiveCategories();
+			$this->cache->file->save('categories', $categories, 1440);
 		}
-		if(!$footerMenus) {
-			$footerMenus = $this->City_Model->findByTopProductOfCategoryGroupByCity();
-			$this->cache->file->save('footer', $footerMenus, 1440);
-		}
-		$data = $categories;
-		$data['footerMenus'] = $footerMenus;
+
+		$data['categories'] = $categories;
 		// end file cached
-
-		$cities = $this->cache->file->get('cities');
-		if(!$cities){
-			$cities = $this->City_Model->getAllActive();
-			$this->cache->file->save('cities', $cities, 1440);
-		}
-		$data['cities'] = $cities;
-
-
 		$search_data = $this->News_Model->searchByProperties($offset, MAX_PAGE_ITEM);
 		$data = array_merge($data, $search_data);
 		$config = pagination();
 		$config['base_url'] = base_url('tin-tuc.html');
 		$config['total_rows'] = $data['total'];
 		$config['per_page'] = MAX_PAGE_ITEM;
-		$data['sampleHouses'] = $this->SampleHouse_Model->findTopNewExceptCurrent(0, 5);
-		$data['justUpdatedProducts'] = $this->Product_Model->findJustUpdate(0, 10);
-		$data['topcityhasproduct'] = $this->City_Model->findTopCityHasProduct(20);
-		$data['topbranchhasproduct'] = $this->Brand_Model->findTopBranchHasProduct(20);
 
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();

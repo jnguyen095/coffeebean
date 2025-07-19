@@ -43,6 +43,8 @@
 					}
 					?>
 					<li role="presentation"><a href="<?=base_url('bao-gia-si.html')?>">Mua Sỉ</a> </li>
+					<li role="presentation"><a href="<?=base_url('bao-gia-si.html')?>">Về chúng tôi</a> </li>
+					<li role="presentation"><a href="<?=base_url('bao-gia-si.html')?>">Liên hệ</a> </li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

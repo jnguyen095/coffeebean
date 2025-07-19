@@ -369,3 +369,7 @@
 	left: 50%;
 	z-index: 10;
 }
+
+.logo-lg img{
+	height: 50px;
+}

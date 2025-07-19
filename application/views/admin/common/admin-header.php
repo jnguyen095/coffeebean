@@ -13,7 +13,9 @@
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini"><b>LNVui</b></span>
 		<!-- logo for regular state and mobile devices -->
-		<span class="logo-lg">Làm Nông Vui</span>
+		<span class="logo-lg">
+			<img src="<?=base_url('/img/lnv.png')?>" atl="Làm Nông Vui Logo"/>
+		</span>
 	</a>
 
 	<!-- Header Navbar -->

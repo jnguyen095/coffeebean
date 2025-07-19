@@ -20,10 +20,10 @@
 				-->
 				<div class="menu_bottom">
 					<ul>
-						<li><a href="<?=base_url('/bao-gia-si.html')?>">Báo giá sĩ</a></li>
+						<li><a href="<?=base_url('/bao-gia-si.html')?>">Báo giá</a></li>
 						<li><a href="<?=base_url('/dieu-khoan-su-dung.html')?>">Điều khoản thỏa thuận</a></li>
 						<li><a href="<?=base_url('/quy-che-hoat-dong.html')?>">Quy chế hoạt động</a></li>
-						<li><a href="<?=base_url('/bao-gia-dich-vu.html')?>">Báo giá</a></li>
+						<li><a href="<?=base_url('/tin-tuc.html')?>">Tin tức</a> </li>
 						<li><a href="<?=base_url('/cau-hoi-thuong-gap.html')?>">Câu hỏi thường gặp</a></li>
 						<li><a href="javascript:void(0);" id="contactModalForm">Liên hệ - góp ý</a></li>
 						<li><a href="<?=base_url('/tuyen-dung.html')?>">Tuyển dụng</a></li>

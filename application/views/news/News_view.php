@@ -5,7 +5,7 @@
 	<meta charset = "utf-8">
 	<meta name="description" content="Tin tức bất động sản, nhà đất, chung cư">
 	<meta name="keywords" content="Bất động sản, bán nhà, chung cư, mua đất, bán đất, real estate">
-	<title>Tin Tức Về Bất Động Sản</title>
+	<title>Tin Tức Về Nông Nghiệp</title>
 	<?php $this->load->view('common_header')?>
 	<?php $this->load->view('/common/googleadsense')?>
 	<?php $this->load->view('/common/facebook-pixel-tracking')?>
@@ -13,7 +13,7 @@
 
 <body class="news">
 <?php $this->load->view('/common/analyticstracking')?>
-<div class="container-fluid">
+<div class="container">
 
 <?php $this->load->view('/theme/header')?>
 
@@ -24,7 +24,7 @@
 </ul>
 <div class="row no-margin">
 	<div class="col-md-9  no-margin no-padding">
-		<div class="search-result-panel col-md-12">Tin Tức Về Bất Động Sản</div>
+		<div class="search-result-panel col-md-12">Tin Tức Về Nông Nghiệp</div>
 		<div class="product-panel col-md-7  no-margin no-padding">
 			<?php
 				if(isset($news) && count($news) > 0){
@@ -79,10 +79,8 @@
 		<?php $this->load->view('/common/Search_filter') ?>
 	</div>
 </div>
-
-
-<?php $this->load->view('/theme/footer')?>
 </div>
+<?php $this->load->view('/theme/footer')?>
 </body>
 
 </html>
