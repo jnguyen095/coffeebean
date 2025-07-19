@@ -20,6 +20,7 @@ class Quotation_controller extends CI_Controller
 		$this->load->helper('form');
 		$this->load->library('cart');
 		$this->load->library('form_validation');
+		$this->load->library('pdf');
 		$this->load->helper('my_email');
 	}
 
@@ -89,6 +90,14 @@ class Quotation_controller extends CI_Controller
 			}
 		}
 
-		$this->load->view("/static/Quote_view", $data);
+		$this->load->view("/quote/Quote_view", $data);
+	}
+
+
+	public function view($code){
+		// $this->pdf->loadHtml("<h2>OK</h2>");
+		$quotation = $this->Quotation_Model->findByCode($code);
+		$this->pdf->load_view('/quote/Quote_detail', $quotation);
+		$this->pdf->stream("Bao_gia_".$code.".pdf", array("Attachment"=>0));
 	}
 }

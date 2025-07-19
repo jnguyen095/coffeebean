@@ -112,7 +112,8 @@
 									<td><?=number_format($quote->TotalProduct)?></td>
 									<td><?=number_format($quote->TotalItems)?></td>
 									<td  class="text-center">
-										<a href="<?=base_url('/admin/quote/view-'.$quote->QuotationID.'.html')?>" data-toggle="tooltip" title="Cập nhật báo giá"><i class="glyphicon glyphicon-edit"></i></a>
+										<a href="<?=base_url('/admin/quote/view-'.$quote->QuotationID.'.html')?>" data-toggle="tooltip" title="Cập nhật báo giá"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;|&nbsp;
+										<a href="<?=base_url('/bao-gia/xem-chi-tiet-'.$quote->Code.'.html')?>" data-toggle="tooltip" title="Xem file báo giá"><i class="glyphicon glyphicon-file"></i></a>
 									</td>
 								</tr>
 								<?php

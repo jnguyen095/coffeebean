@@ -93,6 +93,24 @@ class Quotation_Model extends CI_Model
 		return $result;
 	}
 
+	function findByCode($code){
+		$this->db->where(array("Code" => $code));
+		$query = $this->db->get("quotation");
+		$quote = $query->row();
+		$quoteId = $quote->QuotationID;
+
+		$query = $this->db->select('qd.QuotationDetailID, qd.Quantity, qd.OfferPrice, qd.ProductID, qd.Note, p.Title as ProductName, p.Code as ProductCode, p.Price as ReferencePrice')
+			->from('quotationdetail qd')
+			->join('quotation q', 'q.QuotationID = qd.QuotationID', 'inner')
+			->join('product p', 'p.ProductID = qd.ProductID', 'inner')
+			->where('qd.QuotationID', $quoteId)
+			->get();
+		$quoteDetail = $query->result();
+
+
+		return ["quote" => $quote, "details" => $quoteDetail];
+	}
+
 	function findById($quoteId){
 		$this->db->where(array("QuotationID" => $quoteId));
 		$query = $this->db->get("quotation");
