@@ -47,13 +47,16 @@ class QuotationManagement_controller extends CI_Controller
 	{
 		$crucation = $this->input->post("crudaction");
 		$msg = '';
+		$loginId = $this->session->userdata('loginid');
 		if($crucation != null && $crucation == 'update'){
 			$quotes = $this->input->post("quotes");
 			$shippingFee = $this->input->post("ShippingFee");
 			$discount = $this->input->post("Discount");
-			$loginId = $this->session->userdata('loginid');
 			$validDate = $this->input->post("valid_date");
 			$this->Quotation_Model->updateQuote($quoteId, $loginId, $shippingFee, $discount, $validDate, $quotes);
+			$msg = "Đã cập nhật báo giá thành công";
+		} else if($crucation != null && $crucation == 'approved'){
+			$this->Quotation_Model->updateStatus(QUOTE_STATUS_APPROVED, $loginId, $quoteId);
 			$msg = "Đã cập nhật báo giá thành công";
 		}
 

@@ -96,9 +96,9 @@
 			<tr>
 				<td class="text-right"><i>Lưu ý: Báo giá này chỉ có hiệu lực đến ngày <?=date('d/m/Y', strtotime($quote->ValidDate))?></i></td>
 			</tr>
-			<tr>
-				<td><a class="btn btn-primary" href="<?=base_url('/bao-gia/dat-hang-'.$quote->Code.'.html')?>">Đặt Hàng</a></td>
-			</tr>
+<!--			<tr>-->
+<!--				<td><a class="btn btn-primary" href="--><?//=base_url('/bao-gia/dat-hang-'.$quote->Code.'.html')?><!--">Đặt Hàng</a></td>-->
+<!--			</tr>-->
 		</table>
 	</div>
 

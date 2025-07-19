@@ -122,7 +122,14 @@
 									<div class="row no-margin text-right">
 										<a class="btn btn-default" href="<?=base_url('/admin/quote/list.html')?>">Trở lại</a>&nbsp;
 										<a class="btn btn-info" href="javascript:void(0);" id="btnUpdate">Tính & Cập nhật</a>&nbsp;
-										<a class="btn btn-warning">Gửi khách</a>
+										<?php
+										if($quote->Status == QUOTE_STATUS_UPDATE) {
+											?>
+											<a class="btn btn-warning" href="javascript:void(0);" id="btnApproved">Gửi
+												khách</a>
+											<?php
+										}
+										?>
 									</div>
 								</div>
 							</div>
@@ -165,7 +172,7 @@
 							</div>
 						</div>
 					</div>
-					<input type="hidden" name="crudaction" value="update">
+					<input type="hidden" id="crudaction" name="crudaction" value="update">
 					<?php echo form_close(); ?>
 				</div>
 			</div>
@@ -203,11 +210,15 @@
 		$("#btnUpdate").click(function(){
 			$("#frmQuotation").submit();
 		});
+		$("#btnApproved").click(function(){
+			$("#crudaction").val('approved');
+			$("#frmQuotation").submit();
+		});
 		$('.valid_date').datepicker({
 			format: 'dd/mm/yyyy',
 			autoclose: true,
 			startDate: '<?=date("d/m/Y")?>'
-		})
+		});
 	});
 </script>
 

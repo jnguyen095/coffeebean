@@ -154,4 +154,14 @@ class Quotation_Model extends CI_Model
 		$this->db->update('quotation', $newdata);
 	}
 
+	function updateStatus($status, $loginId, $quoteId){
+		$newdata = array(
+			"Status" => $status,
+			"UpdatedDate" => date('Y-m-d H:i:s'),
+			"UpdatedBy" => $loginId
+		);
+		$this->db->where('QuotationID', $quoteId );
+		$this->db->update('quotation', $newdata);
+	}
+
 }

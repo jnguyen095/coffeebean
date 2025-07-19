@@ -104,16 +104,25 @@
 												echo '<span class="label label-info">Mới</span>';
 											} else if($quote->Status == QUOTE_STATUS_UPDATE){
 												echo '<span class="label label-warning">Đang cập nhật</span>';
-											} else if($quote->Status == QUOTE_STATUS_SENT){
-												echo '<span class="label label-success">Đã gửi</span>';
+											} else if($quote->Status == QUOTE_STATUS_APPROVED){
+												echo '<span class="label label-success">Sẵn sàng gửi</span>';
 											}
 										?>
 									</td>
 									<td><?=number_format($quote->TotalProduct)?></td>
 									<td><?=number_format($quote->TotalItems)?></td>
 									<td  class="text-center">
-										<a href="<?=base_url('/admin/quote/view-'.$quote->QuotationID.'.html')?>" data-toggle="tooltip" title="Cập nhật báo giá"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;|&nbsp;
-										<a href="<?=base_url('/bao-gia/xem-chi-tiet-'.$quote->Code.'.html')?>" data-toggle="tooltip" title="Xem file báo giá"><i class="glyphicon glyphicon-file"></i></a>
+										<a href="<?=base_url('/admin/quote/view-'.$quote->QuotationID.'.html')?>" data-toggle="tooltip" title="Cập nhật báo giá"><i class="glyphicon glyphicon-edit"></i></a>
+										<?php
+										if($quote->Status == QUOTE_STATUS_APPROVED) {
+											?>
+											&nbsp;|&nbsp;<a
+												href="<?= base_url('/bao-gia/xem-chi-tiet-' . $quote->Code . '.html') ?>"
+												data-toggle="tooltip" title="Xem file báo giá"><i
+													class="glyphicon glyphicon-file"></i></a>
+											<?php
+										}
+										?>
 									</td>
 								</tr>
 								<?php
