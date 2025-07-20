@@ -31,6 +31,7 @@ class Login_controller extends CI_Controller
 
 	public function logout(){
 		$this->unsetSession();
+		$this->cart->destroy();
 		redirect("trang-chu");
 	}
 

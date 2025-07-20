@@ -736,6 +736,7 @@ class Product_Model extends CI_Model
 				'Code' => $data['Code'],
 				'Title' => $data['Title'],
 				'Brief' => $data['Brief'],
+				'Description' => $data['Description'],
 				'Price' => $data['Price'],
 				'Thumb' => $data['Thumb'],
 				'PostDate' => date('Y-m-d H:i:s'),
@@ -753,6 +754,7 @@ class Product_Model extends CI_Model
 			$this->db->set('Title', $data['Title']);
 			$this->db->set('Price', $data['Price']);
 			$this->db->set('Brief', $data['Brief']);
+			$this->db->set('Description', $data['Description']);
 			$this->db->set('Status', $data['Status']);
 			$this->db->set('CategoryID', $data['CategoryID']);
 			if(strlen($data['Thumb']) > 0){

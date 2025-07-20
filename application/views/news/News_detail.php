@@ -13,7 +13,7 @@
 
 <body class="news">
 <?php $this->load->view('/common/analyticstracking')?>
-<div class="container-fluid">
+<div class="container">
 
 <?php $this->load->view('/theme/header')?>
 
@@ -61,9 +61,8 @@
 	</div>
 </div>
 
-
-<?php $this->load->view('/theme/footer')?>
 </div>
+<?php $this->load->view('/theme/footer')?>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 

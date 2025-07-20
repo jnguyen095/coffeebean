@@ -89,12 +89,15 @@ class ProductManagement_controller extends CI_Controller
 			$this->form_validation->set_rules("sl_category", "Danh mục", "trim|required");
 			$this->form_validation->set_rules("Title", "Tên sản phẩm", "trim|required");
 			$this->form_validation->set_rules("Price", "Gián bán", "trim|required");
+			$this->form_validation->set_rules("Brief", "Mô tả ngắn sản phẩm", "trim|required");
+			$this->form_validation->set_rules("Description", "Mô tả chi tiết sản phẩm", "trim|required");
 
 			$product['Code'] = $this->input->post('Code');
 			$product['CategoryID'] = $this->input->post('sl_category');
 			$product['Title'] = $this->input->post('Title');
 			$product['Price'] = $this->input->post('Price');
 			$product['Brief'] = $this->input->post('Brief');
+			$product['Description'] = $this->input->post('Description');
 			$product['Status'] = $this->input->post('Status');
 			$product['Code'] = $this->input->post('Code');
 			$product['CreatedByID'] = $this->session->userdata('loginid');

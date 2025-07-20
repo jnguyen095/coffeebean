@@ -15,7 +15,7 @@
 				<span aria-hidden="true">&times;</span>
 				<span class="sr-only">Đóng</span>
 			</button>
-			<h4 class="modal-title h4" id="myModalLabel">Liên Hệ Với Vân Anh Shop</h4>
+			<h4 class="modal-title h4" id="myModalLabel">Liên Hệ Với Làm Nông Vui</h4>
 		</div>
 		<!-- Modal Body -->
 		<div class="modal-body">

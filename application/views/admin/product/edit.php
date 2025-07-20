@@ -186,11 +186,20 @@
 
 					<div class="form-group">
 						<div class="col-md-2">
-							<label>Thông tin sản phẩm</label>
+							<label>Thông tin ngắn <span class="required">*</span></label>
 						</div>
 						<div class="col-md-6">
-							<textarea name="Brief" id="description" rows="50" class="form-control"><?=isset($product->Brief) ? $product->Brief : ''?></textarea>
-							<span class="text-danger"><?php echo form_error('brief'); ?></span>
+							<input type="text" name="Brief" id="brief" class="form-control" value="<?=isset($product->Brief) ? $product->Brief : ''?>"></input>
+							<span class="text-danger"><?php echo form_error('Brief'); ?></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-2">
+							<label>Thông tin chi tiết sản phẩm <span class="required">*</span></label>
+						</div>
+						<div class="col-md-6">
+							<textarea name="Description" id="description" rows="50" class="form-control"><?=isset($product->Description) ? $product->Description : ''?></textarea>
+							<span class="text-danger"><?php echo form_error('Description'); ?></span>
 							<script>
 								CKEDITOR.replace('description',{
 									toolbar: [
@@ -207,8 +216,8 @@
 
 					<div class="form-group">
 						<div class="col-md-6 col-md-offset-2">
+							<a class="btn btn-default" href="<?=base_url("/admin/product/list.html")?>">Trở lại</a>
 							<button  type="submit" class="btn btn-primary">Lưu</button>
-							<a class="btn btn-danger" href="<?=base_url("/admin/product/list.html")?>">Trở lại</a>
 						</div>
 					</div>
 

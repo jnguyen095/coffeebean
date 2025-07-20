@@ -158,7 +158,7 @@ if (!function_exists('my_send_email')) {
 
 		$ci->email->initialize($config);
 		///
-		$ci->email->from('info@nhadatancu.com', 'Nhà Đất An Cư');
+		$ci->email->from('info@nhadatancu.com', 'Làm Nông Vui');
 		$ci->email->to($toEmail);
 
 		$ci->email->subject($subject);

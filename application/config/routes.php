@@ -153,6 +153,7 @@ $route['bao-gia/xem-chi-tiet-(:any)'] = "Quotation_controller/view/$1";
 $route['tuyen-dung'] = "StaticPage_controller/carer";
 $route['cau-hoi-thuong-gap'] = "StaticPage_controller/qna";
 $route['bao-gia-dich-vu'] = "StaticPage_controller/payment";
+$route['ve-chung-toi'] = "StaticPage_controller/about";
 $route['khong-tim-thay'] = "Notfound_controller";
 
 //Advertise handle

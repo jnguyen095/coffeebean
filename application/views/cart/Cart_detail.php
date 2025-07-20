@@ -64,8 +64,22 @@
 		</table>
 	</div>
 
-	<div class="col-lg-12 text-right margin-bottom-20">
-		<a class="btn btn-primary" href="<?=base_url('/check-out/address.html')?>">Tiếp Theo <i class="glyphicon glyphicon-menu-right"></i> </a>
+	<div class="col-lg-12 margin-bottom-20">
+		<?php
+		if(!$this->session->userdata('loginid')){
+			?>
+			<div class="row no-margin">
+				<div class="alert alert-danger" role="alert">
+					<strong>Bạn cần đăng nhập để tạo đơn hàng!</strong> <a href="<?=base_url('/dang-nhap.html')?>"> đăng nhập</a>
+					<p>Nếu chưa có tài khoản, hãy đăng ký: <a href="<?=base_url('dang-ky.html')?>">đăng ký tài khoản</a> </p>
+				</div>
+			</div>
+		<?php
+		}
+		?>
+		<div class="row no-margin text-right">
+			<a class="btn btn-primary" href="<?=base_url('/check-out/address.html')?>">Tiếp Theo <i class="glyphicon glyphicon-menu-right"></i> </a>
+		</div>
 	</div>
 </div>
 

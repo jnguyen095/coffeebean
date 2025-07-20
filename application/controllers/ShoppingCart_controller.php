@@ -124,6 +124,9 @@ class ShoppingCart_controller extends CI_Controller
 	}
 
 	public function shippingAddress(){
+		if (!$this->session->userdata('loginid')){
+			redirect('dang-nhap');
+		}
 		$data['categories'] = $this->Category_Model->getActiveCategories();
 		$crudaction = $this->input->post('crudaction');
 		if($crudaction == 'insert'){

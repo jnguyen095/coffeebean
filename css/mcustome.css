@@ -22,12 +22,15 @@ img.img-sm {
 	max-height: 80px;
 }
 
-
 .m-navbar{
 	z-index: 9;
 	background-color: transparent; /*#365899;*/
-	color: #ffffff;
 	margin-bottom: 0px;
+}
+
+.m-navbar .menu_bottom li a{
+	color: #ffffff;
+	font-size: 14px;
 }
 
 .m-navbar > .container, .m-navbar > .container-fluid{
@@ -39,10 +42,6 @@ img.img-sm {
 	margin-right: -15px;
 }
 
-.m-navbar a{
-	color: #ffffff;
-	font-size: 14px;
-}
 
 .navbar {
 	border-radius: 0px !important;

@@ -24,33 +24,31 @@
 
 <body>
 <?php $this->load->view('/common/analyticstracking')?>
-<div class="container-fluid">
+	<div class="container">
 
-<?php $this->load->view('/theme/header')?>
+		<?php $this->load->view('/theme/header')?>
 
-<ul class="breadcrumb">
-	<li><a href="<?=base_url().'trang-chu.html'?>">Trang Chủ</a></li>
-	<li class="active"><?=$page->Title?></li>
-</ul>
-<div class="row no-margin">
-	<div class="search-result col-md-9 no-margin no-padding">
+		<ul class="breadcrumb">
+			<li><a href="<?=base_url().'trang-chu.html'?>">Trang Chủ</a></li>
+			<li class="active"><?=$page->Title?></li>
+		</ul>
+		<div class="row no-margin">
+			<div class="search-result col-md-9 no-margin no-padding">
 
-	</div>
-	<div class="col-md-9 no-margin no-padding">
-		<div class="search-result-panel col-md-12"><?=$page->Title?></div>
-		<div class="product-panel col-md-12  no-margin no-padding">
-			<?=$page->Description?>
+			</div>
+			<div class="col-md-9 no-margin no-padding">
+				<div class="search-result-panel col-md-12"><?=$page->Title?></div>
+				<div class="product-panel col-md-12  no-margin no-padding">
+					<?=$page->Description?>
+				</div>
+			</div>
+			<div class="col-md-3 no-margin-right no-padding-right no-padding-left-mobile">
+				<?php $this->load->view('/common/branch-left') ?>
+				<?php $this->load->view('/common/Search_filter') ?>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-3 no-margin-right no-padding-right no-padding-left-mobile">
-		<?php $this->load->view('/common/branch-left') ?>
-		<?php $this->load->view('/common/Search_filter') ?>
-	</div>
-</div>
-
-
 <?php $this->load->view('/theme/footer')?>
-</div>
 </body>
 
 </html>

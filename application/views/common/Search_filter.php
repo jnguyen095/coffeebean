@@ -9,7 +9,7 @@
 ?>
 
 <div class="search-panel block-panel">
-	<div class="block-header">TÌM KIẾM</div>
+	<div class="block-header">TÌM KIẾM SẢN PHẨM</div>
 	<?php
 	$attributes = array("name" => "search", "id" => "search_form", "class" => "custom-input");
 	echo form_open("tim-kiem", $attributes);

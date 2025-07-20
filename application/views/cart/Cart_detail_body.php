@@ -22,18 +22,7 @@
 			}?>
 
 		</td>
-		<td class="text-left">
-			<div class="col-lg-12">
-				<form class="inde-value">
-					<div class="value-button decreaseBtn" value="Decrease Value" data-pid="<?=$item['id']?>"><i class="glyphicon glyphicon-minus"></i></div>
-					<input type="number" id="quantity-<?=$item['id']?>" name="quantity[<?=$item['rowid']?>]" value="<?=$item['qty']?>" size="1" class="form-control quantity">
-					<div class="value-button increaseBtn" value="Increase Value" data-pid="<?=$item['id']?>"><i class="glyphicon glyphicon-plus"></i></div>
-				</form>
-			</div>
-
-
-
-		</td>
+		<td class="text-left"><?=number_format($item['qty'])?></td>
 		<td class="text-right"><?=number_format($item['price'])?></td>
 		<td class="text-right"><?=number_format($item['price'] * $item['qty'])?></td>
 	</tr>
