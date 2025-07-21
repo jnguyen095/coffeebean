@@ -742,6 +742,7 @@ class Product_Model extends CI_Model
 				'PostDate' => date('Y-m-d H:i:s'),
 				'ModifiedDate' => date('Y-m-d H:i:s'),
 				'CategoryID' => $data['CategoryID'],
+				'BrandID' => $data['BrandID'],
 				'Status' => $data['Status'],
 				'CreatedByID' => $data['CreatedByID']
 			);
@@ -757,6 +758,7 @@ class Product_Model extends CI_Model
 			$this->db->set('Description', $data['Description']);
 			$this->db->set('Status', $data['Status']);
 			$this->db->set('CategoryID', $data['CategoryID']);
+			$this->db->set('BrandID', $data['BrandID']);
 			if(strlen($data['Thumb']) > 0){
 				$this->db->set('Thumb', $data['Thumb']);
 			}

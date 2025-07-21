@@ -95,6 +95,27 @@
 
 					<div class="form-group">
 						<div class="col-md-2">
+							<label>Nhà cung cấp</label>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control" id="sl_brand" name="sl_brand">
+								<option value="">Chọn nhà cung cấp</option>
+								<?php
+									if($brands != null && count($brands) > 0){
+										foreach ($brands as $b){
+											?>
+											<option value="<?=$b->BrandID?>" <?=(isset($product->BrandID) && $product->BrandID == $b->BrandID) ? ' selected="selected"' : ''?>><?=$b->BrandName?></option>
+											<?php
+										}
+									}
+								?>
+							</select>
+							<span class="text-danger"><?php echo form_error('sl_brand'); ?></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2">
 							<label>Tên sản phẩm <span class="required">*</span></label>
 						</div>
 						<div class="col-md-6">

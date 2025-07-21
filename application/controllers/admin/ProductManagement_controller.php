@@ -22,6 +22,7 @@ class ProductManagement_controller extends CI_Controller
 		$this->load->model('Category_Model');
 		$this->load->model('User_Model');
 		$this->load->model('Property_Model');
+		$this->load->model('Brand_Model');
 		$this->load->model('Unit_Model');
 		$this->load->model('ProductProperty_Model');
 		$this->load->helper('form');
@@ -83,6 +84,7 @@ class ProductManagement_controller extends CI_Controller
 		$product['ProductID'] = $productId;
 		$product['Code'] = $this->Product_Model->getNewProductCode(); // uniqid('P-');
 
+		$data['brands'] = $this->Brand_Model->findAll();
 		$data['categories'] = $categories;
 		$data['properties'] = $property;
 		if($this->input->post('crudaction') == "insert"){
@@ -102,6 +104,7 @@ class ProductManagement_controller extends CI_Controller
 			$product['Code'] = $this->input->post('Code');
 			$product['CreatedByID'] = $this->session->userdata('loginid');
 			$product['Thumb'] = $this->input->post('txt_image');
+			$product['BrandID'] = $this->input->post('sl_brand');
 			$otherImgs = $this->input->post('otherImages');
 
 			if($product['Price'] != null) {
