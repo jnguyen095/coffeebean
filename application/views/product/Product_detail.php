@@ -110,7 +110,7 @@
 
 		<div class="row">
 			<div class="product-detail">
-				<?=$product->Brief?>
+				<?=$product->Description?>
 			</div>
 		</div>
 	</div>

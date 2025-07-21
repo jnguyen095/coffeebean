@@ -28,9 +28,12 @@ img.img-sm {
 	margin-bottom: 0px;
 }
 
+.m-navbar li a{
+	font-size: 14px;
+}
+
 .m-navbar .menu_bottom li a{
 	color: #ffffff;
-	font-size: 14px;
 }
 
 .m-navbar > .container, .m-navbar > .container-fluid{

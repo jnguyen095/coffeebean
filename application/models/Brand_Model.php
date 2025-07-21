@@ -23,47 +23,11 @@ class Brand_Model extends CI_Model
 		return $query->row();
 	}
 
-	public function findByIdHasImage($branchId){
-		$sql = 'select * from brand where brandid = ' .$branchId;
-		$sql .= ' and Thumb is not null';
-		$query = $this->db->query($sql);
-		return $query->row();
-	}
-
-	public function findTopBranchHasProduct($top){
-		$sql = 'select b.BrandID, b.BrandName from brand b left join product p on b.brandid = p.brandid';
-		$sql .= ' group by b.BrandID';
-		$sql .= ' order by count(p.productid) desc';
-		$sql .= ' limit '. $top;
-		$query = $this->db->query($sql);
-		return $query->result();
-	}
-
-	public function findTopBranchHasProductAndData($top){
-		$sql = 'select b.BrandID, b.BrandName, b.Thumb, b.Description from brand b left join product p on b.brandid = p.brandid';
-		$sql .= ' where b.Thumb is not null and b.Hot = 1';
-		$sql .= ' group by b.BrandID';
-		$sql .= ' order by p.ModifiedDate desc';
-		$sql .= ' limit '. $top;
-		$query = $this->db->query($sql);
-		return $query->result();
-	}
-
-	public function findHotBranch($top){
-		$this->db->where("Hot", ACTIVE);
-		$this->db->limit($top);
-		$query = $this->db->get("brand");
-		return $query->result();
-	}
-
 	function findAndFilter($offset, $limit, $st, $orderField, $orderDirection){
-
-		$query = $this->db->select('b.*, count(p.productid) as TotalProduct')
+		$query = $this->db->select('b.*')
 			->from('brand b')
-			->join('product p', 'b.brandID = p.brandID', 'left')
 			->like('BrandName', isset($st) ? $st : "")
 			->limit($limit, $offset)
-			->group_by("p.brandID")
 			->order_by($orderField, $orderDirection)
 			->get();
 
@@ -73,6 +37,39 @@ class Brand_Model extends CI_Model
 		$query = $this->db->like('BrandName', $st)->get('brand');
 		$result['total'] = $query->num_rows();
 		return $result;
+	}
+
+	function findByName($brandName, $brandId = null){
+		$where = "BrandName like '%".$brandName. "%'";
+		if($brandId != null){
+			$where .= " AND BrandID <> ".$brandId;
+		}
+		$query = $this->db->select('b.*')
+			->from('brand b')
+			->where($where)
+			->get();
+		return $query->row();
+	}
+
+	public function saveOrUpdate($data){
+		if(isset($data['BrandID']) && $data['BrandID'] == null){
+			$newData = array(
+				'BrandName' => $data['BrandName'],
+				'Description' => $data['Description'],
+				'Thumb' => $data['Thumb'],
+				'ModifiedDate' => date('Y-m-d H:i:s')
+			);
+			$this->db->insert('brand', $newData);
+		} else{
+			$this->db->set('BrandName', $data['BrandName']);
+			$this->db->set('Description', $data['Description']);
+			$this->db->set('ModifiedDate', date('Y-m-d H:i:s'));
+			if(isset($data['Thumb']) && strlen($data['Thumb']) > 0){
+				$this->db->set('Thumb', $data['Thumb']);
+			}
+			$this->db->where('BrandID', $data['BrandID']);
+			$this->db->update('brand');
+		}
 	}
 
 	function updateHotForBrand($brandId, $hot){

@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Làm Nông Vui | Quản lý dự án</title>
+	<title>Làm Nông Vui | Quản lý nhà cung cấp</title>
 	<?php $this->load->view('/admin/common/header-js') ?>
 	<link rel="stylesheet" href="<?=base_url('/theme/admin/css/bootstrap-datepicker.min.css')?>">
 </head>
@@ -29,11 +29,11 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				Quản lý dự án
+				Quản lý nhà cung cấp
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-				<li class="active">Quản lý dự án</li>
+				<li class="active">Quản lý nhà cung cấp</li>
 			</ol>
 		</section>
 
@@ -51,7 +51,7 @@
 			}?>
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Danh sách dự án</h3>
+					<h3 class="box-title">Danh sách nhà cung cấp</h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -69,19 +69,16 @@
 						</div>
 					</div>
 
-					<div class="row no-margin">
-						<a class="btn btn-danger" id="deleteMulti">Xóa Nhiều</a>
+					<div class="row no-margin top-buttons">
+						<a class="btn btn-primary" href="<?=base_url('/admin/brand/edit.html')?>" id="btnAddNew">Thêm dự án</a>
 					</div>
 
 					<table class="admin-table table table-bordered table-striped">
 						<thead>
 							<tr>
 								<th><input name="checkAll" value="1" type="checkbox" ></th>
-								<th data-action="sort" data-title="BrandName" data-direction="ASC"><span>Tên dự án</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th>Số tin rao</th>
-								<th data-action="sort" data-title="Hot" data-direction="ASC"><span>Hot</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Owner" data-direction="ASC"><span>Chủ đầu tư</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
-								<th data-action="sort" data-title="Thumb" data-direction="ASC"><span>Ảnh</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="BrandName" data-direction="ASC"><span>Nhà cung cấp</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
+								<th data-action="sort" data-title="Thumb" data-direction="ASC"><span>Ảnh đại diện</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th data-action="sort" data-title="ModifiedDate" data-direction="ASC"><span>Ngày cập nhật</span><i class="glyphicon glyphicon-triangle-bottom"></i></th>
 								<th></th>
 							</tr>
@@ -95,18 +92,10 @@
 							<tr>
 								<td><input name="checkList[]" type="checkbox" value="<?=$brand->BrandID?>"></td>
 								<td><a data-toggle="tooltip" title="<?=$brand->BrandName?>" href="<?=base_url(seo_url($brand->BrandName).'-b').$brand->BrandID.'.html'?>"><?=substr_at_middle($brand->BrandName, 80)?></a></td>
-								<td><?=$brand->TotalProduct?></td>
-								<td>
-									<select id="selectid-<?=$brand->BrandID?>" onchange="updateHot('<?=$brand->BrandID?>')">
-										<option value="0" <?=($brand->Hot == null || !isset($brand->Hot) || $brand->Hot == 0) ? 'selected' : ''?> >Standard</option>
-										<option value="1" <?=$brand->Hot == 1? 'selected' : ''?> >Hot</option>
-									</select>
-								</td>
-								<td><?=$brand->Owner?></td>
 								<td><?=$brand->Thumb?></td>
 								<td><?=date('d/m/Y H:i', strtotime($brand->ModifiedDate))?></td>
 								<td>
-									<a href="<?=base_url('/admin/brand/view-'.$brand->BrandID.'.html')?>" data-toggle="tooltip" title="Xem chi tiết"><i class="glyphicon glyphicon-folder-open"></i></a>
+									<a href="<?=base_url('/admin/brand/edit-'.$brand->BrandID.'.html')?>" data-toggle="tooltip" title="Xem chi tiết"><i class="glyphicon glyphicon-folder-open"></i></a>
 								</td>
 							</tr>
 							<?php

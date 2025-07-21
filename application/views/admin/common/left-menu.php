@@ -64,7 +64,7 @@
 			<li><a href="<?=base_url('/admin/product/list.html')?>"><i class="fa fa-link"></i> <span>Bài đăng</span></a></li>
 			<li><a href="<?=base_url('/admin/cooperate/list.html')?>"><i class="fa fa-link"></i> <span>Hợp tác</span></a></li>
 
-			<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-link"></i> <span>Dự án</span></a></li>
+			<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-link"></i> <span>Nhà cung cấp</span></a></li>
 			<li><a href="<?=base_url('/admin/banner/list.html')?>"><i class="fa fa-link"></i> <span>Banner</span></a></li>
 			<li><a href="<?=base_url('/admin/sitemap/list.html')?>"><i class="fa fa-link"></i> <span>Sitemap</span></a></li>
 

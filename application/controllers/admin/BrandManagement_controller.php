@@ -21,6 +21,7 @@ class BrandManagement_controller extends CI_Controller
 		$this->load->library('pagination');
 		$this->load->helper("bootstrap_pagination_admin");
 		$this->load->helper("seo_url");
+		$this->load->library('form_validation');
 	}
 
 	public function index()
@@ -28,7 +29,7 @@ class BrandManagement_controller extends CI_Controller
 		$config = pagination($this);
 		$config['base_url'] = base_url('admin/brand/list.html');
 		if(!$config['orderField']){
-			$config['orderField'] = "Hot";
+			$config['orderField'] = "BrandID";
 			$config['orderDirection'] = "DESC";
 		}
 		$results = $this->Brand_Model->findAndFilter($config['page'], $config['per_page'], $config['searchFor'], $config['orderField'], $config['orderDirection']);
@@ -41,16 +42,60 @@ class BrandManagement_controller extends CI_Controller
 		$this->load->view("admin/brand/list", $data);
 	}
 
-	public function detail($brandId){
-		$data['brand'] = $this->Brand_Model->findById($brandId);
-		$this->load->view("admin/brand/view", $data);
+	public function edit($brandId = null){
+		$data = [];
+		$data['BrandID'] = $brandId;
+
+		if($this->input->post('crudaction') == "insert"){
+			$this->form_validation->set_rules("BrandName", "Tên nhà cung cấp", "trim|required");
+			$data['BrandName'] = $this->input->post('BrandName');
+			$data['Description'] = $this->input->post('Description');
+			if ($this->form_validation->run()) {
+				$img = $this->uploadImage();
+				if($img != null){
+					$data['Thumb'] = $img;
+				}
+
+				$dbRow = $this->Brand_Model->findByName($data['BrandName'], $brandId);
+				if($dbRow == null){
+					$this->Brand_Model->saveOrUpdate($data, $brandId);
+					$data['message_response'] = "Nhà cung cấp đã lưu mới thành công";
+				} else {
+					$data['error_message'] = "Nhà cung cấp này đã có trong hệ thống";
+				}
+			}
+		}
+
+		if($brandId != null){
+			$data['brand'] = $this->Brand_Model->findById($brandId);
+		}
+
+		$this->load->view("admin/brand/edit", $data);
 	}
 
 
-	public function updateHot(){
-		$brandId = $this->input->post('BrandID');
-		$hot = $this->input->post('Hot');
-		$this->Brand_Model->updateHotForBrand($brandId, $hot);
-		echo json_encode('success');
+	private function uploadImage(){
+		if(!empty($this->input->post("txt_image"))){
+			return $this->input->post("txt_image");
+		}else{
+			$this->allowed_img_types = $this->config->item('allowed_img_types');
+			// $upath = 'img' . DIRECTORY_SEPARATOR .'product'. DIRECTORY_SEPARATOR;
+			$upath = 'img' . DIRECTORY_SEPARATOR .'brand' . DIRECTORY_SEPARATOR;
+
+			if (!file_exists($upath)) {
+				mkdir($upath, 0777, true);
+			}
+
+			$config['upload_path'] = $upath;
+			$config['allowed_types'] = $this->allowed_img_types;
+			$config['remove_spaces'] = true;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('txt_image')) {
+				log_message('error', 'Image Upload Error: ' . $this->upload->display_errors());
+			}
+			$img = $this->upload->data();
+			return $img['file_name'];
+		}
 	}
 }
