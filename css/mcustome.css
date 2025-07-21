@@ -32,6 +32,10 @@ img.img-sm {
 	font-size: 14px;
 }
 
+img.middleHorizontalBanner {
+	width: 100%;
+}
+
 .m-navbar .menu_bottom li a{
 	color: #ffffff;
 }

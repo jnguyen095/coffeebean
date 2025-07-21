@@ -136,6 +136,16 @@
 
 			</div>
 		</div>
+		
+		<div class="row margin-top-20">
+			<?php
+			if(isset($middleBanner)){
+				?>
+				<img class="middleHorizontalBanner" src="<?=base_url('/img/banner/'.$middleBanner[0]->Image)?>">
+			<?php
+			}
+			?>
+		</div>
 
 		<div class="row margin-top-20">
 			<div class="section-title-container">

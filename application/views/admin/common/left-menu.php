@@ -38,6 +38,10 @@
 		<!-- Sidebar Menu -->
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">HEADER</li>
+			<li class="active"><a href="<?=base_url('/admin/dashboard.html')?>"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
+			<li><a href="<?=base_url('/admin/order/list.html')?>"><i class="fa fa-shopping-cart"></i> <span>Quản lý đơn hàng</span></a></li>
+			<li><a href="<?=base_url('/admin/user/list.html')?>"><i class="fa fa-user-o"></i> <span>Người dùng</span></a></li>
+			<li><a href="<?=base_url('/admin/quote/list.html')?>"><i class="fa fa-list"></i> <span>Báo giá sỉ</span></a></li>
 			<li class="treeview menu-open">
 				<a href="#"><i class="fa fa-gear"></i> <span>Dữ liệu nền</span>
 					<span class="pull-right-container">
@@ -51,22 +55,13 @@
 					<li><a href="<?=base_url('/admin/product/list.html')?>"><i class="fa fa-product-hunt"></i> <span>Quản lý sản phẩm</span></a></li>
 					<li><a href="<?=base_url('/admin/area/list.html')?>"><i class="fa fa-map"></i> <span>Quản lý khu vực</span></a></li>
 					<li><a href="<?=base_url('/admin/shipping-fee/list.html')?>"><i class="fa fa-truck"></i> <span>Phí giao hàng</span></a></li>
+					<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-handshake-o"></i> <span>Nhà cung cấp</span></a></li>
 				</ul>
 			</li>
-			<li><a href="<?=base_url('/admin/order/list.html')?>"><i class="fa fa-shopping-cart"></i> <span>Quản lý đơn hàng</span></a></li>
-			<li><a href="<?=base_url('/admin/quote/list.html')?>"><i class="fa fa-list"></i> <span>Báo giá sỉ</span></a></li>
-
 			<!-- Optionally, you can add icons to the links -->
-			<li class="active"><a href="<?=base_url('/admin/dashboard.html')?>"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
-			<li><a href="<?=base_url('/admin/user/list.html')?>"><i class="fa fa-link"></i> <span>Người dùng</span></a></li>
-			<li><a href="<?=base_url('/admin/purchase-history/list.html')?>"><i class="fa fa-link"></i> <span>Giao dịch</span></a></li>
-			<li><a href="<?=base_url('/admin/static-page/list.html')?>"><i class="fa fa-link"></i> <span>Trang tĩnh</span></a></li>
-			<li><a href="<?=base_url('/admin/product/list.html')?>"><i class="fa fa-link"></i> <span>Bài đăng</span></a></li>
-			<li><a href="<?=base_url('/admin/cooperate/list.html')?>"><i class="fa fa-link"></i> <span>Hợp tác</span></a></li>
-
-			<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-link"></i> <span>Nhà cung cấp</span></a></li>
-			<li><a href="<?=base_url('/admin/banner/list.html')?>"><i class="fa fa-link"></i> <span>Banner</span></a></li>
-			<li><a href="<?=base_url('/admin/sitemap/list.html')?>"><i class="fa fa-link"></i> <span>Sitemap</span></a></li>
+			<li><a href="<?=base_url('/admin/static-page/list.html')?>"><i class="fa fa-newspaper-o"></i> <span>Trang tĩnh</span></a></li>
+			<li><a href="<?=base_url('/admin/banner/list.html')?>"><i class="fa fa-picture-o"></i> <span>Banner</span></a></li>
+			<li><a href="<?=base_url('/admin/sitemap/list.html')?>"><i class="fa fa-sitemap"></i> <span>Sitemap</span></a></li>
 
 		</ul>
 		<!-- /.sidebar-menu -->
