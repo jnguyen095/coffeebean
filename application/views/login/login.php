@@ -3,7 +3,7 @@
 <head>
 	<head>
 		<meta charset = "utf-8">
-		<title>Nhà Đất An Cư - Đăng Nhập</title>
+		<title>Làm Nông Vui - Đăng Nhập</title>
 		<?php $this->load->view('common_header')?>
 		<?php $this->load->view('/common/googleadsense')?>
 		<link rel="stylesheet" href="<?=base_url('/css/iCheck/all.css')?>">
