@@ -20,7 +20,6 @@ class Admin_controller extends CI_Controller
 
 	public function index() {
 		$data = [];
-
 		$this->load->view('admin/dashboard', $data);
 	}
 	public function updateStandardForPreviousPost(){
