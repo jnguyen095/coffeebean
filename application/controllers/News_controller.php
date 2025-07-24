@@ -15,7 +15,6 @@ class News_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->model('Brand_Model');
 		$this->load->model('Product_Model');
-		$this->load->model('SampleHouse_Model');
 		$this->load->helper("seo_url");
 		$this->load->helper("my_date");
 		$this->load->helper("bootstrap_pagination");

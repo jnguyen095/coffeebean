@@ -24,7 +24,6 @@ class OrderManagement_controller extends CI_Controller
 		$this->load->model('Category_Model');
 		$this->load->model('MyOrder_Model');
 		$this->load->model('Product_Model');
-		$this->load->model('Direction_Model');
 		$this->load->model('City_Model');
 		$this->load->model('User_Model');
 		$this->load->model('District_Model');

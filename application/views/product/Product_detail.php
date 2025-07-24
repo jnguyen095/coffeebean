@@ -109,9 +109,15 @@
 		</div>
 
 		<div class="row">
-			<div class="product-detail">
-				<?=$product->Description?>
-			</div>
+			<?=$product->Brief?>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="product-detail">
+			<?=$product->Description?>
 		</div>
 	</div>
 </div>

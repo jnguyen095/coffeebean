@@ -21,7 +21,6 @@ class ShippingFee_controller extends CI_Controller
 		$this->load->model('Category_Model');
 		$this->load->model('User_Model');
 		$this->load->model('Property_Model');
-		$this->load->model('Unit_Model');
 		$this->load->model('ProductProperty_Model');
 		$this->load->model('ShippingFee_Model');
 		$this->load->helper('form');

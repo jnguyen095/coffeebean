@@ -15,7 +15,6 @@ class Product_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->model('District_Model');
 		$this->load->model('News_Model');
-		$this->load->model('SampleHouse_Model');
 		$this->load->model('Brand_Model');
 		$this->load->model('Banner_Model');
 		$this->load->helper("seo_url");

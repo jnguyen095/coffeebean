@@ -23,7 +23,6 @@ class ProductManagement_controller extends CI_Controller
 		$this->load->model('User_Model');
 		$this->load->model('Property_Model');
 		$this->load->model('Brand_Model');
-		$this->load->model('Unit_Model');
 		$this->load->model('ProductProperty_Model');
 		$this->load->helper('form');
 		$this->load->helper('url');
