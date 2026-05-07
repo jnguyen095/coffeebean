@@ -46,7 +46,7 @@
 	<div class="row no-margin">
 
 		<?php
-		if(isset($category->Banner)){
+		if(isset($category->Banner) && !empty($category->Banner)){
 			?>
 		<div class="col-md-12 no-margin no-padding">
 			<img class="cat-image" src="<?=base_url('/img/category/'.$category->Banner)?>"/>
