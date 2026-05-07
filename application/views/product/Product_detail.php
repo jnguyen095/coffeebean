@@ -28,106 +28,111 @@
 </head>
 
 <body>
-<div class="container productDetailPage">
+<div class="container-fluid productDetailPage no-padding-left no-padding-right">
 <?php $this->load->view('/theme/header')?>
 
-<ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb always">
-	<?php
-		$position = 1;
-		if(isset($category->Parent)){
-			echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.base_url().seo_url($category->Parent->CatName).'-c'.$category->Parent->CategoryID.'.html"><span itemprop="name">'.$category->Parent->CatName.'</span></a><meta itemprop="position" content="'.$position++.'" /></li>';
-		}
-	?>
-	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?php echo base_url().seo_url($category->CatName).'-c'.$category->CategoryID?>.html"><span itemprop="name"><?php echo $category->CatName?></span></a><meta itemprop="position" content="<?=$position++?>" /></li>
-	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name"><?php echo $product->Title?></span></span><meta itemprop="position" content="<?=$position++?>" /></li>
-</ul>
-<div class="row margin-bottom-20 margin-top-20">
-	<div class="col-sm-6">
-		<div class="thumbnails">
-			<?php
-			if(count($product->Assets) > 0){
-				echo '<ul class="popup-gallery">';
-				foreach ($product->Assets as $asset){
+	<ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb always">
+		<div class="container">
+		<?php
+			$position = 1;
+			if(isset($category->Parent)){
+				echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.base_url().seo_url($category->Parent->CatName).'-c'.$category->Parent->CategoryID.'.html"><span itemprop="name">'.$category->Parent->CatName.'</span></a><meta itemprop="position" content="'.$position++.'" /></li>';
+			}
+		?>
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?php echo base_url().seo_url($category->CatName).'-c'.$category->CategoryID?>.html"><span itemprop="name"><?php echo $category->CatName?></span></a><meta itemprop="position" content="<?=$position++?>" /></li>
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active mobile-hide"><span itemprop="item"><span itemprop="name"><?php echo $product->Title?></span></span><meta itemprop="position" content="<?=$position++?>" /></li>
+		</div>
+	</ul>
+	
+	<div class="container">
+	<div class="row margin-bottom-20 margin-top-20">
+		<div class="col-sm-6">
+			<div class="thumbnails">
+				<?php
+				if(count($product->Assets) > 0){
+					echo '<ul class="popup-gallery">';
+					foreach ($product->Assets as $asset){
+						?>
+						<li class="thumbnail"> <a href="<?php echo base_url(str_replace('_thumb', '', $asset->Url))?>" class="image-link" title="<?=$product->Title?>"> <img  src="<?php echo base_url($asset->Url)?>"?></a></li>
+						<?php
+					}
+					echo '</ul>';
+				}
+				?>
+			</div>
+			<div class="main-image">
+				<img src="<?=base_url(str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" >
+			</div>
+			<div class="clear-both"></div>
+		</div>
+		<div class="col-sm-6">
+			<div class="product-title">
+				<h1 class="h1Class" itemprop="name"><?php echo $product->Title?></h1>
+			</div>
+			<div class="product-price">
+				<p class="price"><?=number_format($product->Price)?>đ</p>
+			</div>
+			<div class="product-property row">
+				<?php
+				foreach ($product->Properties as $k => $v){
 					?>
-					<li class="thumbnail"> <a href="<?php echo base_url(str_replace('_thumb', '', $asset->Url))?>" class="image-link" title="<?=$product->Title?>"> <img  src="<?php echo base_url($asset->Url)?>"?></a></li>
+					<div class="product-property col-lg-4 col-sm-6">
+						<div class="property-name"><?=($k)?></div>
+					<?php
+					$i = 1;
+					foreach ($v as $property){
+						?>
+						<div class="property-item">
+							<label class="radio"><input type="radio" <?= $i==1? 'checked': '' ?> name="property[<?=$property['ParentID']?>]" parent="<?=$k?>" value="<?=$property['Name']?>"> <?=$property['Name']?></label>
+						</div>
+					<?php
+						$i++;
+					}
+					?>
+					</div>
 					<?php
 				}
-				echo '</ul>';
-			}
-			?>
-		</div>
-		<div class="main-image">
-			<img src="<?=base_url(str_replace('_thumb', '', $product->Thumb))?>" class="img-responsive-large" >
-		</div>
-		<div class="clear-both"></div>
-	</div>
-	<div class="col-sm-6">
-		<div class="product-title">
-			<h1 class="h1Class" itemprop="name"><?php echo $product->Title?></h1>
-		</div>
-		<div class="product-price">
-			<p class="price"><?=number_format($product->Price)?>đ</p>
-		</div>
-		<div class="product-property row">
-			<?php
-			foreach ($product->Properties as $k => $v){
 				?>
-				<div class="product-property col-lg-4 col-sm-6">
-					<div class="property-name"><?=($k)?></div>
-				<?php
-				$i = 1;
-				foreach ($v as $property){
-					?>
-					<div class="property-item">
-						<label class="radio"><input type="radio" <?= $i==1? 'checked': '' ?> name="property[<?=$property['ParentID']?>]" parent="<?=$k?>" value="<?=$property['Name']?>"> <?=$property['Name']?></label>
-					</div>
-				<?php
-					$i++;
-				}
-				?>
+			</div>
+			<div class="row margin-top-20">
+				<div class="col-lg-12">
+					<label class="form-check-label" for="inlineFormCheck">
+						Số lượng:
+					</label>
 				</div>
-				<?php
-			}
-			?>
-		</div>
-		<div class="row margin-top-20">
-			<div class="col-lg-12">
-				<label class="form-check-label" for="inlineFormCheck">
-					Số lượng:
-				</label>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-sm-4 col-xs-4">
+					<form class="inde-value">
+						<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+						<input type="number" id="quantity" name="quantity" value="1" class="form-control"/>
+						<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+					</form>
+				</div>
+				<div class="col-lg-6 col-sm-6 col-xs-4"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Thêm Vào Giỏ Hàng</a></div>
+			</div>
+
+			<div class="row">
+				<?=$product->Brief?>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-4 col-sm-4 col-xs-4">
-				<form class="inde-value">
-					<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
-					<input type="number" id="quantity" name="quantity" value="1" class="form-control"/>
-					<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
-				</form>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="product-detail">
+				<?=$product->Description?>
 			</div>
-			<div class="col-lg-6 col-sm-6 col-xs-4"><a id="btnBuy" productId="<?=$product->ProductID?>" href="#" class="btn btn-primary buyableBtn">Thêm Vào Giỏ Hàng</a></div>
-		</div>
-
-		<div class="row">
-			<?=$product->Brief?>
 		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-sm-12">
-		<div class="product-detail">
-			<?=$product->Description?>
-		</div>
+
+
+	<div class="overlay" style="display: none"><img src="<?=base_url('/img/spinner.gif')?>"/></div>
+
+		<script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
+		<script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>
 	</div>
-</div>
-
-
-
-<div class="overlay" style="display: none"><img src="<?=base_url('/img/spinner.gif')?>"/></div>
-
-<script src="<?=base_url('/css/iCheck/icheck.min.js')?>"></script>
-<script src="<?=base_url('/js/jquery.magnific-popup.min.js')?>"></script>
 </div>
 
 <?php $this->load->view('/theme/footer')?>

@@ -7,8 +7,13 @@
  */
 ?>
 
+<nav class="navbar navbar-default m-navbar">
+	<div class="container">
+		<h2>Làm Nông Vui</h2>
+	</div>
+</nav>
 
-<nav class="navbar navbar-default m-navbar navbar-fixed-top">
+<nav class="navbar navbar-default m-navbar">
 	<div class="container-fluid">
 		<div class="container">
 			<a class="navbar-brand brandName ipad-mini-hide hidden-md" href="<?=base_url('/')?>">

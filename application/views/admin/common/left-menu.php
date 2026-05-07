@@ -61,6 +61,7 @@
 			<!-- Optionally, you can add icons to the links -->
 			<li><a href="<?=base_url('/admin/static-page/list.html')?>"><i class="fa fa-newspaper-o"></i> <span>Trang tĩnh</span></a></li>
 			<li><a href="<?=base_url('/admin/banner/list.html')?>"><i class="fa fa-picture-o"></i> <span>Banner</span></a></li>
+			<li><a href="<?=base_url('/admin/feedback/list.html')?>"><i class="fa ion-email-unread"></i> <span>Liên hệ</span></a></li>
 			<li><a href="<?=base_url('/admin/sitemap/list.html')?>"><i class="fa fa-sitemap"></i> <span>Sitemap</span></a></li>
 
 		</ul>
