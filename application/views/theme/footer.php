@@ -36,11 +36,11 @@
 
 	<div class="container container-bottom">
 		<div class="copyright text-center">
-			<div>Copyright © 2025</div>
-			<div>Hotline: <b>0778763790</b> | Email: info@lamnongvui.com</div>
+			<div>Vân Anh Shop © 2026</div>
+			<div>Hotline: <b>0865.053.860</b> | Email: info@lamnongvui.com</div>
 			<div>
 				<a href="http://zalo.me/0778763790"><i class="fa fa-zalo"></i>
-				<a href="https://www.facebook.com/%C4%90%E1%BB%93-l%C3%B3t-gi%C3%A1-s%E1%BB%89-V%C3%A2n-Anh-103836747787793/"><i class="fa fa-face"></i></a>
+				<a href="https://www.facebook.com/vanhanhshopbmt" target="_blank"><i class="fa fa-face"></i></a>
 			</div>
 			<div>Mua sỉ liên hệ zalo hoặc vào đây <a class="text-primary" href="<?=base_url('/bao-gia-si.html')?>">BÁO GIÁ</a> để chọn sản phẩm gửi báo giá</div>
 		</div>

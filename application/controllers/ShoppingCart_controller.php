@@ -237,7 +237,7 @@ class ShoppingCart_controller extends CI_Controller
 		$html = '<li>
 					<a>
 						<table class="table table-bordered table-responsive">
-							<tr class="bg-success">
+							<tr class="bg-info">
 								<td>Sản phẩm</td>
 								<td>SL</td>
 								<td>Thành tiền</td>

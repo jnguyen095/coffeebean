@@ -179,16 +179,21 @@
 												<td class="text-right"><?=number_format($item->Price)?></td>
 												<td class="text-right"><?=number_format($item->Price * $item->Quantity)?></td>
 												<td class="text-left">
+													<div>
+													<u>
 													<?php
 														$ops = json_decode($item->Options);
 														foreach ($ops as $k=>$v){
 															foreach ($v as $k1=>$v1){
 																if(!empty($v1)){
-																	echo "<li>".$k1.": ".$v1."</li>";
+																	echo "<li style=\"margin-left: 10px\">".$k1.": ".$v1."</li>";
 																}
 															}
 														}
 													 ?>
+													</u>
+													</div>
+													<div class="clear-both"></div>
 												</td>
 											</tr>
 											<?php

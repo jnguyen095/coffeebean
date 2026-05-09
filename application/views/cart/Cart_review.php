@@ -136,7 +136,7 @@
 					<h3><b>Ghi chú cho đơn hàng:</b></h3>
 				</div>
 				<div class="col-xs-12">
-					<textarea name="note" value="COD" placeholder="ví dụ: giao hàng giờ hành chính" style="width: 100%;height: 40px;resize: none"></textarea>
+					<textarea name="note" value="COD" placeholder="ví dụ: giao hàng giờ hành chính" style="width: 100%;height: 40px;resize: none;border: solid 1px #ccc"></textarea>
 				</div>
 				<div class="clear-both"></div>
 			</div>

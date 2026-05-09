@@ -22,7 +22,7 @@
 				</div>
 				<div class="top-header-hotline text-left">
 					<div><strong>Hotline:</strong></div>
-					<div>0778.763.790</div>
+					<div>0865.053.860</div>
 				</div>
 			
 				<div class="top-header-icon-container">
