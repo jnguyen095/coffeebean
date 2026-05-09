@@ -71,11 +71,9 @@ class UserManagement_controller extends CI_Controller
 			$staff = $this->User_Model->getUserById($staffId);
 			$data['staffID'] = $staff->Us3rID;
 			$data['txt_fullname'] = $staff->FullName;
-			$data['txt_username'] = $staff->UserName;
 			$data['txt_password'] = $staff->Password;
 			$data['txt_email'] = $staff->Email;
 			$data['txt_phone'] = $staff->Phone;
-			$data['txt_address'] = $staff->Address;
 			$data['txt_userGroupID'] = $staff->UserGroupID;
 			$data["ch_status"] = $staff->Status;
 		}
@@ -83,7 +81,6 @@ class UserManagement_controller extends CI_Controller
 			$this->form_validation->set_message('txt_fullname', 'Họ tên không được để trống');
 			$this->form_validation->set_rules("txt_userGroupID", "Nhóm người dùng", "trim|required");
 			$this->form_validation->set_rules("txt_fullname", "Họ tên", "trim|required");
-			$this->form_validation->set_rules("txt_username", "Tên đăng nhập", "trim|required");
 			if($staffId == null){
 				$this->form_validation->set_rules("txt_password", "Mật khẩu", "trim|required");
 			}
@@ -98,7 +95,6 @@ class UserManagement_controller extends CI_Controller
 				$this->load->view('admin/staff/add', $data);
 			}else{
 				$fullname = $this->input->post('txt_fullname');
-				$username = $this->input->post('txt_username');
 				$password = $this->input->post('txt_password');
 				$email = $this->input->post('txt_email');
 				$phone = $this->input->post('txt_phone');
@@ -106,14 +102,13 @@ class UserManagement_controller extends CI_Controller
 				$status = $this->input->post('ch_status');
 				$usergroup = $this->input->post('txt_userGroupID');
 
-				$count = $this->User_Model->checkExistUserNameAddGroup($username, $usergroup, $staffId);
+				$count = $this->User_Model->checkExistUserNameAddGroup($phone, $usergroup, $staffId);
 				if($count > 0){
 
 					$data['error_message'] = 'Tên đăng nhập đã tồn tại.';
 					$this->load->view('admin/staff/add', $data);
 				}else{
 					$newdata['fullname'] = $fullname;
-					$newdata['username'] = $username;
 					$newdata['password'] = $password;
 					$newdata['email'] = $email;
 					$newdata['phone'] = $phone;

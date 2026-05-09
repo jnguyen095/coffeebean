@@ -117,7 +117,7 @@ class User_Model extends CI_Model
 		$query = $this->db->select('u.*')
 			->from('us3r u')
 			//->join('product p', 'u.Us3rID = p.CreatedByID', 'left')
-			->where_in('UserGroupID', [USER_GROUP_STAFF, USER_GROUP_BROKER])
+			->where_in('UserGroupID', [USER_GROUP_STAFF])
 			->limit($limit, $offset)
 			->group_by('u.Us3rID')
 			->order_by($orderField, $orderDirection)
@@ -125,7 +125,7 @@ class User_Model extends CI_Model
 
 		// $query = $this->db->or_like('FullName', $st)->or_like('Email', $st)->or_like('Phone', $st)->limit($limit, $offset)->order_by($orderField, $orderDirection)->get('us3r');
 		$result['items'] = $query->result();
-		$query = $this->db->where_in('UserGroupID', [USER_GROUP_STAFF, USER_GROUP_BROKER])->get('us3r');
+		$query = $this->db->where_in('UserGroupID', [USER_GROUP_STAFF])->get('us3r');
 		$result['total'] = $query->num_rows();
 		return $result;
 	}

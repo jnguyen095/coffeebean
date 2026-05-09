@@ -10,22 +10,6 @@ class CityManagement_controller extends CI_Controller {
         $this->load->library('upload');
         $this->load->library('session');
         $this->load->dbforge();
-
-        // Create tables if not exist
-        if (!$this->db->table_exists('city')) {
-            $this->dbforge->add_field('id INT PRIMARY KEY AUTO_INCREMENT');
-            $this->dbforge->add_field('name VARCHAR(255) NOT NULL UNIQUE');
-            $this->dbforge->create_table('city');
-        }
-
-        if (!$this->db->table_exists('district')) {
-            $this->dbforge->add_field('id INT PRIMARY KEY AUTO_INCREMENT');
-            $this->dbforge->add_field('name VARCHAR(255) NOT NULL');
-            $this->dbforge->add_field('city_id INT NOT NULL');
-            $this->dbforge->add_key('city_id');
-            $this->dbforge->create_table('district');
-            $this->db->query('ALTER TABLE district ADD CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES city(id)');
-        }
     }
 
     public function index() {

@@ -17,6 +17,7 @@ class Quotation_Model extends CI_Model
 
 		$quote = array(
 			"Code" => $this->getNewQuotationCode(),
+			"UUID" => $data['UUID'],
 			"Name" => $data['name'],
 			"Phone" => $data['phone'],
 			"Email" => $data['email'],
@@ -40,7 +41,7 @@ class Quotation_Model extends CI_Model
 				"ProductID" => $item['ProductID'],
 				"Quantity" => $item['Quantity'],
 				"Price" => 0,
-				"OfferPrice" => 0,
+				"OfferPrice" => 0
 			);
 			$this->db->insert('quotationdetail', $detail);
 		}
@@ -93,8 +94,8 @@ class Quotation_Model extends CI_Model
 		return $result;
 	}
 
-	function findByCode($code){
-		$this->db->where(array("Code" => $code));
+	function findByUUID($uuid){
+		$this->db->where(array("UUID" => $uuid));
 		$query = $this->db->get("quotation");
 		$quote = $query->row();
 		$quoteId = $quote->QuotationID;

@@ -51,7 +51,6 @@
 						<thead>
 							<tr>
 								<th>Họ tên</th>
-								<th>Nhóm Người Dùng</th>
 								<th>Tên Đăng Nhập</th>
 								<th>Tình Trạng</th>
 								<th>Email</th>
@@ -66,8 +65,7 @@
 								?>
 								<tr>
 									<td><?=$staff->FullName?></td>
-									<td><?=$staff->GroupName?></td>
-									<td><?=$staff->UserName?></td>
+									<td><?=$staff->Phone?></td>
 									<td>
 										<?php
 											if($staff->Status == 1) {

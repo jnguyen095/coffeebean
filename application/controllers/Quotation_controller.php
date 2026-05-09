@@ -6,11 +6,13 @@
  * Date: 10/5/2017
  * Time: 12:58 PM
  */
+use Ramsey\Uuid\Uuid;
 class Quotation_controller extends CI_Controller
 {
 	function __construct()
 	{
 		parent::__construct();
+		require_once FCPATH . 'vendor/autoload.php';
 		$this->load->model('StaticPage_Model');
 		$this->load->model('Category_Model');
 		$this->load->model('Product_Model');
@@ -54,6 +56,8 @@ class Quotation_controller extends CI_Controller
 			$data['note'] = $note;
 			$data['totalProducts'] = 0;
 			$data['totalItems'] = 0;
+			$data["UUID"] = Uuid::uuid4()->toString();
+
 			$products = $this->input->post('products');
 			//print_r($products);
 			$productMap = [];
@@ -68,7 +72,6 @@ class Quotation_controller extends CI_Controller
 					array_push($productMap, $item);
 				}
 				$data['totalItems'] = $totalItems;
-
 			}
 			if ($this->form_validation->run()) {
 				if($productMap != null && count($productMap) > 0){
@@ -94,9 +97,10 @@ class Quotation_controller extends CI_Controller
 	}
 
 
-	public function view($code){
+	public function view($uuid){
 		// $this->pdf->loadHtml("<h2>OK</h2>");
-		$quotation = $this->Quotation_Model->findByCode($code);
+		$quotation = $this->Quotation_Model->findByUUID($uuid);
+		$code = $quotation['quote']->Code;
 		$this->pdf->load_view('/quote/Quote_detail', $quotation);
 		$this->pdf->stream("Bao_gia_".$code.".pdf", array("Attachment"=>0));
 	}
