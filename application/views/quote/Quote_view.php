@@ -27,15 +27,12 @@
 <div class="container-fluid no-padding-left no-padding-right">
 
 	<?php $this->load->view('/theme/header')?>
-
-	
 		<ul class="breadcrumb">
 			<div class="container">
 				<li><a href="<?=base_url().'trang-chu.html'?>">Trang Chủ</a></li>
 				<li class="active">Báo Giá Sỉ</li>
 			</div>
 		</ul>
-	
 
 	<div class="container">
 		<div class="row no-margin">

@@ -14,7 +14,7 @@
 		<span class="logo-mini"><b>LNVui</b></span>
 		<!-- logo for regular state and mobile devices -->
 		<span class="logo-lg">
-			<img src="<?=base_url('/img/lnv.png')?>" atl="Làm Nông Vui Logo"/>
+			<img src="<?=base_url('/img/quanganh_admin.png')?>" atl="Làm Nông Vui Logo"/>
 		</span>
 	</a>
 
