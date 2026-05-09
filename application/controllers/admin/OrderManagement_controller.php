@@ -27,7 +27,6 @@ class OrderManagement_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->model('User_Model');
 		$this->load->model('District_Model');
-		$this->load->model('Ward_Model');
 		$this->load->model('OrderShipping_Model');
 		$this->load->model('OrderTracking_Model');
 		$this->load->library('pagination');
@@ -298,7 +297,6 @@ class OrderManagement_controller extends CI_Controller
 			$phone = $this->input->post("txt_phone");
 			$city = $this->input->post("txt_city");
 			$district = $this->input->post("txt_district");
-			$ward = $this->input->post("txt_ward");
 			$street = $this->input->post("txt_street");
 
 			$shippingInfo = array(
@@ -306,7 +304,6 @@ class OrderManagement_controller extends CI_Controller
 				'Phone' => $phone,
 				'CityID' => $city,
 				'DistrictID' => $district,
-				'WardID' => $ward,
 				'Street' => $street
 			);
 			$this->OrderShipping_Model->update($orderId, $shippingInfo);
@@ -328,12 +325,10 @@ class OrderManagement_controller extends CI_Controller
 			$shipping = $this->OrderShipping_Model->findByOrderId($orderId);
 			$cities = $this->City_Model->getAllActive();
 			$districts = $this->District_Model->findByCityId($shipping->CityID);
-			$wards = $this->Ward_Model->findByDistrictId($shipping->DistrictID);
 
 			$data = [];
 			$data['shipping'] = $shipping;
 			$data['cities'] = $cities;
-			$data['wards'] = $wards;
 			$data['districts'] = $districts;
 
 			return $this->load->view('admin/order/shipping_update', $data);

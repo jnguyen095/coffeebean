@@ -214,7 +214,8 @@ $route['admin/order/update-(:num)'] = "admin/OrderManagement_controller/update/$
 // Quotation
 $route['admin/quote/list'] = "admin/QuotationManagement_controller";
 $route['admin/quote/view-(:num)'] = "admin/QuotationManagement_controller/view/$1";
-
+// City Import
+$route['admin/city/import'] = "admin/CityManagement_controller";
 
 // POS
 $route['pos/index'] = "POS_controller";

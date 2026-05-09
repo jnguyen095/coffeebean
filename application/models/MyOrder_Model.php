@@ -110,12 +110,11 @@ class MyOrder_Model extends CI_Model
 		$products = $query->result();
 
 		// order shipping
-		$query = $this->db->select('sh.*, c.CityName, d.DistrictName, w.WardName')
+		$query = $this->db->select('sh.*, c.CityName, d.DistrictName')
 			->from('ordershipping sh')
 			->join('myorder o', 'o.OrderID = sh.OrderID')
 			->join('city c', 'c.CityID = sh.CityID', 'inner')
 			->join('district d', 'd.DistrictID = sh.DistrictID', 'inner')
-			->join('ward w', 'w.WardID = sh.WardID', 'inner')
 			->where('sh.OrderID', $order->OrderID)
 			->get();
 		$shipping = $query->row();

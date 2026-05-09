@@ -13,7 +13,7 @@ class City_Model extends CI_Model
 	}
 
 	public function getAllActive(){
-		$sql = "select c.* from city c where c.Status = " . ACTIVE;
+		$sql = "select c.* from city c";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}

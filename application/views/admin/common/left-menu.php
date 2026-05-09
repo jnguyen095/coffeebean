@@ -56,6 +56,7 @@
 					<li><a href="<?=base_url('/admin/area/list.html')?>"><i class="fa fa-map"></i> <span>Quản lý khu vực</span></a></li>
 					<li><a href="<?=base_url('/admin/shipping-fee/list.html')?>"><i class="fa fa-truck"></i> <span>Phí giao hàng</span></a></li>
 					<li><a href="<?=base_url('/admin/brand/list.html')?>"><i class="fa fa-handshake-o"></i> <span>Nhà cung cấp</span></a></li>
+					<li><a href="<?=base_url('/admin/city/import.html')?>"><i class="fa fa-handshake-o"></i> <span>Địa Chính</span></a></li>
 				</ul>
 			</li>
 			<!-- Optionally, you can add icons to the links -->

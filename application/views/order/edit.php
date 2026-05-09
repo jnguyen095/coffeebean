@@ -149,23 +149,6 @@
 
 						<div class="form-group">
 							<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
-								<label>Phường/xã</label>
-								<select id="txtWard" class="form-control" name="txt_ward">
-									<option value="-1">Chọn phường/xã</option>
-									<?php
-									if($wards != null && count($wards) > 0) {
-										foreach ($wards as $wd) {
-											?>
-											<option
-												value="<?= $wd->WardID ?>" <?= (isset($ward) && $ward == $wd->WardID) ? ' selected' : '' ?> ><?=$wd->WardName ?></option>
-											<?php
-										}
-									}
-									?>
-								</select>
-								<span class="text-danger"><?php echo form_error('txt_ward'); ?></span>
-							</div>
-							<div class="no-padding-mobile col-lg-6 col-md-6 col-sm-6 col-xs-12">
 								<label>Đường <span class="required">*</span></label>
 								<input type="text" id="txt_street" name="txt_street" class="form-control typeahead" value="<?=isset($street) ? $street : ''?>">
 								<span class="text-danger"><?php echo form_error('txt_street'); ?></span>

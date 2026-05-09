@@ -115,7 +115,7 @@
 					Số điện thoại: <label><?=$txt_phone?></label>
 				</div>
 				<div class="col-xs-12">
-					Địa chỉ giao hàng: <label><?=$street?>, <?=$ward->WardName?>, <?=$district->DistrictName?>, <?=$city->CityName?></label>
+					Địa chỉ giao hàng: <label><?=$street?>, <?=$district->DistrictName?>, <?=$city->CityName?></label>
 				</div>
 				<div class="clear-both"></div>
 			</div>

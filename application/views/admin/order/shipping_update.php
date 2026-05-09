@@ -65,22 +65,7 @@ echo form_open("admin/OrderManagement_controller/updateShippingInfo", $attribute
 				</select>
 				<span class="text-danger"><?php echo form_error('txt_district'); ?></span>
 			</div>
-			<div class="form-group">
-				<label>Phường/xã <span class="required">*</span></label>
-				<select id="txtWard" class="form-control" name="txt_ward">
-					<?php
-					if(isset($wards) && count($wards) > 0) {
-						foreach ($wards as $wd) {
-							?>
-							<option
-								value="<?= $wd->WardID ?>" <?= (isset($shipping->WardID) && $shipping->WardID == $wd->WardID) ? ' selected' : '' ?> ><?= $wd->WardName ?></option>
-							<?php
-						}
-					}
-					?>
-				</select>
-				<span class="text-danger"><?php echo form_error('txt_ward'); ?></span>
-			</div>
+
 			<div class="form-group">
 				<label>Đường <span class="required">*</span></label>
 				<input type="text" id="txt_street" name="txt_street" class="form-control typeahead" value="<?=$shipping->Street?>">
@@ -126,31 +111,10 @@ echo form_open("admin/OrderManagement_controller/updateShippingInfo", $attribute
 		});
 	}
 
-	function loadWardByDistrictId(){
-		$("#txtDistrict").change(function(){
-			var districtId = $(this).val();
-			$(".overlay").show();
-			jQuery.ajax({
-				type: "POST",
-				url: '<?=base_url('/ajax_controller/findWardByDistrictId')?>',
-				dataType: 'json',
-				data: {districtId: districtId},
-				success: function(res){
-					document.getElementById("txtWard").options.length = 1;
-					for(key in res){
-						$("#txtWard").append("<option value='"+res[key].WardID+"'>"+res[key].WardName+"</option>");
-					}
-					$(".overlay").hide();
-				}
-			});
-		});
-	}
-
 	function loadDistrictByCityId(){
 		$("#txtCity").change(function(){
 			$(".overlay").show();
 			var cityId = $(this).val();
-			document.getElementById("txtWard").options.length = 1;
 			jQuery.ajax({
 				type: "POST",
 				url: '<?=base_url('/ajax_controller/findDistrictByCityId')?>',
@@ -169,6 +133,5 @@ echo form_open("admin/OrderManagement_controller/updateShippingInfo", $attribute
 
 	$(document).ready(function() {
 		loadDistrictByCityId();
-		loadWardByDistrictId();
 	});
 </script>

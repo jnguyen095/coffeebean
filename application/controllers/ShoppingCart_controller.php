@@ -22,7 +22,6 @@ class ShoppingCart_controller extends CI_Controller
 		$this->load->model('City_Model');
 		$this->load->model('User_Model');
 		$this->load->model('District_Model');
-		$this->load->model('Ward_Model');
 		$this->load->model('MyOrder_Model');
 		$this->load->model('OrderShipping_Model');
 		$this->load->helper('my_email');
@@ -83,7 +82,6 @@ class ShoppingCart_controller extends CI_Controller
 				'Phone' => $shippingAddr['txt_phone'],
 				'CityID' => $shippingAddr['txt_city'],
 				'DistrictID' => $shippingAddr['txt_district'],
-				'WardID' => $shippingAddr['txt_ward'],
 				'Street' => $shippingAddr['street']
 			);
 
@@ -111,7 +109,6 @@ class ShoppingCart_controller extends CI_Controller
 		$data['txt_phone'] = $shippingAddr['txt_phone'];
 		$data['city'] = $this->City_Model->findById($shippingAddr['txt_city']);
 		$data['district'] = $this->District_Model->findById($shippingAddr['txt_district']);
-		$data['ward'] = $this->Ward_Model->findById($shippingAddr['txt_ward']);
 		$data['street'] = $shippingAddr['street'];
 		$this->load->view('cart/Cart_review', $data);
 	}
@@ -134,13 +131,11 @@ class ShoppingCart_controller extends CI_Controller
 			$data['txt_phone'] = $this->input->post("txt_phone");
 			$data['txt_city'] = $this->input->post("txt_city");
 			$data['txt_district'] = $this->input->post("txt_district");
-			$data['txt_ward'] = $this->input->post("txt_ward");
 			$data['street'] = $this->input->post("txt_street");
 			$this->form_validation->set_rules("txt_receiver", "Người nhận hàng", "trim|required");
 			$this->form_validation->set_rules("txt_phone", "Số điện thoại", "trim|required");
 			$this->form_validation->set_rules("txt_city", "Thành phố", "numeric|required");
 			$this->form_validation->set_rules("txt_district", "Quận", "numeric|required");
-			$this->form_validation->set_rules("txt_ward", "Phường", "numeric|required");
 			$this->form_validation->set_rules("txt_street", "Đường", "required");
 			$validateResult = $this->form_validation->run();
 			if($validateResult == TRUE){
@@ -149,7 +144,6 @@ class ShoppingCart_controller extends CI_Controller
 					'txt_phone' => $data['txt_phone'],
 					'txt_city' => $data['txt_city'],
 					'txt_district' => $data['txt_district'],
-					'txt_ward' => $data['txt_ward'],
 					'street' => $data['street'],
 				);
 				$this->session->set_userdata("shippingAddr", $shippingAddr);
@@ -162,7 +156,6 @@ class ShoppingCart_controller extends CI_Controller
 				$data['txt_phone'] = $shippingAddr['txt_phone'];
 				$data['txt_city'] = $shippingAddr['txt_city'];
 				$data['txt_district'] = $shippingAddr['txt_district'];
-				$data['txt_ward'] = $shippingAddr['txt_ward'];
 				$data['street'] = $shippingAddr['street'];
 			} else {
 				//get latest shipping address from last order
@@ -174,7 +167,6 @@ class ShoppingCart_controller extends CI_Controller
 						$data['txt_phone'] = $shippingAddr->Phone;
 						$data['txt_city'] = $shippingAddr->CityID;
 						$data['txt_district'] = $shippingAddr->DistrictID;
-						$data['txt_ward'] = $shippingAddr->WardID;
 						$data['street'] = $shippingAddr->Street;
 					} else {
 						//get part of info from current user
@@ -192,10 +184,6 @@ class ShoppingCart_controller extends CI_Controller
 		if(isset($data['txt_city']) && $data['txt_city'] != null){
 			$districts = $this->District_Model->findByCityId($data['txt_city']);
 			$data['districts'] = $districts;
-		}
-		if(isset($data['txt_district']) && $data['txt_district'] != null){
-			$wards = $this->Ward_Model->findByDistrictId($data['txt_district']);
-			$data['wards'] = $wards;
 		}
 		$this->load->view('cart/Cart_address', $data);
 	}

@@ -38,7 +38,6 @@ class OrderShipping_Model extends CI_Model
 			$this->db->set('Phone', $shipping['Phone']);
 			$this->db->set('CityID', $shipping['CityID']);
 			$this->db->set('DistrictID', $shipping['DistrictID']);
-			$this->db->set('WardID', $shipping['WardID']);
 			$this->db->set('Street', $shipping['Street']);
 			$this->db->where('OrderID', $orderId);
 			$this->db->update('ordershipping');

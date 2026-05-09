@@ -172,7 +172,7 @@
 								</div>
 								<div class="form-group row">
 									<label for="inputPassword" class="col-sm-2 col-form-label">Địa chỉ:</label>
-									<div class="col-sm-10"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
+									<div class="col-sm-10"><?=$shippingAddr->Street?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
 								</div>
 								<div class="form-group row">
 									<label for="inputPassword" class="col-sm-2 col-form-label">Ghi chú:</label>

@@ -140,7 +140,7 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-4 card-text">Địa chỉ nhận hạng</div>
-									<div class="col-sm-8"><?=$shippingAddr->Street?>, <?=$shippingAddr->WardName?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
+									<div class="col-sm-8"><?=$shippingAddr->Street?>, <?=$shippingAddr->DistrictName?>, <?=$shippingAddr->CityName?></div>
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-4 card-text">Phương thức TT</div>

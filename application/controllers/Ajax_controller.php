@@ -12,7 +12,6 @@ class Ajax_controller extends CI_Controller
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->model('District_Model');
-		$this->load->model('Ward_Model');
 		$this->load->helper("seo_url");
 		$this->load->model('Street_Model');
 		$this->load->model('Product_Model');
@@ -43,12 +42,6 @@ class Ajax_controller extends CI_Controller
 		$catId = $this->input->get('categoryId');
 		$products = $this->Product_Model->findProductByCodeOrTitle($query, $catId);
 		echo json_encode($products);
-	}
-
-	public function findWardByDistrictId(){
-		$districtId = $this->input->post('districtId');
-		$wards = $this->Ward_Model->findByDistrictId($districtId);
-		echo json_encode($wards);
 	}
 
 	public function updateCoordinator(){
